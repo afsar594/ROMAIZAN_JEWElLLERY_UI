@@ -1,0 +1,78 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Add" icon="fa fa-plus" class="ui-button-info"></button>
+        <button pButton type="button" label="Import From Excel" icon="fa fa-pencil" class="ui-button-success"></button>
+        <button pButton type="button" label="Save To Database" icon="fa fa-floppy-o" class="ui-button-primary"></button>
+        <button pButton type="button" label="Delete" icon="fa fa-ban" class="ui-button-danger"></button>
+        <button pButton type="button" label="Stop" icon="fa fa-close" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='InsertsalaryForm'>
+    <div class="p-grid">
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label> Year:</label>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <p-calendar view="year"
+            dateFormat="yy"
+            [readonlyInput]="true"
+            placeholder="year"  [showIcon]="true" [style]="{'width':'100%'}">
+       </p-calendar>
+             
+        </div>
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label> Search Staff:</label>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <input type="text" pInputText [style]="{width:'100%'}" placeholder="--Searchstaff--" />
+            <div class="error" *ngIf="f.Searchstaff.touched && f.Searchstaff.invalid">
+                <span>Search Staff is Mandatory Field*</span>
+            </div>
+        </div>
+        <div class="p-col-2 p-md-2 p-lg-2">
+            <button pButton type="button" label="Display Saved Data" style="width:100%;"
+                class="ui-button-success"></button>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label> Month:</label>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <p-calendar  type="month" view="month" placeholder="month" [showIcon]="true" [style]="{'width':'100%'}">
+            </p-calendar>
+            <div class="error" *ngIf="f.Month.touched && f.Month.invalid">
+                <span>Month is Mandatory Field*</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label> Salary Heads:</label>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <p-dropdown [style]="{width:'100%'}" filter="true" formControlName="Salaryheads">
+            </p-dropdown>
+            <div class="error" *ngIf="f.Salaryheads.touched && f.Salaryheads.invalid">
+                <span>Salary Heads is Mandatory Field*</span>
+            </div>
+        </div>
+    </div>
+ <div class="card card-w-title">
+        <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+            <p-tabPanel [header]="'Insert Salar Detail' | translate">
+                <div class="grid">
+                    <div class="p-col-12">
+                        <hot-table [hotId]="hotid" [licenseKey]="licensekey" [settings]="Insertsalary">
+                        </hot-table>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>  
+</div>

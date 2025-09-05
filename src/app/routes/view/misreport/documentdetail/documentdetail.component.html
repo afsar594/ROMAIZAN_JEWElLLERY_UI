@@ -1,0 +1,92 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="GenerateReport()" label="Generate Report" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button  pButton type="button" (click)="onPrint()" label="Print" icon="fa fa-print"
+            class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='reportForm'>
+    <p-tabView>
+        <p-tabPanel [header]="'Document Detail'">
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label> Category:</label>
+                    <p-dropdown (onChange)="onCategoryChange()" [filter]="true" ngDefaultControl filterValue="name"
+                        [showClear]="true" dataKey="name" autoWidth="false" formControlName="category"
+                        [style]="{'width':'100%'}" [options]="CategoryArray" optionLabel="name"></p-dropdown>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label> Status:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="docStatus"
+                        [showClear]="true" dataKey="docStatusId" autoWidth="false" formControlName="status"
+                        [style]="{'width':'100%'}" [options]="masterApi.HrDocumentStatusArray"
+                        optionLabel="docStatus"></p-dropdown>
+                </div>
+                <div *ngIf="showStaff" class="p-col-3 p-md-3 p-lg-3">
+                    <label> Staff:</label>
+                    <p-multiSelect [filter]="true" ngDefaultControl placeholder="All" filterValue="fullName"
+                        [showClear]="true" dataKey="staffId" autoWidth="false" formControlName="staff"
+                        [style]="{'width':'100%'}" [options]="masterApi.staffMasterArray"
+                        optionLabel="fullName"></p-multiSelect>
+                </div>
+                <div *ngIf="!showStaff" class="p-col-3 p-md-3 p-lg-3">
+                    <label> Vehicle:</label>
+                    <p-multiSelect [filter]="true" ngDefaultControl placeholder="All" filterValue="vehicleNo"
+                        [showClear]="true" dataKey="id" autoWidth="false" formControlName="vehicle"
+                        [style]="{'width':'100%'}" [options]="masterApi.AllHrVehicleMasterArray"
+                        optionLabel="vehicleNo"></p-multiSelect>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label> Document Type:</label>
+                    <p-multiSelect [filter]="true" ngDefaultControl placeholder="All" filterValue="documentType"
+                        [showClear]="true" dataKey="documentTypeId" autoWidth="false" formControlName="documentType"
+                        [style]="{'width':'100%'}" [options]="masterApi.HrDocumentTypesArray"
+                        optionLabel="documentType"></p-multiSelect>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div  id="print" #print class="card">
+    <body>
+        <div class="abc">
+            <h1>ACORTEC</h1>
+            <h3>All Document</h3>
+        </div>
+        <table class="def">
+            <tr>
+                <th>DocumentType</th>
+                <th>DocName</th>
+                <th>DocNo.</th>
+                <th>IssueDT</th>
+                <th>ExpDt</th>
+                <th>ExpWithIn</th>
+            </tr>
+            <div *ngFor="let data of reportService.documentDetailArray">
+                <tr>
+                    <td class="staff" colspan="6">{{data.staffCode}} - {{data.staffName}}</td>
+                </tr>
+                <tr>
+                    <td class="name"> DISPLAY</td>
+                    <td class="name" colspan="5">ANY NAME WILL DISPLAY HERE</td>
+                </tr>
+                <tr *ngFor="let item of data.dataList">
+                    <td>{{ item.documentType }}</td>
+                    <td>{{ item.docName }}</td>
+                    <td>Doc - {{ item.docNo }}</td>
+                    <td>{{ item.issueDate | date }}</td>
+                    <td>{{ item.expDate | date }}</td>
+                    <td>{{ calculateDays(item.issueDate , item.expDate) }}</td>
+        
+                </tr>
+            </div>
+  
+        </table>
+    </body>
+</div>

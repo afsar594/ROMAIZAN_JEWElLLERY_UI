@@ -1,0 +1,409 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Cancel" class=" ui-button-danger" icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]="staffdocumentForm">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Staff Documents' | translate">
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Type<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Document Type" filterValue="documentType"
+                        [showClear]="true" dataKey="documentTypeId" autoWidth="false" formControlName="documentTypeId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.HrDocumentTypesArray"
+                        optionLabel="documentType">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.documentTypeId.errors">
+                        <span *ngIf="submitted && f.documentTypeId.errors && f.documentTypeId.errors.required">Document
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Status<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Document Status" filterValue="docStatus"
+                        [showClear]="true" dataKey="docStatusId" autoWidth="false" formControlName="docStatusId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.HrDocumentStatusArray"
+                        optionLabel="docStatus">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.docStatusId.errors">
+                        <span *ngIf="submitted && f.docStatusId.errors && f.docStatusId.errors.required">Document
+                            Status is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document No<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="docNo"
+                        placeholder="Enter Document No" />
+                    <div class="error" *ngIf="submitted && f.docNo.errors">
+                        <span *ngIf="submitted && f.docNo.errors && f.docNo.errors.required">
+                            Document No is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Ref<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="docName"
+                        placeholder="Enter Document Ref" />
+                    <div class="error" *ngIf="submitted && f.docName.errors">
+                        <span *ngIf="submitted && f.docName.errors && f.docName.errors.required">
+                            Document Ref is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Issue Date</label>
+                    <p-calendar [showIcon]="true" formControlName="issueDate">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Expiry Date</label>
+                    <!-- <p-calendar [showIcon]="true" formControlName="expDate">
+                    </p-calendar> -->
+                    <p-calendar   [showIcon]="true" formControlName="expDate"></p-calendar>
+
+                </div>
+
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Remarks<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="remarks"
+                        placeholder="Enter Remarks" />
+                    <div class="error" *ngIf="submitted && f.remarks.errors">
+                        <span *ngIf="submitted && f.remarks.errors && f.remarks.errors.required">
+                            Remarks is
+                            Required</span>
+                    </div>
+                </div>
+                <!-- <div class="p-col-4 p-md-4 p-lg-4" style="padding-top: 30px;">
+                    <input #fileInput type="file" (change)="selectFile($event)" />
+                    <div class="error" *ngIf="submitted && f.docImage.errors">
+                        <span *ngIf="submitted && f.docImage.errors && f.docImage.errors.required">
+                            File is
+                            Required</span>
+                    </div>
+                </div> -->
+            </div>
+            <!-- <div class="card card-w-title"> -->
+            <p-tabView [activeIndex]="index">
+                <p-tabPanel [header]="'Staff Documents Data' | translate">
+                    <div class="p-grid">
+                        <div class="p-col-3 p-md-3 p-lg-3">
+                            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]"
+                                [value]="this.transactionService.StaffDocumentsArray" styleClass="p-datatable-striped">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Staff</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr (click)="viewDetails(item)" style="cursor:pointer">
+                                        <td>{{item.staffName}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="p-col-9 p-md-9 p-lg-9">
+                            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]" [value]="this.staffDocumentsMasterArray"
+                                styleClass="p-datatable-striped">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Document Ref</th>
+                                        <th>Document No</th>
+                                        <th>Issue Date</th>
+                                        <th>Expiry Date</th>
+                                        <th>Status</th>
+                                        <th>Add Doc</th>
+                                        <th>View Doc</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr style="cursor:pointer">
+                                        <td>{{getDocType(item.documentTypeId)}}</td>
+                                        <td>{{item.docName}}</td>
+                                        <td>{{item.docNo}}</td>
+                                        <td>{{item.issueDate | date}}</td>
+                                        <td>{{item.expDate | date}}</td>
+                                        <td>{{getDocStatus(item.docStatusId)}}</td>
+                                        <td><input #fileInput type="file"
+                                                (change)="selectFileAdd($event, item.documentId)" /></td>
+                                        <td> <button pButton type="button" (click)="ViewDocImages(item.documentId)"
+                                                label="" class="ui-button-success" icon="fa fa-eye"></button></td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+            <!-- </div> -->
+        </p-tabPanel>
+        <p-tabPanel [header]="'Vehicle Documents' | translate">
+            <div class="p-grid" [formGroup]="vehicledocumentForm">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Vehicle<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Vehicle" filterValue="vehicleNo"
+                        [showClear]="true" dataKey="id" autoWidth="false" formControlName="vehicleId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.AllHrVehicleMasterArray"
+                        optionLabel="vehicleNo">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && d.vehicleId.errors">
+                        <span *ngIf="submitted && d.vehicleId.errors && d.vehicleId.errors.required">Vehicle is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Type<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Document Type" filterValue="documentType"
+                        [showClear]="true" dataKey="documentTypeId" autoWidth="false" formControlName="documentTypeId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.HrDocumentTypesArray"
+                        optionLabel="documentType">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && d.documentTypeId.errors">
+                        <span *ngIf="submitted && d.documentTypeId.errors && d.documentTypeId.errors.required">Document
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Status<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Document Status" filterValue="docStatus"
+                        [showClear]="true" dataKey="docStatusId" autoWidth="false" formControlName="docStatusId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.HrDocumentStatusArray"
+                        optionLabel="docStatus">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && d.docStatusId.errors">
+                        <span *ngIf="submitted && d.docStatusId.errors && d.docStatusId.errors.required">Document
+                            Status is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document No<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="docNo"
+                        placeholder="Enter Document No" />
+                    <div class="error" *ngIf="submitted && d.docNo.errors">
+                        <span *ngIf="submitted && d.docNo.errors && d.docNo.errors.required">
+                            Document No is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Ref<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="docName"
+                        placeholder="Enter Document Ref" />
+                    <div class="error" *ngIf="submitted && d.docName.errors">
+                        <span *ngIf="submitted && d.docName.errors && d.docName.errors.required">
+                            Document Ref is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Issue Date</label>
+                    <p-calendar [showIcon]="true" formControlName="issueDate" [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Expiry Date</label>
+                    <p-calendar [showIcon]="true" formControlName="expDate" [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Remarks<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="remarks"
+                        placeholder="Enter Remarks" />
+                    <div class="error" *ngIf="submitted && d.remarks.errors">
+                        <span *ngIf="submitted && d.remarks.errors && d.remarks.errors.required">
+                            Remarks is
+                            Required</span>
+                    </div>
+                </div>
+                <!-- <div class="p-col-4 p-md-4 p-lg-4" style="padding-top: 30px;">
+                    <input #fileInput type="file" formControlName="docImage" (change)="selectFile($event)" />
+                    <div class="error" *ngIf="submitted && d.docImage.errors">
+                        <span *ngIf="submitted && d.docImage.errors && d.docImage.errors.required">
+                            File is
+                            Required</span>
+                    </div>
+                </div> -->
+            </div>
+            <div class="card card-w-title">
+                <p-tabView [activeIndex]="index">
+                    <p-tabPanel [header]="'Vehicle Documents Data' | translate">
+                        <div class="p-grid">
+                            <div class="p-col-3 p-md-3 p-lg-3">
+                                <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                    [rowsPerPageOptions]="[10, 25, 50]"
+                                    [value]="this.transactionService.VehcileDocumentsArray"
+                                    styleClass="p-datatable-striped">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Vehicle</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-item>
+                                        <tr (click)="viewDetailsVehicle(item)" style="cursor:pointer">
+                                            <td>{{item.vehicleName}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                            <div class="p-col-9 p-md-9 p-lg-9">
+                                <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                    [rowsPerPageOptions]="[10, 25, 50]" [value]="this.vehicleDocumentsMasterArray"
+                                    styleClass="p-datatable-striped">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Document Ref</th>
+                                            <th>Document No</th>
+                                            <th>Issue Date</th>
+                                            <th>Expiry Date</th>
+                                            <th>Status</th>
+                                            <th>Add Doc</th>
+                                            <th>View Doc</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-item>
+                                        <tr style="cursor:pointer">
+                                            <td>{{getDocType(item.documentTypeId)}}</td>
+                                            <td>{{item.docName}}</td>
+                                            <td>{{item.docNo}}</td>
+                                            <td>{{item.issueDate | date}}</td>
+                                            <td>{{item.expDate | date}}</td>
+                                            <td>{{getDocStatus(item.docStatusId)}}</td>
+                                            <td><input #fileInput type="file"
+                                                    (change)="selectFileAdd($event, item.documentId)" /></td>
+                                            <td> <button pButton type="button" (click)="ViewDocImages(item.documentId)"
+                                                    label="" class="ui-button-success" icon="fa fa-eye"></button></td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<!-- <p-dialog header="( {{modalHeader}} ) Document Master" [(visible)]="viewDetailModal" [style]="{width: '50vw'}"
+    [baseZIndex]="10000">
+    <p-table [styleClass]="'p-datatable-sm'" [value]="documentDetailArray" styleClass="p-datatable-striped"
+        >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Add Document</th>
+                <th>View Document</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>{{item.documentId}}</td>
+                <td>{{item.docName}}</td>
+                <td> <input #fileInput type="file" (change)="selectFile($event,item.documentId)" /></td>
+                <td> <button (click)="ViewDocumentIMagesByMasterID(item.documentId)" pButton pRipple type="button"
+                        icon="fa fa-eye" class="p-button-rounded"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="viewDetailModal = false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog> -->
+
+<!-- <p-dialog header="All Documents" [(visible)]="viewDocumentsData" [style]="{width: '80vw'}" [baseZIndex]="10000">
+    <p-table [styleClass]="'p-datatable-sm'" [value]="transactionService.StaffDocumentMasterArray"
+        styleClass="p-datatable-striped" >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Document No</th>
+                <th>Document Ref</th>
+                <th>Issue Date</th>
+                <th>Exp Date</th>
+                <th>Document Status</th>
+                <th>Document Type</th>
+                <th>Staff</th>
+                <th>Vehicle</th>
+                <th>Upload Document</th>
+                <th>View Document</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>{{item.documentId}}</td>
+                <td>{{item.docNo}}</td>
+                <td>{{item.docName}}</td>
+                <td>{{item.issueDate | date}}</td>
+                <td>{{item.expDate | date}}</td>
+                <td>{{getDocumentStatus(item.docStatusId)}}</td>
+                <td>{{getDocumentType(item.documentTypeId)}}</td>
+                <td>{{getStaffName(item.staffId)}}</td>
+                <td>{{getVehicleName(item.vehicleId)}}</td>
+                <td> <input #fileInput type="file" (change)="selectFile($event,item.documentId)" /></td>
+                <td> <button (click)="ViewDocumentIMagesByMasterID(item.documentId)" pButton pRipple type="button"
+                        icon="fa fa-eye" class="p-button-rounded"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="viewDocumentsData = false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog> -->
+
+<p-dialog header="Documents Images" [(visible)]="viewDocumentImageModal" [style]="{width: '80vw'}" [baseZIndex]="10000">
+    <p-table [styleClass]="'p-datatable-sm'" [value]="DocImagesArray" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Document Name</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>
+                    <strong style="cursor: pointer;"
+                        (click)="openDocument(item.docImage , item.extension , item.docName)">{{item.docName}}
+                    </strong>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="viewDocumentImageModal = false" class="p-button-text"
+            label="Close"></p-button>
+    </ng-template>
+</p-dialog>

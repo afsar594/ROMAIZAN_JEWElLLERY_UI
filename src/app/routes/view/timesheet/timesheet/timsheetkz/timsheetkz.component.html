@@ -1,0 +1,104 @@
+<form action="" [formGroup]='TSKZForm'>
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="Edit" icon="fa fa-pencil" class="ui-button-success"></button>
+            <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+                class="ui-button-success"></button>
+        </div>
+    </p-toolbar>
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>ID</label>
+            <input disabled type="text" pInputText [style]="{width:'100%'}" formControlName="TsID" placeholder="ID" />
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Staff<span class="required">*</span></label>
+            <div class="p-inputgroup">
+                <input readonly (keydown)="staffModal = true" type="text" pInputText [style]="{width:'100%'}"
+                    formControlName="StaffName" placeholder="Staff" />
+                <button (click)="staffModal = true" pButton type="button" class="ui-button-danger"
+                    icon="fa fa-search"></button>
+            </div>
+            <div class="error" *ngIf="submitted && f.StaffName.errors">
+                <span class="error" *ngIf="submitted && f.StaffName.errors && f.StaffName.errors.required">Staff is
+                    Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>TS Date<span class="required">*</span>:</label><br>
+            <p-calendar [style]="{'width':'100%'}" [showIcon]="true" formControlName="TsDate">
+            </p-calendar>
+            <div class="error" *ngIf="submitted && f.TsDate.errors">
+                <span *ngIf="submitted && f.TsDate.errors && f.TsDate.errors.required">TS Date is Required</span>
+            </div>
+        </div>
+        <div class="p-col-6 p-md-6 p-lg-6">
+            <label>Remarks</label>
+            <textarea placeholder="Enter Remarks" pInputTextarea [style]="{width:'100%'}"
+                formControlName="Remarks"></textarea>
+        </div>
+    </div>
+</form>
+
+<div class="card card-w-title">
+    <div class="grid">
+        <div class="p-col-12">
+            <div class="card">
+                <p-table [value]="tableData" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:25%">Code</th>
+                            <th style="width:25%">Name</th>
+                            <th style="width:25%">Designation</th>
+                            <th style="width:25%">Site</th>
+                            <th style="width:25%">TotalHour</th>
+                            <th style="width:25%">OT</th>
+                            <th style="width:25%">Remarks</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>{{ item.Code }}</td>
+                            <td>{{ item.Name }}</td>
+                            <td>{{ item.Designation }}</td>
+                            <td>{{ item.Site }}</td>
+                            <td>{{ item.TotalHour }}</td>
+                            <td>{{ item.OT }}</td>
+                            <td>{{ item.Remarks }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Staff" [(visible)]="staffModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <input (input)="onSearchStaff($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+        style="margin-bottom: 10px;" placeholder="Type to search" />
+    <p-table [value]="this.masterApiService.staffMasterArrayDuplicate" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Staff ID</th>
+                <th>Staff Code</th>
+                <th>Name</th>
+                <!-- <th>Designation</th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-staff>
+            <tr (click)="setStaffName(staff)" style="cursor:pointer">
+                <td>{{staff.staffId}}</td>
+                <td>{{staff.staffCode}}</td>
+                <td>{{staff.fullName}}</td>
+                <!-- <td>{{staff.fullName}}</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="staffModal = false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,165 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="!isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" label="Cancel" (click)="onCancel()" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Address' | translate">
+            <div [formGroup]="AddressForm" class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Address Type<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Address Type" filterValue="addressType"
+                        [showClear]="true" dataKey="addressTypeId" autoWidth="false" formControlName="addressTypeId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.AddressTypeArray"
+                        optionLabel="addressType">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.addressTypeId.errors">
+                        <span *ngIf="submitted && f.addressTypeId.errors && f.addressTypeId.errors.required">Address
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <!-- <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Country<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Country" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Country is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">State<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a State" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">State is
+                            Required</span>
+                    </div>
+                </div> -->
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Contact Person<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="contactPerson"
+                        placeholder="Enter Contact Person" />
+                    <div class="error" *ngIf="submitted && f.contactPerson.errors">
+                        <span *ngIf="submitted && f.contactPerson.errors && f.contactPerson.errors.required">Contact
+                            Person is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">House<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="houseName"
+                        placeholder="Enter House" />
+                    <div class="error" *ngIf="submitted && f.houseName.errors">
+                        <span *ngIf="submitted && f.houseName.errors && f.houseName.errors.required">House is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Street<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="street"
+                        placeholder="Enter Street" />
+                    <div class="error" *ngIf="submitted && f.street.errors">
+                        <span *ngIf="submitted && f.street.errors && f.street.errors.required">Street is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">PO Box</label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="pobox"
+                        placeholder="Enter PO Box" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Phone</label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="phone"
+                        placeholder="Enter Phone" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Fax</label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="fax"
+                        placeholder="Enter Fax" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Email</label>
+                    <input type="email" pInputText [style]="{width:'100%'}" formControlName="email"
+                        placeholder="Enter Email" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Mobile</label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="mobile"
+                        placeholder="Enter Mobile" />
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index">
+        <p-tabPanel [header]="'Address List' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.hrAddressArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Full Name</th>
+                                <th>Address Type</th>
+                                <th>Contact Person</th>
+                                <th>House</th>
+                                <th>Street</th>
+                                <th>Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{getStaffObj(item?.staffId)?.staffCode}}</td>
+                                <td>{{getStaffObj(item?.staffId)?.fullName}}</td>
+                                <td>{{getAddressTypeObj(item?.addressTypeId)?.addressType}}</td>
+                                <td>{{item?.contactPerson}}</td>
+                                <td>{{item?.houseName}}</td>
+                                <td>{{item?.street}}</td>
+                                <td>
+                                    <button (click)="onClickEdit(item)" pButton pRipple type="button" icon="fa fa-edit"
+                                        class="p-button-rounded"></button>
+                                    <button pButton pRipple (click)="onDelete(item)" type="button" icon="fa fa-trash"
+                                        class="p-button-rounded"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

@@ -1,0 +1,103 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <!-- <button pButton type="button" (click)="GenerateReport()" label="Generate Report" icon="fa fa-floppy-o"
+            class="ui-button-success"></button> -->
+        <button pButton type="button" (click)="onPrint()" label="Print" icon="fa fa-print"
+            class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView>
+        <p-tabPanel [header]="'Gratuity / Leave Salary Histor'">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <div class="p-col-2">
+                        <input type="radio" value="GratuityHistory" [(ngModel)]="Status">
+                        <span>Gratuity History</span>
+                    </div>
+                    <div class="p-col-2">
+                        <input type="radio" value="LeaveSalaryHistory" [(ngModel)]="Status">
+                        <span>Leave Salary History</span>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div id="print" #print class="card">
+
+    <body *ngIf="Status == 'GratuityHistory'">
+        <div class="abc">
+            <h3>Gratuity History</h3>
+        </div>
+        <table class="def">
+            <tr>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>DOJ</th>
+                <th>Last Working Day</th>
+                <th>Var Add</th>
+                <th>Var Ded</th>
+                <th>Basic</th>
+                <th>Payroll Amount</th>
+                <th>Net Amount</th>
+            </tr>
+            <tr *ngFor="let item of reportService.GrauityLeaveSalaryHistory?.gratuityHistory">
+                <td>{{ item.staffName }}</td>
+                <td>{{ item.designation }}</td>
+                <td>{{ item.doj | date}}</td>
+                <td>{{ item.lastWorkingDay | date}}</td>
+                <td>{{ item.varAdd | number}}</td>
+                <td>{{ item.varDed | number}}</td>
+                <td>{{ item.basic | number}}</td>
+                <td>{{ item.total | number}}</td>
+                <td>{{ item.hrPayrollMaster?.gratuityAmt | number}}</td>
+            </tr>
+        </table>
+    </body>
+
+    <body *ngIf="Status == 'LeaveSalaryHistory'">
+        <div class="abc">
+            <h3>Leave Salary History</h3>
+        </div>
+        <table class="def">
+            <tr>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>DOJ</th>
+                <th>Sett Day</th>
+                <th>Taken Days</th>
+                <th>Air Ticket</th>
+                <th>Loan</th>
+                <th>Pending Sal</th>
+                <th>Var Add</th>
+                <th>Var Ded</th>
+                <th>Payroll Amount</th>
+                <th>Leave Salary</th>
+                <th>Net Amount</th>
+            </tr>
+            <tr *ngFor="let item of reportService.GrauityLeaveSalaryHistory?.leaveSalaryHistory">
+                <td>{{ item.staffName }}</td>
+                <td>{{ item.designation }}</td>
+                <td>{{ item.doj | date}}</td>
+                <td>{{ item.settDate | date}}</td>
+                <td>{{ item.takenDays | number}}</td>
+                <td>{{ item.airTicketAmt | number}}</td>
+                <td>{{ item.loanAmt | number}}</td>
+                <td>{{ item.pendingPayollAmt | number}}</td>
+                <td>{{ item.varAdd | number}}</td>
+                <td>{{ item.varDed | number}}</td>
+                <td>{{ item.leaveSalary | number}}</td>
+                <td>{{ item.payrollAmt | number}}</td>
+                <td>{{ item.netAmt | number}}</td>
+            </tr>
+
+        </table>
+    </body>
+</div>

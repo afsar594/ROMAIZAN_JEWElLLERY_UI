@@ -1,0 +1,375 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">Payroll</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Process"  icon="fa fa-search" class="ui-button-primary"></button>
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-info"></button>
+        <button pButton type="button" label="Create JV" icon="fa fa-pencil" class="ui-button-success"></button>
+        <button pButton type="button" label="Show JV" icon="fa fa-eye" class="ui-button-success"></button>
+        <button pButton type="button" label="Excel" icon="fa fa-file-excel-o" class="ui-button-success"></button>
+        <button pButton type="button" label="Delete Payroll" icon="fa fa-trash" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='PMForm'>
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Payroll Master' | translate">
+
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label> Month:</label>
+                    <p-dropdown [filter]="true" placeholder="Select Month" filterValue="name" formControlName="month" [showClear]="true"
+                        dataKey="name" autoWidth="false" [style]="{'width':'100%'}" [options]="monthArray"
+                        optionLabel="name"></p-dropdown>
+                        <div class="error" *ngIf="f.month.touched && f.month.invalid">
+                            Month Invalid Entry
+                        </div>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2" style="margin-top: 14px;">
+                    <p-calendar [showIcon]="true" formControlName="date">
+                    </p-calendar>
+                    <div class="error" *ngIf="f.date.touched && f.date.invalid">Date is Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2" style="margin-top: 14px;">
+                    <p-calendar [showIcon]="true" formControlName="date">
+                    </p-calendar>
+                    <div class="error" *ngIf="f.date.touched && f.date.invalid">Date is Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Visa Company</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Visa Company" filterValue="visaCompany"
+                        [showClear]="true" dataKey="visaCompanyId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.VisaCompanyMasterArray" optionLabel="visaCompany" formControlName="visaCompany">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.visaCompany.touched && f.visaCompany.invalid">
+                        Visa Company Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2" style="  margin-top: 14px;">
+                    <input pInputText style="width: 100%;">
+
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Year</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Year" filterValue="year" [showClear]="true"
+                        dataKey="year" autoWidth="false" [style]="{'width':'100%'}" [options]="yearArray"
+                        optionLabel="year" formControlName="year">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.year.touched && f.year.invalid">
+                        Year Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Posting Type</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Posting Type" filterValue="name"
+                        [showClear]="true" dataKey="name" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="PostingType" optionLabel="name" formControlName="postingtype">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.postingtype.touched && f.postingtype.invalid">
+                        Posting Type Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Print Type</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Print Type" filterValue="visaCompany"
+                        [showClear]="true" dataKey="visaCompanyId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.VisaCompanyMasterArray" optionLabel="visaCompany" formControlName="print">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.print.touched && f.print.invalid">
+                        Print Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1" style="  margin-top: 14px;">
+                    <input pInputText style="width: 100%;">
+
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2" style="  margin-top: 14px;">
+                    <input pInputText style="width: 100%;">
+
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl"> Department</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Department" filterValue="department"
+                        [showClear]="true" dataKey="departmentId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.DepartmentArray" optionLabel="department" formControlName="department"></p-dropdown>
+                        <div class="error" *ngIf="f.department.touched && f.department.invalid">
+                            department Invalid Entry
+                        </div>
+                    </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Company</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Company" filterValue="companyName"
+                        [showClear]="true" dataKey="companyId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.CompanyMasterArray" optionLabel="companyName" formControlName="company"></p-dropdown>
+                        <div class="error" *ngIf="f.company.touched && f.company.invalid">
+                            company Invalid Entry
+                        </div>
+                    </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Sponsor</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Sponsor" filterValue="sponser" [showClear]="true"
+                        dataKey="sponserId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.SponsorArray" optionLabel="sponser"  formControlName="sponsor"></p-dropdown>
+                        <div class="error" *ngIf="f.sponsor.touched && f.sponsor.invalid">
+                            sponsor Invalid Entry
+                        </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Designation</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Designation" filterValue="designation"
+                        [showClear]="true" dataKey="designationId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.designatinMasterArray" optionLabel="designation"  formControlName="designation"></p-dropdown>
+                        <div class="error" *ngIf="f.designation.touched && f.designation.invalid">
+                            Designation Invalid Entry
+                        </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Trans Type</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Trans Type" filterValue="name" [showClear]="true"
+                        dataKey="name" autoWidth="false" [style]="{'width':'100%'}" [options]="TransType"
+                        optionLabel="name"  formControlName="transtype">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.transtype.touched && f.transtype.invalid">
+                        Trans Type Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Staff Type</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Staff Type" filterValue="staffType"
+                        [showClear]="true" dataKey="staffTypeId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.StaffTypeArray" optionLabel="staffType"  formControlName="stafftype">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.stafftype.touched && f.stafftype.invalid">
+                        Staff Type Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Bank</label>
+                    <p-dropdown [filter]="true" filterValue="bankName" placeholder="Select a Bank" [showClear]="true"
+                        dataKey="bankMasterId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.BankMasterArray" optionLabel="bankName" formControlName="bank"></p-dropdown>
+                        <div class="error" *ngIf="f.bank.touched && f.bank.invalid">
+                            Bank Invalid Entry
+                        </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Camp</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Camp" filterValue="camp" [showClear]="true"
+                        dataKey="cmpId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.CampMasterArray" optionLabel="camp"  formControlName="camp"></p-dropdown>
+                        <div class="error" *ngIf="f.camp.touched && f.camp.invalid">
+                            Camp Invalid Entry
+                        </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Site</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Site" filterValue="siteName" [showClear]="true"
+                        dataKey="siteId" autoWidth="false" [style]="{'width':'100%'}"
+                        [options]="masterApi.siteMasterArrayDuplicate" optionLabel="siteName" formControlName="site"></p-dropdown>
+                        <div class="error" *ngIf="f.site.touched && f.site.invalid">
+                            Site Invalid Entry
+                        </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Cycle</label>
+                    <p-dropdown [filter]="true" placeholder="Select a Cycle" filterValue="siteName" [showClear]="true"
+                        dataKey="siteId" autoWidth="false" [style]="{'width':'100%'}"
+                         [options]="masterApi.siteMasterArrayDuplicate" optionLabel="siteName" formControlName="cycle"></p-dropdown>
+                         <div class="error" *ngIf="f.cycle.touched && f.cycle.invalid">
+                            Cycle Invalid Entry
+                        </div>
+                        </div>
+                <div class="p-col-5 p-md-5 p-lg-5">
+                    <label class="formlbl">Search Staff</label>
+                    <input pInputText style="width: 100%;" formControlName="search">
+                    <div class="error" *ngIf="f.search.touched && f.search.invalid">
+                        Search Invalid Entry
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Payroll Details' | translate">
+            <!-- <div class="grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-table [value]="this.transactionService.PayrollList" [styleClass]="'p-datatable-sm'"
+                        [value]="" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>No.Of Days</th>
+                                <th>Basic</th>
+                                <th>Other Earnings</th>
+                                <th>Earnings</th>
+                                <th>Deductions</th>
+                                <th>Net Salary</th>
+                                <th>Process Mode</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-staff>
+                            <tr (click)="setStaffName(staff)" style="cursor:pointer">
+                                <td>{{staff.staffCode}}</td>
+                                <td>{{staff.fullName}}</td>
+                            </tr>
+                        </ng-template> 
+                    </p-table>
+                </div>
+            </div> -->
+            <div class="grid">
+                <div class="p-col-12">
+                    <hot-table [hotId]="hotid" [data]=" dataset" [licenseKey]="licensekey" [settings]=" Payrolldetails">
+
+                    </hot-table>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Posting Details' | translate">
+            <div class="grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-table [styleClass]="'p-datatable-sm'" [value]="" styleClass="p-datatable-striped"
+                        [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>No.Of Days</th>
+                                <th>Net Salary</th>
+                                <th>Process Mode</th>
+                                <th>Payment Mode</th>
+                                <th>Post</th>
+                                <th>Delete Payroll</th>
+                                <th>Pay</th>
+                            </tr>
+                        </ng-template>
+                        <!-- <ng-template pTemplate="body" let-staff>
+                            <tr (click)="setStaffName(staff)" style="cursor:pointer">
+                                <td>{{staff.staffCode}}</td>
+                                <td>{{staff.fullName}}</td>
+                            </tr>
+                        </ng-template> -->
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Payroll Report' | translate">
+            <div class="grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-table [styleClass]="'p-datatable-sm'" [value]="" styleClass="p-datatable-striped"
+                        [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>No.Of Days</th>
+                                <th>Net Salary</th>
+                                <th>Process Mode</th>
+                                <th>Payment Mode</th>
+                                <th>Post</th>
+                                <th>Delete Payroll</th>
+                                <th>Pay</th>
+                            </tr>
+                        </ng-template>
+                        <!-- <ng-template pTemplate="body" let-staff>
+                            <tr (click)="setStaffName(staff)" style="cursor:pointer">
+                                <td>{{staff.staffCode}}</td>
+                                <td>{{staff.fullName}}</td>
+                            </tr>
+                        </ng-template> -->
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Leave Details' | translate">
+            <div class="grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-table [styleClass]="'p-datatable-sm'" [value]="" styleClass="p-datatable-striped"
+                        [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>No.Of Days</th>
+                                <th>Net Salary</th>
+                                <th>Process Mode</th>
+                                <th>Payment Mode</th>
+                                <th>Post</th>
+                                <th>Delete Payroll</th>
+                                <th>Pay</th>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<p-panel header="PAYROLL HISTORY REPORT">
+    <div class="p-grid top">
+
+        <p-table [tableStyle]="{ 'min-width': '30rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+
+                    <th rowspan="3">Name</th>
+                    <th rowspan="3">Year</th>
+                    <th rowspan="3">Month</th>
+                    <th colspan="6">EARNINGS</th>
+                    <th colspan="5">DEDUCTIONS</th>
+                     <th rowspan="3">Total</th>
+
+                 </tr>
+
+                <!-- <tr>
+                    <th colspan="2"></th>
+                    <th colspan="2">In</th>
+                    <th colspan="2">Out</th>
+                    <th colspan="2"></th>
+
+                </tr> -->
+                <tr>
+                    <th>Basic</th>
+                    <th> Fixed Over Time</th>
+                    <th> Food Allowance</th>
+                    <th>House Rent Allowance</th>
+                    <th>Other Allowance</th>
+                    <th>Over Time</th>
+                    <th>Bank Charges</th>
+                    <th>House Rent</th>
+                    <th>Less Hour</th>
+                    <th>Other Deductions</th>
+                    <th>Telehone Deduction</th>
+                 </tr>
+
+
+            </ng-template>
+            <ng-template pTemplate="body">
+
+            </ng-template>
+        </p-table>
+    </div>
+</p-panel>

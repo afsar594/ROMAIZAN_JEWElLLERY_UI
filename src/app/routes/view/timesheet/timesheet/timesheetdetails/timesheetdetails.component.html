@@ -1,0 +1,135 @@
+<form action="" [formGroup]='TSForm'>
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" (click)="onClickNew()" label="New" icon="fa fa-plus"
+                class="ui-button-info"></button>
+            <button pButton type="button" [disabled]="enableActionBtn" label="Edit" icon="fa fa-pencil"
+                class="ui-button-success"></button>
+            <button pButton type="button" [disabled]="enableActionBtn" (click)="onSave()" label="Save"
+                icon="fa fa-floppy-o" class="ui-button-success"></button>
+            <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"></button>
+            <button pButton type="button" label="Cancel" (click)="onCancel()" class="ui-button-danger"
+                icon="fa fa-ban"></button>
+            <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+            <button pButton type="button" [disabled]="enableActionBtn" class="ui-button-danger" label="Delete"
+                icon="fa fa-close"></button>
+        </div>
+    </p-toolbar>
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>TS ID</label>
+            <input disabled type="text" pInputText [style]="{width:'100%'}" formControlName="TsID"
+                placeholder="TS ID" />
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Staff Code <span class="required">*</span></label><br>
+            <div class="p-inputgroup">
+                <input readonly (keydown)="staffModal = true" type="text" pInputText [style]="{width:'100%'}"
+                    formControlName="StaffName" placeholder="Staff Code" />
+                <button (click)="staffModal = true" type="button" pButton icon="fa fa-search"
+                    styleClass="p-button-warn"></button>
+            </div>
+            <div class="error" *ngIf="submitted && f.StaffName.errors">
+                <span *ngIf="submitted && f.StaffName.errors && f.StaffName.errors.required">Staff Code is
+                    Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Remarks</label>
+            <textarea placeholder="Enter Remarks" pInputTextarea [style]="{width:'100%'}"
+                formControlName="Remarks"></textarea>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>TS Date<span class="required">*</span>:</label><br>
+            <p-calendar [showIcon]="true" formControlName="TsDate" [style]="{'width':'100%'}">
+            </p-calendar>
+            <button (click)="LoadTimeSheetData()" pButton type="button" class="ui-button-danger"
+                label="Load Data"></button>
+            <div class="error" *ngIf="submitted && f.TsDate.errors">
+                <span *ngIf="submitted && f.TsDate.errors && f.TsDate.errors.required"> TS Date is Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Select Template Date<span class="required">*</span>:</label><br>
+            <p-calendar [showIcon]="true" formControlName="TemplateDate" [style]="{'width':'100%'}">
+            </p-calendar>
+            <button pButton (click)="downloadTemplate()" type="button" class="ui-button-danger"
+                label="Make Template Sheet"></button>
+        </div>
+        <div class="p-col-2 p-md-2 p-lg-2">
+            <button pButton type="button" (click)="OnClick()" for="file" label="Import From Excel"
+                icon="fa fa-file-excel-o" class="ui-button-success w-100 searchBtn"></button>
+            <input type="file" accept=".csv, .xlsx" style="display:none;" (change)="UploadFile($event)" multiple="false"
+                id="file" name="file" />
+        </div>
+        <div class="p-col-2 p-md-2 p-lg-2">
+            <button (click)="onSaveTSDetails()" [disabled]="enableButtons" pButton type="button" label="Full Update"
+                icon="fa fa-refresh" class="ui-button-success w-100 searchBtn"></button>
+        </div>
+    </div>
+</form>
+
+<div class="card card-w-title">
+    <div class="grid">
+        <div class="p-col-12">
+            <div class="card">
+                <p-table [value]="tableData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:25%">Code</th>
+                            <th style="width:25%">Name</th>
+                            <th style="width:25%">Designation</th>
+                            <th style="width:25%">Site</th>
+                            <th style="width:25%">TotalHour</th>
+                            <th style="width:25%">OT</th>
+                            <th style="width:25%">Remarks</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>{{ item.staffCode }}</td>
+                            <td>{{ item.staffName }}</td>
+                            <td>{{ item.designationName }}</td>
+                            <td>{{ item.siteName }}</td>
+                            <td>
+                                <input type="text" pInputText [style]="{width:'100%'}" placeholder="Enter Total Hour"
+                                    [(ngModel)]="item.totlHrs" />
+                            </td>
+                            <td>{{ item.totlHrs - 8 }}</td>
+                            <td>
+                                <input type="text" pInputText [style]="{width:'100%'}" placeholder="Enter Remarks"
+                                    [(ngModel)]="item.remarks" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Staff" [(visible)]="staffModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <input (input)="onSearch($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+        style="margin-bottom: 10px;" placeholder="Type to search" />
+    <p-table [value]="this.masterApiService.staffMasterArray" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-staff>
+            <tr (click)="setStaffName(staff)" style="cursor:pointer">
+                <td>{{staff.staffCode}}</td>
+                <td>{{staff.fullName}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="staffModal=false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,282 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="!isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" (click)="ticketListModal = true" label="List" icon="fa fa-list"
+            class="ui-button-info"></button>
+        <button pButton type="button" label="Cancel" (click)="onCancel()" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div [formGroup]="AirTicketForm" class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Departure' | translate">
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffid" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffid.errors">
+                        <span *ngIf="submitted && f.staffid.errors && f.staffid.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Departure From<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Departure From" filterValue="nationality"
+                        [showClear]="true" dataKey="nationalityId" autoWidth="false" formControlName="flyFromId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.NationalityArray"
+                        optionLabel="nationality">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.flyFromId.errors">
+                        <span *ngIf="submitted && f.flyFromId.errors && f.flyFromId.errors.required">Departure
+                            From
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Departure To<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Departure To" filterValue="nationality"
+                        [showClear]="true" dataKey="nationalityId" autoWidth="false" formControlName="flyToId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.NationalityArray"
+                        optionLabel="nationality">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.flyToId.errors">
+                        <span *ngIf="submitted && f.flyToId.errors && f.flyToId.errors.required">Departure
+                            To
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Departure Date<span class="required">*</span></label>
+                    <p-calendar [showIcon]="true" formControlName="depDate" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                    <div class="error" *ngIf="submitted && f.depDate.errors">
+                        <span *ngIf="submitted && f.depDate.errors && f.depDate.errors.required">Departure
+                            Date is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Last Ticket Taken</label>
+                    <p-calendar [showIcon]="true" formControlName="lastTicketTaken" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Issue Date</label>
+                    <p-calendar [showIcon]="true" formControlName="issueDate" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Ticket Sett Date</label>
+                    <p-calendar [showIcon]="true" formControlName="ticketSettDate" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Amount<span class="required">*</span></label>
+                    <input type="number" pInputText [style]="{width:'100%'}" formControlName="amount"
+                        placeholder="Enter Amount" />
+                    <div class="error" *ngIf="submitted && f.amount.errors">
+                        <span *ngIf="submitted && f.amount.errors && f.amount.errors.required">Amount is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Remarks<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="remarks"
+                        placeholder="Enter Remarks" />
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2 mt-3">
+                    <p-checkbox label="Ticket" [binary]="true" formControlName="ticket"></p-checkbox>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2 mt-3">
+                    <p-checkbox label="Is One Way" [binary]="true" formControlName="isOneWay"></p-checkbox>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Return' | translate">
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Return From<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Return From" filterValue="nationality"
+                        [showClear]="true" dataKey="nationalityId" autoWidth="false" formControlName="retFlyFromId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.NationalityArray"
+                        optionLabel="nationality">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.retFlyFromId.errors">
+                        <span *ngIf="submitted && f.retFlyFromId.errors && f.retFlyFromId.errors.required">Return
+                            From
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Return To<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder=" Select a Return To" filterValue="nationality"
+                        [showClear]="true" dataKey="nationalityId" autoWidth="false" formControlName="retFlyToId"
+                        [style]="{'width':'100%'}" [options]="masterApiService.NationalityArray"
+                        optionLabel="nationality">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.retFlyToId.errors">
+                        <span *ngIf="submitted && f.retFlyToId.errors && f.retFlyToId.errors.required">Return
+                            To
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Return Date<span class="required">*</span></label>
+                    <p-calendar [showIcon]="true" formControlName="retDate" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                    <div class="error" *ngIf="submitted && f.retDate.errors">
+                        <span *ngIf="submitted && f.retDate.errors && f.retDate.errors.required">Return
+                            Date is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+
+
+<p-dialog header="{{staffName}} Air Ticket Details" [(visible)]="ticketDetailModal" [modal]="true"
+    [style]="{width:'60%'}" [draggable]="false">
+    <form action="" [formGroup]="AirTicketDetailForm">
+        <div class="p-grid">
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <label class="formlbl">Family<span class="required">*</span></label>
+                <p-dropdown [filter]="true" placeholder=" Select a Family" filterValue="name" [showClear]="true"
+                    dataKey="id" autoWidth="false" formControlName="familyId" [style]="{'width':'100%'}"
+                    [options]="FamilyDetailArray" optionLabel="name">
+                </p-dropdown>
+                <div class="error" *ngIf="submittedDetails && d.familyId.errors">
+                    <span *ngIf="submittedDetails && d.familyId.errors && d.familyId.errors.required">Family is
+                        Required</span>
+                </div>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <label class="formlbl">Type<span class="required">*</span></label>
+                <p-dropdown [filter]="true" placeholder=" Select a Type" filterValue="name" [showClear]="true"
+                    dataKey="name" autoWidth="false" formControlName="type" [style]="{'width':'100%'}"
+                    [options]="typeArray" optionLabel="name">
+                </p-dropdown>
+                <div class="error" *ngIf="submittedDetails && d.type.errors">
+                    <span *ngIf="submittedDetails && d.type.errors && d.type.errors.required">Type is
+                        Required</span>
+                </div>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <p-checkbox label="Ticket Available" [binary]="true" formControlName="ticketAvailable"></p-checkbox>
+            </div>
+            <div class="p-col-2">
+                <button pButton type="button" label="Save" (click)="onSaveDetails()" icon="fa fa-floppy-o"
+                    class="ui-button-success"></button>
+            </div>
+            <div class="p-col-2">
+                <button pButton type="button" label="Edit" (click)="onEditDetail()" [disabled]="!isEditDetailBtndisable"
+                    class="ui-button-success" icon="fa fa-pencil"></button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="p-col-12">
+                <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]" [value]="airTicketDetailArray" styleClass="p-datatable-striped"
+                    [tableStyle]="{'min-width': '50rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Family</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr style="cursor:pointer">
+                            <td>{{getFamilyObj(item.familyId)?.name}}</td>
+                            <td>{{getTypeObj(item.type)?.name}}</td>
+                            <td>
+                                <button (click)="onClickEditDetails(item)" pButton pRipple type="button"
+                                    icon="fa fa-edit" class="p-button-rounded"></button>
+                                <button pButton pRipple (click)="onDeleteDetails(item)" type="button" icon="fa fa-trash"
+                                    class="p-button-rounded"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog header="Air Tickets" [(visible)]="ticketListModal" [modal]="true" [style]="{width:'60%'}" [draggable]="false">
+    <div class="card card-w-title">
+        <div class="grid">
+            <div class="p-col-12">
+                <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.AirTicketMasterArray"
+                    styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Staff</th>
+                            <th>Fly From</th>
+                            <th>Fly To</th>
+                            <th>Departure Date</th>
+                            <th>Issue Date</th>
+                            <th>Return From</th>
+                            <th>Return To</th>
+                            <th>Return Date</th>
+                            <th>Amount</th>
+                            <!-- <th>Add Details</th> -->
+                            <th>Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr (click)="onClickEdit(item)" style="cursor:pointer">
+                            <td>{{getStaffObj(item?.staffid)?.fullName}}</td>
+                            <td>{{getNationalityObj(item?.flyFromId)?.nationality}}</td>
+                            <td>{{getNationalityObj(item?.flyToId)?.nationality}}</td>
+                            <td>{{item?.depDate | date}}</td>
+                            <td>{{item?.issueDate | date}}</td>
+                            <td>{{getNationalityObj(item?.retFlyFromId)?.nationality}}</td>
+                            <td>{{getNationalityObj(item?.retFlyToId)?.nationality}}</td>
+                            <td>{{item?.retDate | date}}</td>
+                            <td>{{item?.amount | number}}</td>
+                            <!-- <td>
+                                        <button (click)="onDetailDialog(item)" pButton pRipple type="button"
+                                            icon="fa fa-plus" class="p-button-rounded"></button>
+                                    </td> -->
+                            <td>
+                                <!-- <button pButton pRipple type="button" icon="fa fa-edit"
+                                    class="p-button-rounded"></button> -->
+                                <button pButton pRipple (click)="onDelete(item)" type="button" icon="fa fa-trash"
+                                    class="p-button-rounded ui-button-danger"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</p-dialog>

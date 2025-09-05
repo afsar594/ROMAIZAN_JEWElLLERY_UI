@@ -1,0 +1,173 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button [disabled]="!isEdit" pButton type="button" label="Edit" (click)="onEdit()" class="ui-button-success"
+            icon="fa fa-pencil"></button>
+        <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<br><br>
+<div class="card card-w-title" [formGroup]='shiftmasterForm'>
+    <div class="p-grid">
+        <div class="p-col-6">
+            <label class="formlbl">Shift Code:<span class="required">*</span></label>
+            <input type="text" pInputText style="width: 100%;" formControlName="shiftCode"
+                placeholder="Enter Shift Code" />
+            <div class="error" *ngIf="submitted && f.shiftCode.errors">
+                <span *ngIf="submitted && f.shiftCode.errors && f.shiftCode.errors.required">Shift Code is
+                    Required</span>
+            </div>
+        </div>
+        <div class="p-col-6">
+            <label class="formlbl">Shift Name:<span class="required">*</span></label>
+            <input type="text" pInputText style="width: 100%;" formControlName="shiftName"
+                placeholder="Enter Shift Name" />
+            <div class="error" *ngIf="submitted && f.shiftName.errors">
+                <span *ngIf="submitted && f.shiftName.errors && f.shiftName.errors.required">Shift Name is
+                    Required</span>
+            </div>
+        </div>
+        <div class="p-col-2">
+            <input type="radio" value="Break Shift" formControlName="shiftType">
+            <span>Break Shift</span>
+        </div>
+        <div class="p-col-2">
+            <input type="radio" value="Straight Shift" formControlName="shiftType">
+            <span>Straight Shift</span>
+        </div>
+        <div class="p-col-2">
+            <input type="radio" value="Multi Shift" formControlName="shiftType">
+            <span>Multi Shift</span>
+        </div>
+        <div class="p-col-3">
+            <p-checkbox label="Is Next Day" [binary]="true" formControlName="isNextDay"></p-checkbox>
+        </div>
+        <div class="p-col-3">
+            <p-checkbox label="Is Previous Day" [binary]="true" formControlName="isPrevDay"></p-checkbox>
+        </div>
+        <div class="p-col-3">
+            <label class="formlbl">In Time:</label>
+            <input type="time" pInputText style="width: 100%;" formControlName="inTime" placeholder="Enter In Time" />
+        </div>
+        <div class="p-col-3">
+            <label class="formlbl">Out Time:</label>
+            <input type="time" pInputText style="width: 100%;" formControlName="outTime" placeholder="Enter Out Time" />
+        </div>
+        <div class="p-col-3">
+            <label class="formlbl">Break In Time:</label>
+            <input type="time" pInputText style="width: 100%;" formControlName="breakInTime"
+                placeholder="Enter Break In Time" />
+        </div>
+        <div class="p-col-3">
+            <label class="formlbl">Break Out Time:</label>
+            <input type="time" pInputText style="width: 100%;" formControlName="breakOutTime"
+                placeholder="Enter Break Out Time" />
+        </div>
+        <div class="p-col-6">
+            <label class="formlbl">Normal Working Hour:</label>
+            <input type="time" pInputText style="width: 100%;" formControlName="normWorkHr"
+                placeholder="Enter Normal Working Hour" />
+        </div>
+        <div class="p-col-6">
+            <label class="formlbl">Time Variation:</label>
+            <input type="time" pInputText style="width: 100%;" formControlName="timeVariation"
+                placeholder="Enter Time Variatio" />
+        </div>
+    </div>
+</div>
+<div class="card card-w-title">
+    <p-tabView>
+        <p-tabPanel [header]="'Shift Master' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionService.HrDailyShiftArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Shift Code</th>
+                                <th>Shift Name</th>
+                                <th>Shift Type Order</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Break In Time</th>
+                                <th>Break Out Time</th>
+                                <th>Add Detail</th>
+                                <th>View Details</th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.shiftCode}}</td>
+                                <td>{{item.shiftName}}</td>
+                                <td>{{item.shiftType}}</td>
+                                <td>{{item.inTime | date : 'HH:mm'}}</td>
+                                <td>{{item.outTime | date : 'HH:mm'}}</td>
+                                <td>{{item.breakInTime | date : 'HH:mm'}}</td>
+                                <td>{{item.breakOutTime | date : 'HH:mm'}}</td>
+                                <td><button pButton pRipple (click)="AddDetails(item.shiftId)" type="button"
+                                        icon="fa fa-plus" class="p-button-rounded"></button></td>
+                                <td><button pButton pRipple (click)="viewDetails(item.shiftId)" type="button"
+                                        icon="fa fa-eye" class="p-button-rounded"></button></td>
+                                <td>
+                                    <button pButton (click)="onPatchValue(item)" pRipple type="button"
+                                        icon="pi pi-check" class="p-button-rounded"></button>
+                                    <button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                                        class="p-button-rounded p-button-danger"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<p-dialog header="Select The Checkbox For Holiday" [(visible)]="addDetail" [style]="{width: '50vw'}"
+    [baseZIndex]="10000">
+    <div class="p-grid">
+        <div *ngFor="let item of this.transactionService.CompanyCalendarWeekendArray" class="p-col-2 p-md-2 p-lg-2">
+            <p-checkbox label="{{item.dayNames}}" [binary]="true" (onChange)="setDetailData(item)"></p-checkbox>
+        </div>
+
+    </div>
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <p-button [style]="{width:'100%'}" (click)="onSaveDetails()" class="p-button-text">Save</p-button>
+        </div>
+    </div>
+</p-dialog>
+
+
+<p-dialog header="Holiday Name" [(visible)]="viewDetail" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <p-table [styleClass]="'p-datatable-sm'" [value]="this.viewDetailArray" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Day Name</th>
+                <th>Delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr style="cursor:pointer">
+                <td>{{getDayName(item.dayId)}}</td>
+                <td> <button (click)="onDeleteDetail(item)" pButton pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-danger"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="viewDetail=false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>

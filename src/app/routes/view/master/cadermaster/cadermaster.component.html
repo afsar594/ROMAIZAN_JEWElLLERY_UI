@@ -1,0 +1,66 @@
+<app-page-header [title]='title'></app-page-header>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <!-- <button pButton type="button" label="New" icon="fa fa-plus" class="ui-button-info"></button> -->
+        <button pButton type="button" label="Edit" (click)="onUpdate()" icon="fa fa-pencil"
+            class="ui-button-success"></button>
+        <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="List" (click)="displayMaximizeable = true" icon="fa fa-list" class="ui-button-info"></button>
+        <!-- <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+        <button pButton type="button" class="ui-button-danger" label="Cancel" icon="fa fa-close"></button> -->
+
+    </div>
+</p-toolbar>
+<br><br>
+
+<div class="card card-w-title" [formGroup]='CadremasterForm'>
+    <!-- <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label>Code:</label>
+        </div>
+        <div class="p-col-4">
+            <input type="text" pInputText style="width: 100%;" formControlName="Code" placeholder="--Code--" />
+            <div class="error" *ngIf="f.Code.touched && f.Code.invalid">
+                <span> Code is Mandatory Field*</span>
+            </div>
+        </div>
+    </div> -->
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label>Cadre:</label>
+        </div>
+        <div class="p-col-7">
+            <input type="text" pInputText style="width: 100%;" formControlName="cadreName" placeholder="--Cadre--" />
+            <div class="error" *ngIf="submitted && f.cadreName.errors">
+                <span *ngIf="submitted && f.cadreName.errors && f.cadreName.errors.required">Cadre is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Cadre Master" [(visible)]="displayMaximizeable" [modal]="true" [style]="{width:'80%'}"
+    [draggable]="false">
+    <p-table [value]="masterApi.CadreMasterArray" [columns]="cols" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Cadre</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.cadreId}}</th>
+                <th>{{item.cadreName}}</th>
+                <td>
+                    <button pButton type="button" class="ui-button-info" icon="fa fa-pencil"
+                        (click)="selectForEdit(item)"></button>
+                    <button pButton type="button" class="ui-button-danger" icon="fa fa-trash"
+                        (click)="onDelete(item)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

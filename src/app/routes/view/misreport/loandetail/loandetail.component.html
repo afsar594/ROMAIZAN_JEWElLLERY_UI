@@ -1,0 +1,115 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="GenerateReport()" label="Generate Report" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button  pButton type="button" (click)="onPrint()" label="Print" icon="fa fa-print"
+            class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='reportForm'>
+    <p-tabView>
+        <p-tabPanel [header]="'Loan Detail'">
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label> Staff:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="fullName"
+                        [showClear]="true" dataKey="staffId" autoWidth="false" formControlName="staffID"
+                        [style]="{'width':'100%'}" [options]="masterApi.staffMasterArray"
+                        optionLabel="fullName"></p-dropdown>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div  id="print" #print class="card">
+
+    <body>
+        <div class="card card-w-title">
+            <div class="col-12">
+                <h1><b>Loan Detail Report </b> <br>
+                </h1>
+                <br><br><br>
+            </div>
+            <div *ngFor="let data of reportService.loanDetailArray">
+                <div class="p-grid">
+                    <div class="p-col-3"></div>
+                    <div class="p-col-3 border">
+                        <strong>Staff Name : </strong> <strong>{{getStaffName(data.staffid)}}</strong>
+                    </div>
+                    <div class="p-col-3 border">
+                        <strong>Issue Date : </strong> <strong>{{data.issueDate | date}}</strong>
+                    </div>
+                    <div class="p-col-3"></div>
+
+                    <div class="p-col-3"></div>
+                    <div class="p-col-3 border">
+                        <strong>Loan Name : </strong> <strong>{{data.name}}</strong>
+                    </div>
+                    <div class="p-col-3 border">
+                        <strong>Deduction From Date : </strong> <strong>{{data.dedFromDate | date}}</strong>
+                    </div>
+                    <div class="p-col-3"></div>
+
+                    <div class="p-col-3"></div>
+                    <div class="p-col-2 border">
+                        <strong>Loan Amount : </strong> <strong>{{data.loanAmount | number}}2</strong>
+                    </div>
+                    <div class="p-col-2 border">
+                        <strong>No Of Inst : </strong> <strong>{{data.noOfInst}}</strong>
+                    </div>
+                    <div class="p-col-2 border">
+                        <strong>Inst Amount : </strong> <strong>{{data.instAmount | number}}</strong>
+                    </div>
+                    <div class="p-col-3"></div>
+
+                    <div class="p-col-3"></div>
+                    <div class="p-col-3 border">
+                        <strong>Amount Paid : </strong> <strong>{{data.amtPaid | number}}2</strong>
+                    </div>
+                    <div class="p-col-3 border">
+                        <strong>Balance : </strong> <strong>{{data.balance | number}}</strong>
+                    </div>
+                    <div class="p-col-3"></div>
+                    <div class="p-grid mt-5"></div>
+                    <div class="p-col-3">
+
+                    </div>
+                    <div class="p-col-6 mt-5">
+                        <div class="p-grid">
+                            <div class="p-col-4 border">
+                                <strong>Deduction Type </strong>
+                            </div>
+                            <div class="p-col-4 border">
+                                <strong>Deduction Date </strong>
+                            </div>
+                            <div class="p-col-4 border">
+                                <strong>Deduction Amount </strong>
+                            </div>
+                        </div>
+                        <div class="p-grid" *ngFor="let item of data.loanDetailList">
+                            <div class="p-col-4">
+                                <strong>{{ item.dedType }} </strong>
+                            </div>
+                            <div class="p-col-4">
+                                <strong>{{ item.dedDate | date }} </strong>
+                            </div>
+                            <div class="p-col-4">
+                                <strong>{{ item.dedAmount | number }} </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-3">
+
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+        </div>
+    </body>
+</div>

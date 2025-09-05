@@ -1,0 +1,161 @@
+<app-page-header [title]='title'></app-page-header>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<br><br>
+
+<div class="card card-w-title" [formGroup]='vehiclemasterForm'>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Plate NO:<span class="required">*</span></label>
+        </div>
+        <div class="p-col-7">
+            <input type="text" pInputText style="width: 100%;" formControlName="vehicleNo" placeholder="--PlateNO--" />
+            <div class="error" *ngIf="submitted && f.vehicleNo.errors">
+                <span *ngIf="submitted && f.vehicleNo.errors && f.vehicleNo.errors.required">Plate NO is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Veh Type:<span class="required">*</span></label>
+        </div>
+        <div class="p-col-7">
+            <input type="text" pInputText style="width: 100%;" formControlName="vehicleTye" placeholder="--Vehtype--" />
+            <div class="error" *ngIf="submitted && f.vehicleTye.errors">
+                <span *ngIf="submitted && f.vehicleTye.errors && f.vehicleTye.errors.required">Veh Type is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Engine No:<span class="required">*</span></label>
+        </div>
+        <div class="p-col-7">
+            <input type="text" pInputText style="width: 100%;" formControlName="engineNo" placeholder="--EngineNo--" />
+            <div class="error" *ngIf="submitted && f.engineNo.errors">
+                <span *ngIf="submitted && f.engineNo.errors && f.engineNo.errors.required">Engine No is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Chasis No:<span class="required">*</span></label>
+        </div>
+        <div class="p-col-7">
+            <input type="text" pInputText style="width: 100%;" formControlName="chasisNo" placeholder="--ChasisNo--" />
+            <div class="error" *ngIf="submitted && f.chasisNo.errors">
+                <span *ngIf="submitted && f.chasisNo.errors && f.chasisNo.errors.required">Chasis No is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Assign To:</label>
+        </div>
+        <div class="p-col-7">
+            <p-dropdown [filter]="true" placeholder="Select a Assign To" filterValue="fullName" [showClear]="true"
+                dataKey="staffId" autoWidth="false" formControlName="staffId" [style]="{'width':'100%'}"
+                [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Location:</label>
+        </div>
+        <div class="p-col-7">
+            <p-dropdown [filter]="true" placeholder="Select a Location" filterValue="locationName" [showClear]="true"
+                dataKey="locationId" autoWidth="false" formControlName="locationId" [style]="{'width':'100%'}"
+                [options]="masterApiService.LocationMasterArray" optionLabel="locationName"></p-dropdown>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-1">
+            <label class="formlbl">Company:</label>
+        </div>
+        <div class="p-col-7">
+            <p-dropdown [filter]="true" placeholder="Select a Company" filterValue="companyName" [showClear]="true"
+                dataKey="companyId" autoWidth="false" formControlName="companyId" [style]="{'width':'100%'}"
+                [options]="masterApiService.CompanyMasterArray" optionLabel="companyName"></p-dropdown>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="p-col-12">
+            <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.AllHrVehicleMasterArray"
+                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Veh Type</th>
+                        <th>Veh No</th>
+                        <th>Engine No</th>
+                        <th>Chasis No</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr style="cursor:pointer">
+                        <td>{{item.id}}</td>
+                        <td>{{item.vehicleTye}}</td>
+                        <td>{{item.vehicleNo}}</td>
+                        <td>{{item.engineNo}}</td>
+                        <td>{{item.chasisNo}}</td>
+                        <td><button pButton (click)="onClickEdit(item)" pRipple type="button" icon="pi pi-check"
+                                class="p-button-rounded"></button></td>
+                        <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                                class="p-button-rounded p-button-danger"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-dialog header="Vehicle Master"  [modal]="true" [style]="{width:'90%'}" [draggable]="false">
+    <p-table [value]="masterApiService.AllHrVehicleMasterArray"  [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Vehicle Tye</th>
+                <th>Vehicle No</th>
+                <th>Engine No</th>
+                <th>Chasis No</th>
+                <th>Sold</th>
+                <th>Action</th>
+
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.id}}</th>
+                <th>{{item.vehicleTye}}</th>
+                <th>{{item.vehicleNo}}</th>
+                <th>{{item.engineNo}}</th>
+                <th>{{item.chasisNo}}</th>
+                <th>{{item.sold}}</th>
+                <td>
+                    <button pButton type="button" class="ui-button-info" icon="fa fa-pencil"
+                    (click)="onClickEdit(item)"></button>
+                    <button pButton type="button" class="ui-button-danger" icon="fa fa-trash"
+                    (click)="onDelete(item)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog> 
+<p-toast></p-toast>

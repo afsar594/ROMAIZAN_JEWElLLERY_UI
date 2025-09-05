@@ -1,0 +1,106 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Search" (click)="onClickSearch()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Print" (click)="onPrint()" icon="fa fa-print"
+            class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView>
+        <p-tabPanel [header]="'Salary Package Detail'">
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Staff:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="fullName"
+                        [showClear]="true" dataKey="staffId" autoWidth="false" [(ngModel)]="staffId"
+                        [style]="{'width':'100%'}" [options]="masterApi.staffMasterArray"
+                        optionLabel="fullName"></p-dropdown>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Departure From:</label>
+                    <p-calendar [showIcon]="true" [(ngModel)]="depFrom" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Departure To:</label>
+                    <p-calendar [showIcon]="true" [(ngModel)]="depTo" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div id="print" #print class="card">
+
+    <body>
+        <div class="abc">
+            <h3>Air Ticket Detail</h3>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12">
+                <table class="def">
+                    <tr>
+                        <th>Staff</th>
+                        <th>Ticket</th>
+                        <th>Departure From</th>
+                        <th>Departure To</th>
+                        <th>Departure Date</th>
+                        <th>Return From</th>
+                        <th>Return To</th>
+                        <th>Return Date</th>
+                        <th>Amount</th>
+                        <th>Details</th>
+                    </tr>
+                    <tr *ngFor="let item of reportService.AirTicketReport">
+                        <td>{{ item.staffName }}</td>
+                        <td>{{ item.ticket }}</td>
+                        <td>{{ getNationaityName(item.depFrom) }}</td>
+                        <td>{{ getNationaityName(item.depTo) }}</td>
+                        <td>{{ item.depDate | date }}</td>
+                        <td>{{ getNationaityName(item.retFrom) }}</td>
+                        <td>{{ getNationaityName(item.retTo) }}</td>
+                        <td>{{ item.retDate | date }}</td>
+                        <td>{{ item.amount |number}}</td>
+                        <td> <a (click)="onClickDetails(item)"
+                                style="cursor: pointer;text-decoration: underline;color: blue;">Details</a> </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</div>
+
+<p-dialog header="( {{airTicketObj?.staffName}} ) Air Ticket Details" [(visible)]="ticketDetailModal" [modal]="true"
+    [style]="{width:'60%'}" [draggable]="false">
+    <div class="grid">
+        <div class="p-col-12">
+            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]" [value]="airTicketDetails" styleClass="p-datatable-striped"
+                [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Family</th>
+                        <th>Type</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr style="cursor:pointer">
+                        <td>{{getFamilyName(item.familyId)}}</td>
+                        <td>{{item.type}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</p-dialog>

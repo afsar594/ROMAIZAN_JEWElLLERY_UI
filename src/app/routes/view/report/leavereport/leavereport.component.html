@@ -1,0 +1,65 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-info"></button>
+        <button pButton type="button" label="Stop" icon="fa fa-close" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Leave Report' | translate">
+           
+            <div class="p-grid">
+                <div class="p-col-5 p-md-5 p-lg-5">
+                    <div class="p-grid">
+                        <div class="p-col-5 p-md-5 p-lg-5"  style="color: rgb(55, 13, 95);">
+                            <p-checkbox label="Select All"></p-checkbox>
+                        </div>
+                        <p-table>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{'Staff Code' | translate}}</th>
+                                    <th>{{'Name'| translate}}</th>
+                                  
+                                </tr>  
+                            </ng-template>
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Khalid Hussain</td>
+                                       
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div class="p-col-5 p-md-5 p-lg-5">
+                    <div class="p-grid" style="padding-left: 10%;">
+                        <div class="p-col-5 p-md-5 p-lg-5"  style="color: rgb(55, 13, 95);">
+                            <p-checkbox label="Select All"></p-checkbox>
+                        </div>
+                        <p-table>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{'Leave Type' | translate}}</th>
+                                </tr> 
+                               
+                            </ng-template>
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <td>1</td>
+                                       
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+ 

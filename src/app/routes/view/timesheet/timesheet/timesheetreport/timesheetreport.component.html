@@ -1,0 +1,177 @@
+<form action="" [formGroup]='TSreportForm'>
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Staff<span class="required">*</span></label>
+            <div class="p-inputgroup">
+                <input readonly (keydown)="staffModal = true" type="text" pInputText [style]="{width:'100%'}"
+                    formControlName="Staff" placeholder="Staff" />
+                <button (click)="staffModal = true" pButton type="button" styleClass="p-button-warn"
+                    class="ui-button-danger " icon="fa fa-search"></button>
+            </div>
+            <div class="error" *ngIf="f.Staff.touched && f.Staff.invalid">
+                <span class="error">Staff is Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>From Date<span class="required">*</span>:</label>
+            <p-calendar [showIcon]="true" formControlName="FromDate" [style]="{width:'100%'}">
+            </p-calendar>
+            <div class="error" *ngIf="f.FromDate.touched && f.FromDate.invalid">
+                <span> From Date is Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>To Date<span class="required">*</span>:</label>
+            <p-calendar [showIcon]="true" formControlName="ToDate" [style]="{width:'100%'}">
+            </p-calendar>
+            <div class="error" *ngIf="f.ToDate.touched && f.ToDate.invalid">
+                <span> To Date is Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Designation<span class="required">*</span></label>
+            <div class="p-inputgroup">
+                <input readonly (keydown)="designationModal = true" type="text" pInputText [style]="{width:'100%'}"
+                    formControlName="Designation" placeholder="Designation" />
+                <button (click)="designationModal = true" pButton type="button" class="ui-button-danger "
+                    icon="fa fa-search"></button>
+            </div>
+            <div class="error" *ngIf="f.Designation.touched && f.Designation.invalid">
+                <span>Designation is Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Site<span class="required">*</span></label>
+            <div class="p-inputgroup">
+                <input readonly type="text" (keydown)="siteModal = true" pInputText [style]="{width:'100%'}"
+                    formControlName="Site" placeholder="Site" />
+                <button (click)="siteModal = true" pButton type="button" class="ui-button-danger "
+                    icon="fa fa-search"></button>
+            </div>
+
+            <div class="error" *ngIf="f.Site.touched && f.Site.invalid">
+                <span>Site is Required</span>
+            </div>
+        </div>
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <label>Report Type<span class="required">*</span></label><br>
+            <p-dropdown autoWidth="false" [style]="{'width':'100%'}" class="w-100" [options]="cities"
+                optionLabel=" name"></p-dropdown>
+            <div class="error" *ngIf="f.ReportType.touched && f.ReportType.invalid">
+                <span>Report Type is Required</span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card card-w-title">
+    <div class="grid">
+        <div class="p-col-12">
+            <div class="card">
+                <p-table [value]="tableData" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:25%">Code</th>
+                            <th style="width:25%">Name</th>
+                            <th style="width:25%">Designation</th>
+                            <th style="width:25%">Site</th>
+                            <th style="width:25%">TotalHour</th>
+                            <th style="width:25%">OT</th>
+                            <th style="width:25%">Remarks</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>{{ item.Code }}</td>
+                            <td>{{ item.Name }}</td>
+                            <td>{{ item.Designation }}</td>
+                            <td>{{ item.Site }}</td>
+                            <td>{{ item.TotalHour }}</td>
+                            <td>{{ item.OT }}</td>
+                            <td>{{ item.Remarks }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="Site" [(visible)]="siteModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <input (input)="onSearchSite($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+        style="margin-bottom: 10px;" placeholder="Type to search" />
+    <p-table [value]="this.masterApiService.siteMasterArray" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Site ID</th>
+                <th>Site Name</th>
+                <th>Short Name</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-site>
+            <tr (click)="setSiteName(site)" style="cursor:pointer">
+                <td>{{site.siteId}}</td>
+                <td>{{site.siteName}}</td>
+                <td>{{site.shortName}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="siteModal = false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Designation" [(visible)]="designationModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <input (input)="onSearchDesignation($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+        style="margin-bottom: 10px;" placeholder="Type to search" />
+    <p-table [value]="this.masterApiService.designatinMasterArray" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Designation</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-designation>
+            <tr (click)="setDesignationName(designation)" style="cursor:pointer">
+                <td>{{designation.designationId}}</td>
+                <td>{{designation.designation}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="designationModal = false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Staff" [(visible)]="staffModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <input (input)="onSearchStaff($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+        style="margin-bottom: 10px;" placeholder="Type to search" />
+    <p-table [value]="this.masterApiService.staffMasterArrayDuplicate" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Staff ID</th>
+                <th>Staff Code</th>
+                <th>Name</th>
+                <th>Designation</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-staff>
+            <tr (click)="setStaffName(staff.name)" style="cursor:pointer">
+                <td>{{staff.staffId}}</td>
+                <td>{{staff.staffCode}}</td>
+                <td>{{staff.fullName}}</td>
+                <td>{{staff.fullName}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="staffModal = false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>

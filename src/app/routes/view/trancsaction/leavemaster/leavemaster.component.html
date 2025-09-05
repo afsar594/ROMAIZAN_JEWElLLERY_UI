@@ -1,0 +1,177 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <!-- <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="!isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button> -->
+        <button pButton type="button" label="List" (click)="listModal = true" icon="fa fa-list"
+            class="ui-button-info"></button>
+        <button pButton type="button" label="Cancel" (click)="onCancel()" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Leave Entry' | translate">
+            <div [formGroup]="LeaveMasterForm" class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" (onChange)="onChangeStaff($event)" placeholder=" Select a Staff"
+                        filterValue="fullName" [showClear]="true" dataKey="staffId" autoWidth="false"
+                        formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Leave Type<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" (onChange)="onChangeStaff($event)" placeholder=" Select a Leave Type"
+                        filterValue="leaveType" [showClear]="true" dataKey="leaveTypeId" autoWidth="false"
+                        formControlName="leavetypeId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.HrLeaveTypeAray" optionLabel="leaveType">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.leavetypeId.errors">
+                        <span *ngIf="submitted && f.leavetypeId.errors && f.leavetypeId.errors.required">Leave Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Application Date</label>
+                    <p-calendar [showIcon]="true" formControlName="applicationDate" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">From Date</label>
+                    <p-calendar [showIcon]="true" formControlName="appLeaveFrom" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">To Date</label>
+                    <p-calendar [showIcon]="true" formControlName="appLeaveTo" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">No of Days<span class="required">*</span></label>
+                    <input type="number" readonly [value]="calculateDiff()" pInputText [style]="{width:'100%'}"
+                        formControlName="noofdays" placeholder="Enter No of Days" />
+                    <div class="error" *ngIf="submitted && f.noofdays.errors">
+                        <span *ngIf="submitted && f.noofdays.errors && f.noofdays.errors.required">No of Days is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Contact Details<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="contactDetails"
+                        placeholder="Enter Contact Details" />
+                    <div class="error" *ngIf="submitted && f.contactDetails.errors">
+                        <span *ngIf="submitted && f.contactDetails.errors && f.contactDetails.errors.required">Contact
+                            Details is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Reason<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="reason"
+                        placeholder="Enter Reason" />
+                    <div class="error" *ngIf="submitted && f.reason.errors">
+                        <span *ngIf="submitted && f.reason.errors && f.reason.errors.required">Reason is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <strong>Leave Rejoin Details</strong>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <hr>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Leave Start Date</label>
+                    <p-calendar [showIcon]="true" formControlName="leaveCanDate" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label class="formlbl">Leave End Date</label>
+                    <p-calendar [showIcon]="true" formControlName="leaveCanAppDate" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-checkbox label="Passport In" [binary]="true" formControlName="PassportIn"></p-checkbox>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-checkbox label="Passport Out" [binary]="true" formControlName="PassportOut"></p-checkbox>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<p-dialog header="Leave Entry" [(visible)]="listModal" [style]="{width:'90%'}" [draggable]="false">
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionService.HrLeaveMasterStaffAray"
+                styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Staff </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr [ngClass]="{'blue': staffId == item.staffId}"
+                        (click)="viewDetails(item.staffId , item.fullName)" style="cursor:pointer">
+                        <td>{{item.staffCode}} - {{item.fullName}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="p-col-8 p-md-8 p-lg-8">
+            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]" [value]="this.dataArray" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Type</th>
+                        <th>Leave From</th>
+                        <th>Leave To</th>
+                        <th>No.Of Days</th>
+                        <th>Leave Start</th>
+                        <th>Leave End</th>
+                        <th>Application Date</th>
+                        <th>Canceled Leave</th>
+                        <th>Delete</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr style="cursor:pointer">
+                        <td>{{getLeaveTypeName(item.leavetypeId)}}</td>
+                        <td>{{item.appLeaveFrom | date}}</td>
+                        <td>{{item.appLeaveTo | date}}</td>
+                        <td>{{item.noofdays }}</td>
+                        <td>{{item.leaveStart | date}}</td>
+                        <td>{{item.rejoiningDate | date}}</td>
+                        <td>{{item.applicationDate | date}}</td>
+                        <td>{{item.leaveCancel ? 'Yes' : 'No'}}</td>
+                        <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-trash"
+                                class="ui-button-danger"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</p-dialog>

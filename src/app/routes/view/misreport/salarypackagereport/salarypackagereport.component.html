@@ -1,0 +1,95 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Generate Report" icon="fa fa-floppy-o" class="ui-button-success"></button>
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='reportForm'>
+    <p-tabView>
+        <p-tabPanel [header]="'Salary Package Detail'">
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Staff:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="fullName"
+                        [showClear]="true" dataKey="staffId" autoWidth="false" formControlName="staffId"
+                        [style]="{'width':'100%'}" [options]="masterApi.staffMasterArray"
+                        optionLabel="fullName"></p-dropdown>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Department:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="department"
+                        [showClear]="true" dataKey="departmentId" autoWidth="false" formControlName="departmentId"
+                        [style]="{'width':'100%'}" [options]="masterApi.DepartmentArray"
+                        optionLabel="department"></p-dropdown>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Cadre:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="cadreName"
+                        [showClear]="true" dataKey="cadreId" autoWidth="false" formControlName="cadreId"
+                        [style]="{'width':'100%'}" [options]="masterApi.CadreMasterArray"
+                        optionLabel="cadreName"></p-dropdown>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Package:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="fullName"
+                        [showClear]="true" dataKey="staffId" autoWidth="false" formControlName="packageId"
+                        [style]="{'width':'100%'}" [options]="masterApi.staffMasterArray"
+                        optionLabel="fullName"></p-dropdown>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Company:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="companyName"
+                        [showClear]="true" dataKey="companyId" autoWidth="false" formControlName="companyId"
+                        [style]="{'width':'100%'}" [options]="masterApi.CompanyMasterArray"
+                        optionLabel="companyName"></p-dropdown>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Active Status:</label>
+                    <p-dropdown [filter]="true" ngDefaultControl placeholder="All" filterValue="activeStatus"
+                        [showClear]="true" dataKey="activeStatusId" autoWidth="false" formControlName="activeStatusId"
+                        [style]="{'width':'100%'}" [options]="masterApi.ActiveStatusrArray"
+                        optionLabel="activeStatus"></p-dropdown>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div id="print" #print class="card">
+
+    <body>
+        <div class="abc">
+            <h3>Salary Package Detail</h3>
+        </div>
+        <div class="p-col-9 def"></div>
+        <div class="p-col-3 def"> <strong> Total : {{getTotalPackage()}}</strong></div>
+        <div class="p-grid" *ngFor="let data of reportService.salaryPackageReport">
+            <div class="p-col-12 def">
+                <strong> Department : {{data.departmentName}}</strong>
+            </div>
+            <div class="p-col-12">
+                <table class="def">
+                    <tr>
+                        <th>Designation</th>
+                        <th>Staff Code</th>
+                        <th>Staff Name</th>
+                        <th>Basic</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr *ngFor="let item of data.dataList">
+                        <td>{{ item.designationName }}</td>
+                        <td>{{ item.staffCode }}</td>
+                        <td>{{ item.fullName }}</td>
+                        <td>{{ item.package | number}}</td>
+                        <td>{{ getTotal(item) | number}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</div>

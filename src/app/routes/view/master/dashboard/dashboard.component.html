@@ -1,0 +1,456 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<div class="p-col-12 p-md-12 p-lg-12">
+    <div class="p-grid">
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body"> 
+                <span class="pi pi-plus" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL ORDERS</span><br>
+             </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body1">
+                <span class="pi pi-chart-bar" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL EXPANSE</span><br>    
+            </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body2"> 
+                <span class="pi pi-user" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL USER</span><br> 
+            </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body3"> 
+                <span class="pi pi-home" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL CUSTOMER</span><br> 
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="p-col-12 p-md-12 p-lg-12">
+    <div class="p-grid">
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body4"> 
+                <span class="pi pi-user" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL STORE</span><br>
+            </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body5"> 
+                <span class="pi pi-search" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL REVENUE</span><br>
+            </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body6"> 
+                <span class="pi pi-home" style="font-size: 2.5rem"></span><br>
+                <span class="overview-box-count">924</span><br>
+                <span class="overview-box-name">TOTAL EARNING</span><br>
+            </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="card-body7"> 
+            <span class="pi pi-file" style="font-size: 2.5rem"></span><br>
+            <span class="overview-box-count">924</span><br>
+            <span class="overview-box-name">TOTAL PROFIT</span><br>
+        </div>
+
+    </div>
+</div>
+<div class=" p-grid">
+    <div class="p-col-4 p-md-4 p-lg-4">
+        <p-panel>
+            <p-header style="color: rgb(141, 11, 11); font-weight: bold; font-size:18px;">
+                Leave Details
+            </p-header>
+
+            <div style="height: 60vh !important;display: flex; justify-content: center; align-items: center;">
+                <canvas id="oilChart"></canvas>
+            </div>
+        </p-panel>
+    </div>
+    <div class="p-col-4 p-md-4 p-lg-4">
+        <p-panel>
+            <p-header style="color: rgb(141, 11, 11); font-weight: bold; font-size:18px;">
+                Leave Details
+            </p-header>
+            <div style="height: 60vh !important;display: flex; justify-content: center; align-items: center;">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </p-panel>
+    </div>
+    <div class="p-col-4 p-md-4 p-lg-4">
+        <p-panel>
+            <p-header style="color: rgb(141, 11, 11); font-weight: bold; font-size:18px;">
+                Leave Details
+            </p-header>
+            <div style="height: 60vh !important;display: flex; justify-content: center; align-items: center;">
+                <canvas id="barChart"></canvas>
+            </div>
+        </p-panel>
+    </div>
+
+</div>
+
+<div class="card card-w-title">
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Staff Srch:</label>
+                </div>
+                <div class="p-col-10 p-md-10 p-lg-10">
+                    <input pInputText style="width:100%;" type="number" placeholder="Enter Staff Search " />
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Active Stat</label>
+                </div>
+                <div class="p-col-10  p-md-10  p-lg-10 ">
+                    <p-dropdown [filter]="true" placeholder=" Active" [style]="{'width':'100%'}" optionLabel="fullName">
+
+                    </p-dropdown>
+
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Company</label>
+                </div>
+                <div class="p-col-10  p-md-10  p-lg-10 ">
+                    <p-dropdown [filter]="true" placeholder="All" [style]="{'width':'100%'}" optionLabel="fullName">
+
+                    </p-dropdown>
+
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-table>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Name</th>
+                                <th>Staff Code</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body">
+                            <tr>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-8 p-md-8 p-lg-8">
+            <p-panel>
+                <div class="p-grid">
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>First Name:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:40%;" type="number" placeholder="Enter First Name" />
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Passport No:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Passport No" />
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Middle Name:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Middle Name " />
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Designation:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Designation " />
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Last Name:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Last Name " />
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Date Of Join:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Date Of Join" />
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Nationality:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Nationality" />
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Status:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Status" />
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Mobile:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Mobile" />
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Email:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Email" />
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Company:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Company" />
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label>Department:</label>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <input pInputText style="width:100%;" type="number" placeholder="Enter Department" />
+                    </div>
+                </div>
+            </p-panel>
+            <div class="p-grid">
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                    <div class="ui-g card overview-box overview-box-1">
+                        <div class="ui-g-4 overview-box-icon">
+                            <img src="assets/layout/images/team_682467.png">
+
+                        </div>
+
+                    </div>
+                    <p class="ui-g-4 head">
+                        Staff
+                    </p>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                    <div class="ui-g card overview-box overview-box-1">
+                        <div class="ui-g-4 overview-box-icon">
+                            <img style="width: 100px;" src="assets/layout/images/salary_781764.png">
+                        </div>
+
+                    </div>
+                    <p class="ui-g-4 head">
+                        Salary
+                    </p>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                    <div class="ui-g card overview-box overview-box-1">
+                        <div class="ui-g-4 overview-box-icon">
+                            <img style="width: 100px;" src="assets/layout/images/family_5230799.png">
+                        </div>
+
+                    </div>
+                    <p class="ui-g-4 head">
+                        Family
+                    </p>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                    <div class="ui-g card overview-box overview-box-1">
+                        <div class="ui-g-4 overview-box-icon">
+                            <img style="width: 100px;" src="assets/layout/images/emergency-exit_4009127.png">
+                        </div>
+
+                    </div>
+                    <p class="ui-g-4 head">
+                        Leave
+                    </p>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                    <div class="ui-g card overview-box overview-box-1">
+                        <div class="ui-g-4 overview-box-icon">
+                            <img style="width: 100px;" src="assets/layout/images/seo_1055645.png">
+                        </div>
+
+                    </div>
+                    <p class="ui-g-4  head">
+
+                        Search
+                    </p>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-2">
+                    <div class="ui-g card overview-box overview-box-1">
+                        <div class="ui-g-4 overview-box-icon">
+                            <img style="width: 100px;" src="assets/layout/images/log-out_1329958.png">
+                        </div>
+
+                    </div>
+                    <p class="ui-g-4 head">
+                        Exit
+                    </p>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="col-11">
+                    <div class="p-grid">
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/folder_2014997.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Documents
+                            </p>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/money_631149.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Loan
+                            </p>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/exchange_1966075.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Other Exp
+                            </p>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/analysis_1376523.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Training
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/pinned_4632250.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Memo
+                            </p>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/recruitment_8302152.png">
+                                </div>
+                            </div>
+                            <p class="ui-g-4 head">
+                                Allotted
+                            </p>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/winner_8935816.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Rewards
+                            </p>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="ui-g card overview-box overview-box-1">
+                                <div class="ui-g-4 overview-box-icon">
+                                    <img style="width: 100px;" src="assets/layout/images/placeholder_819814.png">
+                                </div>
+
+                            </div>
+                            <p class="ui-g-4 head">
+                                Address
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="p-grid">
+                        <div class="p-col-7  p-offset-5">
+                            <button pButton class="ui-button-danger"
+                                style="height:2rem; width: 15rem; padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">Add
+                                Photo</button>
+
+                        </div>
+
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-7  p-offset-5">
+                            <!-- Attach</button>  <button pButton type="file" label="Close"   class="ui-button-danger"></button>-->
+                            <!-- <input class="" style="background-color: #1e0a91b7; padding-left: 20%;  width:100%; color: beige;"
+                                type="file" accept="image/*" multiple /> -->
+                            <button pButton class="ui-button-success"
+                                style="height:2rem; width: 15rem; padding-top: 5px; padding-bottom: 5px;">Save to
+                                Disk</button>
+
+                        </div>
+
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-5"> </div>
+                        <div class="p-col-7 p-offset-5" style="border:1px solid grey; height:12rem; width:15rem"></div>
+                        <br>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-5"> </div>
+                        <div class="p-col-7 p-offset-5"
+                            style="border:1px solid rgb(226, 93, 93); background-color: rgb(226, 93, 93); height:1.7rem; font-size: 16px; width:15rem; color: white; padding-top: 5px; padding-bottom: 5px; margin-bottom: 5px;">
+                            Total Staff
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-5"> </div>
+                        <div class="p-col-7 p-offset-5"
+                            style="border:1px solid rgb(39, 172, 99); background-color: rgb(39, 172, 99); height:2rem; font-size: 16px; width:15rem; color: white; padding-top: 5px; padding-bottom: 5px;">
+                            Active Staff
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+        </div>
+    </div>
+</div>

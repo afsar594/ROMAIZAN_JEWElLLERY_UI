@@ -1,0 +1,161 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="View" icon="fa fa-print" class="ui-button-info"></button>
+        <button pButton type="button" label="Excel" icon="fa fa-excel-file-o" class="ui-button-success"></button>
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-info"></button>
+        <button pButton type="button" label="Stop" icon="fa fa-close" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Leave Report' | translate">
+           
+            <div class="p-grid">
+                <div class="p-col-9 p-md-9 p-lg-9">
+                    <div class="p-grid">
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Nationality:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Company:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Designation:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Reigion:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Department:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Visa Co.:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Job Site:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Visa Desig:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Trans Type:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Location:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Bank:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-1 p-md-1 p-lg-1">
+                            <label> Accomm:</label>
+                        </div>
+                        <div class="p-col-5 p-md-5 p-lg-5">
+                            <p-dropdown [filter]="true" placeholder="All" filterValue="name" [showClear]="true"
+                                dataKey="name" autoWidth="false" [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    
+                        <p-table>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{'Staff Code' | translate}}</th>
+                                    <th>{{'Name'| translate}}</th>
+                                  
+                                </tr>  
+                            </ng-template>
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <td> <p-checkbox label="Select All"></p-checkbox></td>
+                                    <td> <p-checkbox label="Select All"></p-checkbox></td>
+                                       
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                </div>
+            </div>
+            <p-panel>
+            <div class="card">
+                <div class="p-grid">
+                    <div class="p-col-12">
+                        <hot-table [hotId]="hotid" [licenseKey]="licensekey" [settings]="leavereport">
+                        </hot-table>
+                    </div>
+                </div>
+            </div>
+            </p-panel>
+        </p-tabPanel>
+    </p-tabView>
+</div>

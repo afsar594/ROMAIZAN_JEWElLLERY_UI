@@ -1,0 +1,135 @@
+<div class='matero-page-header'>
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='RPForm'>
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Incr/Reward Property'| translate">
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Type</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-dropdown [filter]="true" placeholder="Select a Type" filterValue="name" [showClear]="true"
+                        dataKey="name" autoWidth="false" formControlName="rwdtype" [style]="{'width':'100%'}"
+                        [options]="typeArray" optionLabel="name">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.rwdtype.errors">
+                        <span *ngIf="submitted && f.rwdtype.errors && f.rwdtype.errors.required">Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label> Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="Date" [style]="{'width':'100%'}">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Staff</label>
+                </div>
+                <div class="p-col-7 p-md-7 p-lg-7">
+                    <p-dropdown [filter]="true" placeholder="Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffCode" autoWidth="false" formControlName="staffCode" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffCode.errors">
+                        <span *ngIf="submitted && f.staffCode.errors && f.staffCode.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Nature</label>
+                </div>
+                <div class="p-col-7 p-md-7 p-lg-7">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="nature"
+                        placeholder="--Nature--" />
+                    <div class="error" *ngIf="submitted && f.nature.errors">
+                        <span *ngIf="submitted && f.nature.errors && f.nature.errors.required">Nature is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Achievement</label>
+                </div>
+                <div class="p-col-7 p-md-7 p-lg-7">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="achievement"
+                        placeholder="--Achievement--" />
+                    <div class="error" *ngIf="submitted && f.achievement.errors">
+                        <span *ngIf="submitted && f.achievement.errors && f.achievement.errors.required">Achievement is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Remarks</label>
+                </div>
+                <div class="p-col-9 p-md-7 p-lg-7">
+                    <textarea pInputTextarea [style]="{width:'100%'}" formControlName="remarks"></textarea>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Incr/Reward Property' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.RewardArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ID</th>
+                                <th>Staff Code</th>
+                                <th>Reward Type</th>
+                                <th>Date</th>
+                                <th>Nature</th>
+                                <th>Achievement</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.id}}</td>
+                                <td>{{item.staffCode}}</td>
+                                <td>{{item.rwdtype}}</td>
+                                <td>{{item.date | date}}</td>
+                                <td>{{item.nature}}</td>
+                                <td>{{item.achievement}}</td>
+                                <td><button pButton (click)="onClickEdit(item)" pRipple type="button" icon="pi pi-check"
+                                        class="p-button-rounded"></button></td>
+                                <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                                        class="p-button-rounded p-button-danger"></button></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

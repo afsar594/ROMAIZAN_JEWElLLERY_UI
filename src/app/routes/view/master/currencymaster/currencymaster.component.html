@@ -1,0 +1,79 @@
+<app-page-header [nav]='breadcumbmodel' [title]='title'></app-page-header>
+<div class="card card-w-title" [formGroup]='currencyFormGroup'>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-1">Currency Name</div>
+        <div class="p-col-12 p-md-12 p-lg-2">
+            <input pInputText placeholder="Currency Name" formControlName='currencyName'>
+
+            <div class="error" *ngIf="f.currencyName.errors 
+            && (f.currencyName.dirty || f.currencyName.touched)">
+                <span *ngIf="f.currencyName.errors.required">
+                    Currency Name is Mandatory Field*</span>
+            </div>
+
+        </div>
+
+        <div class="p-col-12 p-md-12 p-lg-1">Rate</div>
+        <div class="p-col-12 p-md-12 p-lg-2">
+            <input pInputText type="number" placeholder="Rate" formControlName='currencyRate'>
+            <div class="error" *ngIf="f.currencyRate.errors 
+            && (f.currencyRate.dirty || f.currencyRate.touched)">
+                <span *ngIf="f.currencyRate.errors.required">Rate is Mandatory Field*</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-1">Symbol</div>
+        <div class="p-col-12 p-md-12 p-lg-2">
+            <input pInputText placeholder="Symbol" formControlName='currencySymbol'>
+            <div class="error" *ngIf="f.currencySymbol.errors 
+            && (f.currencySymbol.dirty || f.currencySymbol.touched)">
+                <span *ngIf="f.currencySymbol.errors.required">Symbol is Mandatory
+                    Field*</span>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12 p-lg-offset-1 p-lg-6">
+            <button pButton class="ui-button-info" [label]='btnlabel' (click)='saveCurrency()'></button>
+            <button pButton class="ui-button-warning" label='Clear' (click)='reset()'></button>
+        </div>
+    </div>
+
+    <div class="p-grid">
+        <div class="p-col-12">
+            <p-table [value]="currencyList">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Rate</th>
+                        <th>Symbol</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-currency>
+                    <tr>
+                        <td>{{currency.currencyId}}</td>
+                        <td>{{currency.currencyName}}</td>
+                        <td>{{currency.currencyRate}}</td>
+                        <td>{{currency.currencySymbol}}</td>
+                        <td>
+                            <button pButton type="button" icon="pi pi-pencil" (click)='updateValues(currency)'
+                                iconPos="left"></button>
+                            <button pButton type="button" icon="pi pi-trash" (click)='removeCurrency(currency)'
+                                iconPos="left"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+
+
+        </div>
+    </div>
+</div>

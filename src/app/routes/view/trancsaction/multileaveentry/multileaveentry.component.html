@@ -1,0 +1,118 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+            class="ui-button-primary"></button>
+        <button pButton type="button" (click)="multiLeaveData=true" label="list" icon="fa fa-list"
+            class="ui-button-info"></button>
+        <button pButton type="button" (click)="onDelete()" label="Delete" icon="fa fa-trash"
+            class="ui-button-danger"></button>
+        <button pButton type="button" (click)="onCancel()" label="Cancel" icon="fa fa-close"
+            class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='MLForm'>
+    <div class="p-grid">
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label> ID:</label>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <input readonly type="text" pInputText [style]="{width:'100%'}" formControlName="lvMulId"
+                placeholder="--ID--" />
+        </div>
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label> Date:</label>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <p-calendar [showIcon]="true" formControlName="entryDate" [style]="{width:'100%'}">
+            </p-calendar>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-1 p-md-1 p-lg-1">
+            <label>Remarks</label>
+        </div>
+        <div class="p-col-s p-md-7 p-lg-7">
+            <textarea pInputTextarea [style]="{width:'100%'}" formControlName="remarks"></textarea>
+        </div>
+    </div>
+</div>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Multi Leave Entry' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.multiLeaveDetailArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff </th>
+                                <th>Leave</th>
+                                <th>Date From</th>
+                                <th>Date To</th>
+                                <th>No.Of Days</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr style="cursor:pointer">
+                                <td> <p-dropdown [filter]="true" placeholder="Select a Staff" filterValue="fullName"
+                                        [showClear]="true" dataKey="staffId" autoWidth="false"
+                                        [(ngModel)]="item.StaffId" [style]="{'width':'100%'}"
+                                        [options]="this.masterApiService.staffMasterArray" optionLabel="fullName">
+                                    </p-dropdown></td>
+                                <td> <p-dropdown [filter]="true" placeholder=" Select a Leave" filterValue="leaveType"
+                                        [showClear]="true" dataKey="leaveTypeId" autoWidth="false"
+                                        [(ngModel)]="item.LeaveId" [style]="{'width':'100%'}"
+                                        [options]="masterApiService.HrLeaveTypeAray" optionLabel="leaveType">
+                                    </p-dropdown></td>
+                                <td> <p-calendar (onSelect)="changeDate(rowIndex)" [(ngModel)]="item.DateFrom"
+                                        [showIcon]="true" [style]="{width:'100%'}">
+                                    </p-calendar></td>
+                                <td> <p-calendar (onSelect)="changeDate(rowIndex)" [(ngModel)]="item.DateTo"
+                                        [showIcon]="true" [style]="{width:'100%'}">
+                                    </p-calendar></td>
+                                <td><input [(ngModel)]="item.NoOfDays" readonly type="number" pInputText
+                                        [style]="{width:'100%'}" placeholder="No Of Days" />
+                                </td>
+                                <td> <input (keyup.enter)="pushEmptyDataInDetails(false)" type="text" pInputText
+                                        [style]="{width:'100%'}" [(ngModel)]="item.remarks" placeholder="Remarks" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<p-dialog header="Leave Entry Details" [(visible)]="multiLeaveData" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <p-table [styleClass]="'p-datatable-sm'" [value]="this.masterApiService.MultiLeaveDetailsStaffList"
+        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Entry Date</th>
+                <th>Remarks</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-staff>
+            <tr (click)="viewDetails(staff)" style="cursor:pointer">
+                <td>{{staff.lvMulId}}</td>
+                <td>{{staff.entryDate | date}}</td>
+                <td>{{staff.remarks}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="multiLeaveData=false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>

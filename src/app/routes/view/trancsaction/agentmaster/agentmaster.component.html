@@ -1,0 +1,89 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]="AgentForm">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Agent Master' | translate">
+            <div class="p-grid">
+                <div class="p-col-7 p-md-7 p-lg-7">
+                    <label class="formlbl">Agent Name<span class="required">*</span></label>
+                    <input pInputText style="width:100%;" formControlName="agentName" placeholder="Enter Agent Name" />
+                    <div class="error" *ngIf="submitted && f.agentName.errors">
+                        <span *ngIf="submitted && f.agentName.errors && f.agentName.errors.required">Agent Name is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Agents' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.AgentArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ID</th>
+                                <th>Agent Name</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.agentId}}</td>
+                                <td>{{item.agentName}}</td>
+                                <td><button pButton (click)="onClickEdit(item)" pRipple type="button" icon="pi pi-check"
+                                        class="p-button-rounded"></button></td>
+                                <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                                        class="p-button-rounded p-button-danger"></button></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<p-dialog header="Agent Master"  [modal]=" true" [style]="{width:'60%'}" [draggable]="false">
+    <p-table [value]="masterApiService.AgentArray" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Agent Id</th>
+                <th>Agent Name</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.agentId}}</th>
+                <th>{{item.agentName}}</th>
+                <td style="text-align: center;">
+                    <button pButton type="button" class="ui-button-info" icon="fa fa-pencil"
+                        (click)="onClickEdit(item)"></button>
+                    <button pButton type="button" class="ui-button-danger" icon="fa fa-trash"
+                        (click)="onDelete(item)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+<p-toast></p-toast>

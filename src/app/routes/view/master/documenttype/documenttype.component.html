@@ -1,0 +1,49 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="New" class=" ui-button-info" icon="fa fa-plus"></button>
+        <button pButton type="button" label="Edit" class=" ui-button-primary" icon="fa fa-pencil"></button>
+        <button pButton type="button" label="Cancel" class=" ui-button-warning" icon="fa fa-ban"></button>
+        <button pButton type="button" label="Save" class=" ui-button-success" icon="fa fa-floppy-o"></button>
+        <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"></button>
+        <button pButton type="button" label="Exit" icon="fa fa-sign-out" class="ui-button-warning"></button>
+        <button pButton type="button" label="Delete" class=" ui-button-danger" icon="fa fa-close"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Document Type' | translate">
+            <div class="p-grid" style="padding-left: 10%;">
+                <div class="p-col-2">
+                    <label>Document Type Code:</label>
+                </div>
+                <div class="p-col-4">
+                    <input type="text" pInputText style="width: 100%;" placeholder="-- Code--" />
+                </div>
+                <div class="p-col-3">
+                    <p-checkbox label="Application Document"></p-checkbox>
+
+                </div>
+            </div>
+            <div class="p-grid" style="padding-left: 10%;">
+                <div class="p-col-2">
+                    <label> Document Type:</label>
+                </div>
+                <div class="p-col-7">
+                    <input type="text" pInputText style="width: 100%;" placeholder="--Type--" />
+                </div>
+            </div>
+            <div class="p-grid" style="padding-left: 10%;">
+                <div class="p-col-2">
+                </div>
+                <div class="p-col-2">
+                <p-checkbox label="Default Document"></p-checkbox>
+            </div>
+           </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

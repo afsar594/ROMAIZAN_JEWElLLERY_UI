@@ -1,0 +1,54 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <!-- <button pButton type="button" (click)="GenerateReport()" label="Generate Report" icon="fa fa-floppy-o"
+            class="ui-button-success"></button> -->
+        <button pButton type="button" (click)="onPrint()" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView>
+        <p-tabPanel [header]="'Birthday Alert'">
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <label> Month:</label>
+                    <p-dropdown [filter]="true" (onChange)="getReport()" ngDefaultControl placeholder="Select Month"
+                        filterValue="name" [showClear]="true" dataKey="name" autoWidth="false"
+                        [(ngModel)]="selectedMonth" [style]="{'width':'100%'}" [options]="monthArray"
+                        optionLabel="name"></p-dropdown>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div id="print" #print class="card">
+    <body>
+        <div class="card card-w-title">
+            <div class="col-12">
+                <h1><b>Birthday Alert Report </b> <br>
+                </h1>
+                <br><br><br>
+            </div>
+            <table class="abc">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Birthday On</th>
+                </tr>
+                <tr *ngFor="let item of reportService.StaffsBirthdayReport">
+                    <td>{{ item.staffCode }}</td>
+                    <td>{{ item.fullName }}</td>
+                    <td>{{ item.dob | date }}</td>
+                    <td>{{ item.day }} {{ item.dobmonthName }}</td>
+                </tr>
+            </table>
+
+            <br><br>
+        </div>
+    </body>
+</div>

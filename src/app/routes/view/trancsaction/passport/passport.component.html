@@ -1,0 +1,162 @@
+<div class='matero-page-header'>
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" (click)="onCancel()" class="ui-button-danger" label="Cancel"
+            icon="fa fa-close"></button>
+
+    </div>
+</p-toolbar>
+<br><br>
+
+<div class="card card-w-title">
+    <form [formGroup]='passportForm' action="">
+        <p-panel>
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label>Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffID" [style]="{'width':'100%'}"
+                        [options]="masterApi.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffID.errors">
+                        <span *ngIf="submitted && f.staffID.errors && f.staffID.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label>Document Type<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Document Type" filterValue="documentType"
+                        [showClear]="true" dataKey="documentTypeId" autoWidth="false" formControlName="documentTypeID"
+                        [style]="{'width':'100%'}" [options]="masterApi.HrDocumentTypesArray"
+                        optionLabel="documentType">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.documentTypeID.errors">
+                        <span *ngIf="submitted && f.documentTypeID.errors && f.documentTypeID.errors.required">Document
+                            Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label>Status<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Status" filterValue="name" [showClear]="true"
+                        dataKey="name" autoWidth="false" formControlName="status" [style]="{'width':'100%'}"
+                        [options]="statusArray" optionLabel="name">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.status.errors">
+                        <span *ngIf="submitted && f.status.errors && f.status.errors.required">Status is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> Date</label>
+                    <p-calendar [showIcon]="true" formControlName="date" [inputStyle]="{'width':'85%'}"
+                        [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Document Resubmission Days</label>
+                    <input readonly type="number" pInputText [style]="{width:'100%'}" formControlName="resubmissionDays"
+                        placeholder="Enter Document Resubmission Days" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Labour Card No</label>
+                    <input readonly type="text" pInputText [style]="{width:'100%'}" formControlName="labourCardNo"
+                        placeholder="Enter Labour Card No" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label> LC Date</label>
+                    <p-calendar [showIcon]="true" formControlName="lCDate" [inputStyle]="{'width':'85%'}"
+                        [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-8 p-md-8 p-lg-8">
+
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Purpose</label>
+                    <input readonly type="text" pInputText [style]="{width:'100%'}" formControlName="purpose"
+                        placeholder="Enter Purpose" />
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Remarks</label>
+                    <input readonly type="text" pInputText [style]="{width:'100%'}" formControlName="remarks"
+                        placeholder="Enter Remarks" />
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>
+
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Passport Staff List' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionService.PassportStaffArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff ID</th>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>View Details</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.staffId}}</td>
+                                <td>{{item.staffCode}}</td>
+                                <td>{{item.fullName}}</td>
+                                <td><button (click)="viewDetails(item.staffId , item.fullName)" pButton pRipple
+                                        type="button" icon="fa fa-eye" class="p-button-rounded"></button></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+
+<p-dialog header="{{staffName}} Passport Details" [(visible)]="listModal" [style]="{width:'60%'}" [draggable]="false">
+    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.detailArray" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Document Type</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Resubmission Days</th>
+                <th>Labour Cart No</th>
+                <th>LC Date</th>
+                <th>Delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr style="cursor:pointer">
+                <td>{{item.id}}</td>
+                <td>{{getDocumentTypeName(item.documentTypeID)}}</td>
+                <td>{{item.status}}</td>
+                <td>{{item.date | date}}</td>
+                <td>{{item.resubmissionDays}}</td>
+                <td>{{item.labourCardNo}}</td>
+                <td>{{item.lCDate | date}}</td>
+                <td><button pButton type="button" class="ui-button-danger" icon="fa fa-trash"
+                        (click)="onDelete(item)"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

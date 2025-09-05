@@ -1,0 +1,69 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="New" icon="fa fa-plus" class="ui-button-info"
+            (click)="newEntry()"></button>
+        <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"
+            (click)="getAllVisaCompanyList()"></button>
+        <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"
+            (click)="insertVisaCompany()"></button>
+        <button pButton type="button" label="Update" icon="fa fa-ban" class="ui-button-success"
+            (click)="updateVisaCompany()"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='VisaCompanyForm'>
+    <div class="p-grid">
+        <div class="p-col-1">
+            <label> VisaCompany Code : </label>
+        </div>
+        <div class="p-col-6">
+            <input type="text" pInputText [style]="{width:'100%'}" formControlName="VisaCompanyCode"
+                placeholder="Enter VisaCompany Code" />
+            <div class="error" *ngIf="f.VisaCompanyCode.touched && f.VisaCompanyCode.invalid">
+                <span>VisaCompany Code is Mandatory Field*</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-1">
+            <label> VisaCompany Type : </label>
+        </div>
+        <div class="p-col-6">
+            <input type="text" pInputText [style]="{width:'100%'}" formControlName="VisaCompanyType"
+                placeholder="Enter VisaCompany Type" />
+            <div class="error" *ngIf="f.VisaCompanyType.touched && f.VisaCompanyType.invalid">
+                <span>VisaCompany Code is Mandatory Field*</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="VisaCompany Master" [(visible)]="displayMaximizeable" [modal]="true" [style]="{width:'75%'}"
+    [draggable]="false">
+    <!-- <p-table [value]="VisaCompanyMasterArray" [columns]="cols" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">{{col.header}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.visaCompanyCode}}</th>
+                <th>{{item.addressType}}</th>
+                <th>
+                    <button pButton type="button" label="Edit" icon="fa fa-pencil" class="ui-button-info"
+                        (click)="selectAddressTypeForEdit(item)"></button>
+                    <button pButton type="button" label="Delete" icon="fa fa-trash" class="ui-button-danger"
+                        (click)="deleteVisaCompany(item)"></button>
+                </th>
+            </tr>
+        </ng-template>
+    </p-table> -->
+</p-dialog>
+
+<p-toast></p-toast>

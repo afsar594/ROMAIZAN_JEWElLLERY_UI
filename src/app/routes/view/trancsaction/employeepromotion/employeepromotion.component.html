@@ -1,0 +1,78 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="save" icon="fa fa-floppy-o" class="ui-button-success"></button>
+        <button pButton type="button" label="Delete" icon="fa fa-ban" class="ui-button-danger"></button>
+        <button pButton type="button" label="Stop" icon="fa fa-close" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='EPForm'>
+    <p-tabView  [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Employee Promotion/Designation Change Entry'|translate">
+            <p-panel>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>ID</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="ID"
+                        placeholder="--ID--" />
+                    <div class="error" *ngIf="f.ID.touched && f.ID.invalid">
+                        <span>ID is Mandatory Field*</span>
+                    </div>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Date:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-calendar [showIcon]="true" formControlName="Date" [style]="{'width':'96%'}" [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                    <div class="error" *ngIf="f.Date.touched && f.Date.invalid">
+                        <span>Date is Mandatory Field*</span>
+                    </div>
+                </div>
+            </div>
+             <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Current Designation</label>
+                </div>
+                <div class="p-col-8 p-md-8 p-lg-8">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="CurrentDesignation"
+                        placeholder="--Curren tDesignation--" />
+                    <div class="error" *ngIf="f.CurrentDesignation.touched && f.CurrentDesignation.invalid">
+                        <span>Current Designation is Mandatory Field*</span>
+                    </div>
+                </div> 
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>New Designation</label>
+                </div>
+                <div class="p-col-8 p-md-8 p-lg-8">
+                    <p-dropdown type="text"  [style]="{width:'100%'}" filter="true" formControlName="NewDesignation"></p-dropdown>
+                    <div class="error" *ngIf="f.NewDesignation.touched && f.NewDesignation.invalid">
+                        <span>New Designation is Mandatory Field*</span>
+                    </div>
+                </div>
+            </div>
+            </p-panel>
+            <p-panel>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Remarks</label>
+                </div>
+                <div class="p-col-8 p-md-8 p-lg-8">
+                    <textarea pInputTextarea [style]="{width:'100%'}" formControlName="Remarks"></textarea>
+                    <div class="error" *ngIf="f.Remarks.touched && f.Remarks.invalid">
+                        <span>Remarks is Mandatory Field*</span>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+        </p-tabPanel>
+    </p-tabView> 
+</div>

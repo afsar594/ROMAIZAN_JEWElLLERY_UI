@@ -1,0 +1,292 @@
+<app-page-header [nav]='breadcumbmodel' [title]='title'></app-page-header>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <!-- <button pButton type="button" label="New" icon="fa fa-plus" class="ui-button-info"
+            (click)="onnewEntry()"></button> -->
+        <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"
+            (click)="getAllCompanyList()"></button>
+        <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"
+            (click)="insertCompany()"></button>
+        <button pButton type="button" label="Update" icon="fa fa-ban" class="ui-button-success"
+            (click)="updateCompany()"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='CompanyForm'>
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Company Details'">
+            <div class="p-grid">
+                <!-- <div class="p-col-1">
+                    <label> {{'Company Id'|translate}} : </label>
+                </div>
+                <div class="p-col-5">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="companyId"
+                        placeholder="Enter Company Code" />
+                    <div class="error" *ngIf="submitted && f.companyId.errors">
+                        <span *ngIf="submitted && f.companyId.errors && f.companyId.errors.required">Company Id is
+                            Required</span>
+                    </div>
+                </div> -->
+                <div class="p-col-1">
+                    <label> {{'License No'|translate}} : </label>
+                </div>
+                <div class="p-col-5">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="licenseNo"
+                        placeholder="Enter License No" />
+                    <div class="error" *ngIf="submitted && f.licenseNo.errors">
+                        <span *ngIf="submitted && f.licenseNo.errors && f.licenseNo.errors.required">License No is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1">
+                    <label> {{'Company Name' | translate }} : </label>
+                </div>
+                <div class="p-col-11">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="companyName"
+                        placeholder="Enter Comapny Name" />
+                    <div class="error" *ngIf="submitted && f.companyName.errors">
+                        <span *ngIf="submitted && f.companyName.errors && f.companyName.errors.required">Company Name is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-6">
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'Company Address' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <textarea pInputTextarea class="w-100" [style]="{height:'6rem'}"
+                                placeholder="Enter Company Address" formControlName="companyAddress"></textarea>
+                            <div class="error" *ngIf="submitted && f.companyAddress.errors">
+                                <span
+                                    *ngIf="submitted && f.companyAddress.errors && f.companyAddress.errors.required">Company
+                                    Address is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'Post Box' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <input pInputText class="w-100" formControlName="postBox" placeholder="Enter Post Box" />
+                            <div class="error" *ngIf="submitted && f.postBox.errors">
+                                <span *ngIf="submitted && f.postBox.errors && f.postBox.errors.required">Post Box is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'Emirate/City/State' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <input pInputText class="w-100" formControlName="city" placeholder="Enter City/State" />
+                            <div class="error" *ngIf="submitted && f.city.errors">
+                                <span *ngIf="submitted && f.city.errors && f.city.errors.required">Emirate/City/State is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'Web Site' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <input pInputText class="w-100" formControlName="website" placeholder="Enter Web Site" />
+                            <div class="error" *ngIf="submitted && f.website.errors">
+                                <span *ngIf="submitted && f.website.errors && f.website.errors.required">Web Site is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'Employer Id (WPS)' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <input pInputText class="w-100" formControlName="empId" placeholder="Enter Employer Id" />
+                            <div class="error" *ngIf="submitted && f.empId.errors">
+                                <span *ngIf="submitted && f.empId.errors && f.empId.errors.required">Employer Id (WPS)
+                                    is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'Employer Bank' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <input pInputText class="w-100" formControlName="empBank"
+                                placeholder="Enter Employer Bank" />
+                            <div class="error" *ngIf="submitted && f.empBank.errors">
+                                <span *ngIf="submitted && f.empBank.errors && f.empBank.errors.required">Employer Bank
+                                    is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2">
+                            <label> {{'TRN No' | translate }} : </label>
+                        </div>
+                        <div class="p-col-10">
+                            <input pInputText class="w-100" formControlName="trnNo" placeholder="Enter TRN No" />
+                            <div class="error" *ngIf="submitted && f.trnNo.errors">
+                                <span *ngIf="submitted && f.trnNo.errors && f.trnNo.errors.required">TRN No is
+                                    Required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-6">
+                    <p-panel>
+                        <div class="p-grid">
+                            <div class="p-col-2">
+                                <label> {{'Phone1' | translate }} : </label>
+                            </div>
+                            <div class="p-col-10">
+                                <input pInputText class="w-100" formControlName="phone1" />
+                                <div class="error" *ngIf="submitted && f.phone1.errors">
+                                    <span *ngIf="submitted && f.phone1.errors && f.phone1.errors.required">Phone1 is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-2">
+                                <label> {{'Phone2' | translate }} : </label>
+                            </div>
+                            <div class="p-col-10">
+                                <input pInputText class="w-100" formControlName="phone2" />
+                                <div class="error" *ngIf="submitted && f.phone2.errors">
+                                    <span *ngIf="submitted && f.phone2.errors && f.phone2.errors.required">Phone2 is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-2">
+                                <label> {{'Cell' | translate }} : </label>
+                            </div>
+                            <div class="p-col-10">
+                                <input pInputText class="w-100" formControlName="cell" />
+                                <div class="error" *ngIf="submitted && f.cell.errors">
+                                    <span *ngIf="submitted && f.cell.errors && f.cell.errors.required">Cell is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-2">
+                                <label> {{'Email' | translate }} : </label>
+                            </div>
+                            <div class="p-col-10">
+                                <input pInputText class="w-100" formControlName="email" />
+                                <div class="error" *ngIf="submitted && f.email.errors">
+                                    <span *ngIf="submitted && f.email.errors && f.email.errors.required">Email is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-2">
+                                <label> {{'Fax' | translate }} : </label>
+                            </div>
+                            <div class="p-col-10">
+                                <input pInputText class="w-100" formControlName="fax" />
+                                <div class="error" *ngIf="submitted && f.fax.errors">
+                                    <span *ngIf="submitted && f.fax.errors && f.fax.errors.required">Fax is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-3"></div>
+                            <div class="p-col-4">
+                                <label> {{'Staff Code Prefix' | translate }} : </label>
+                            </div>
+                            <div class="p-col-5">
+                                <input pInputText class="w-100" formControlName="staffCodePrefix" />
+                                <div class="error" *ngIf="submitted && f.staffCodePrefix.errors">
+                                    <span
+                                        *ngIf="submitted && f.staffCodePrefix.errors && f.staffCodePrefix.errors.required">Staff
+                                        Code Prefix is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-3"></div>
+                            <div class="p-col-4">
+                                <label> {{'Prefix Length' | translate }} : </label>
+                            </div>
+                            <div class="p-col-5">
+                                <input pInputText class="w-100" formControlName="prefixLength" />
+                                <div class="error" *ngIf="submitted && f.prefixLength.errors">
+                                    <span
+                                        *ngIf="submitted && f.prefixLength.errors && f.prefixLength.errors.required">Prefix
+                                        Length is
+                                        Required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Bank Details'">
+            <div class="p-grid">
+                <div class="p-col-1">
+                    <label> Company Code : </label>
+                </div>
+                <div class="p-col-6">
+                    <!-- <input type="text" pInputText [style]="{width:'100%'}" formControlName="CompanyId"
+                        placeholder="Enter Company Code" />
+                    <div class="error" *ngIf="submitted && f.noOfInst.errors">
+                        <span *ngIf="submitted && f.noOfInst.errors && f.noOfInst.errors.required">NO OF INST is
+                            Required</span>
+                    </div> -->
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+
+<p-dialog header="Company Master" [(visible)]="displayMaximizeable" [modal]="true" [style]="{width:'90%'}"
+    [draggable]="false">
+    <p-table [value]="CompanyMasterArray" [columns]="cols" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">{{col.header}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.companyName}}</th>
+                <th>{{item.licNo}}</th>
+                <th>{{item.city}}</th>
+                <th>{{item.country}}</th>
+                <th>{{item.addr}}</th>
+                <th>{{item.website}}</th>
+                <th>{{item.phone1}}</th>
+                <th>{{item.cell}}</th>
+                <th>{{item.email}}</th>
+                <th>{{item.fax}}</th>
+                <th>{{item.trnno}}</th>
+                <th>
+                    <button pButton type="button" icon="fa fa-pencil" class="ui-button-info"></button>
+                    <button pButton type="button" icon="fa fa-trash" class="ui-button-danger"></button>
+                </th>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-toast></p-toast>

@@ -1,0 +1,200 @@
+<div class="card card-w-title" [formGroup]='FDEForm' style="margin-top:7rem">
+    <div class='matero-page-header'>
+        <div class="matero-page-header-inner">
+            <h2 class="matero-page-title">{{title}}</h2>
+        </div>
+    </div>
+    <p-toolbar style="width: 100%;margin-bottom: 10px;">
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+                class="ui-button-success"></button>
+            <button (click)="onEdit()" [disabled]="isEditBtndisable" pButton type="button" label="Edit"
+                icon="fa fa-pencil" class="ui-button-success"></button>
+            <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+                icon="fa fa-ban"></button>
+
+        </div>
+    </p-toolbar>
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Family Details Entry'| translate">
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Name<span class="required">*</span></label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="fname"
+                        placeholder="Enter Name" />
+                    <div class="error" *ngIf="submitted && f.fname.errors">
+                        <span *ngIf="submitted && f.fname.errors && f.fname.errors.required">Name is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">PassPort Issue Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="passporIssuDate" class="w-100;">
+                    </p-calendar>
+                    <div class="error" *ngIf="f.passporIssuDate.touched && f.passporIssuDate.invalid">
+                        <span> PassPort Issue Date is Mandatory Field*</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-dropdown [filter]="true" placeholder="Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">PassPort Exp. Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="passportexpdate" class="w-100;">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Relation</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-dropdown [filter]="true" placeholder="Select a Relation" filterValue="relName" [showClear]="true"
+                        dataKey="relId" autoWidth="false" formControlName="relId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.HrRelationArray" optionLabel="relName">
+                    </p-dropdown>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Visa Issue Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="visaissuDate" class="w-100;">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Visa No</label>
+                </div>
+                <div class="p-col-5 p-md-5 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="visano"
+                        placeholder="Enter Visa No" />
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Visa Exp Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="visaexpdate" class="w-100;">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Passport No</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="passportno"
+                        placeholder="Enter Passport No" />
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Emirates ID Issue Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="emirateIssuDate" class="w-100;">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Remarks</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <textarea pInputTextarea [style]="{width:'100%'}" formControlName="remarks"></textarea>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label class="formlbl">Emirates ID Exp Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="emirateExpDate" class="w-100;">
+                    </p-calendar>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-checkbox label="AirTicket"[binary]="true" formControlName="airticket"
+                        style="color: rgb(44, 212, 114);"></p-checkbox>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-checkbox label="Medical Insurance"[binary]="true" formControlName="medicalinsurance"
+                        style="color:rgb(62, 224, 130);"></p-checkbox>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+    <div class="card card-w-title">
+        <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+            <p-tabPanel [header]="'Family Details' | translate">
+                <div class="grid">
+                    <div class="p-col-12">
+                        <!-- <input (input)="onSearch($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+                            style="margin-bottom: 10px;" placeholder="Type to search" /> -->
+                        <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                            [tableStyle]="{ 'min-width': '50rem' }"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.HrFamilyDetailsproperty"
+                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Staff</th>
+                                    <th>Relation</th>
+                                    <!-- <th>Visa No</th>
+                                    <th>Passport No</th> -->
+                                    <th>PassPort Issue</th>
+                                    <th>PassPort Exp.</th>
+                                    <th>Visa Issue</th>
+                                    <th>Visa Exp</th>
+                                    <th>Emirates ID Issue</th>
+                                    <th>Emirates ID Exp</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr style="cursor:pointer">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.fname}}</td>
+                                    <td>{{getStaffName(item.staffId)}}</td>
+                                    <td>{{getRelationName(item.relId)}}</td>
+                                    <!-- <td>{{item.visano}}</td>
+                                    <td>{{item.passportno}}</td> -->
+                                    <td>{{item.passporIssuDate | date}}</td>
+                                    <td>{{item.passportexpdate | date}}</td>
+                                    <td>{{item.visaissuDate | date}}</td>
+                                    <td>{{item.visaexpdate | date}}</td>
+                                    <td>{{item.emirateIssuDate | date}}</td>
+                                    <td>{{item.emirateExpDate | date}}</td>
+                                    <td><button pButton (click)="onClickEdit(item)" pRipple type="button"
+                                            icon="pi pi-check" class="p-button-rounded"></button></td>
+                                    <td><button (click)="onDelete(item)" pButton pRipple type="button"
+                                            icon="pi pi-times" class="p-button-rounded p-button-danger"></button></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <!-- <hot-table [hotId]="hotid" [licenseKey]="licensekey" [settings]="familydetails">
+                        </hot-table> -->
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

@@ -1,0 +1,674 @@
+<form [formGroup]="StaffMasterForm" action="">
+    <div class="card card-w-title">
+        <div class='matero-page-header'>
+            <div class="matero-page-header-inner">
+                <h2 class="matero-page-title">{{title}}</h2>
+            </div>
+        </div>
+        <div class="p-grid">
+            <p-toolbar style="width: 100%;margin-bottom: 10px;">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <div class="ui-toolbar-group-left">
+                            <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+                                class="ui-button-success"></button>
+                            <button (click)="onEdit()" [disabled]="isEditbtnDisable" pButton type="button" label="Edit"
+                                icon="fa fa-pencil" class="ui-button-success"></button>
+                            <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+                                icon="fa fa-ban"></button>
+                            <button pButton type="button" (click)="staffModal = true" label="List" icon="fa fa-list"
+                                class="ui-button-info"></button>
+                            <button pButton type="button" label="Print" icon="fa fa-print"
+                                class="ui-button-success"></button>
+                        </div>
+                    </div>
+                </div>
+            </p-toolbar>
+        </div>
+        <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+            <p-tabPanel [header]="'Details 1'">
+                <div class="p-grid">
+                    <div class="p-col-6 p-md-6 p-lg-6">
+                        <label class="formlbl">Company<span class="required">*</span></label>
+                        <p-dropdown [filter]="true" placeholder="Select a Company" filterValue="companyName"
+                            [showClear]="true" dataKey="companyId" autoWidth="false" formControlName="companyId"
+                            [style]="{'width':'100%'}" [options]="masterApi.CompanyMasterArray"
+                            optionLabel="companyName"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.companyId.errors">
+                            <span *ngIf="submitted && f.companyId.errors && f.companyId.errors.required">Company is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-6 p-md-6 p-lg-6">
+                        <label class="formlbl">Visa Company</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Visa Company" filterValue="visaCompany"
+                            [showClear]="true" dataKey="visaCompanyId" autoWidth="false" formControlName="visaCompanyId"
+                            [style]="{'width':'100%'}" [options]="masterApi.VisaCompanyMasterArray"
+                            optionLabel="visaCompany"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.visaCompanyId.errors">
+                            <span *ngIf="submitted && f.visaCompanyId.errors && f.visaCompanyId.errors.required">Visa
+                                Company is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Staff ID</label>
+                        <input readonly type="text" pInputText [style]="{width:'100%'}" formControlName="staffId"
+                            placeholder="ID" />
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Staff Code<span class="required">*</span></label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="staffCode"
+                            placeholder="Enter Staff Code" />
+                        <div class="error" *ngIf="submitted && f.staffCode.errors">
+                            <span *ngIf="submitted && f.staffCode.errors && f.staffCode.errors.required">
+                                Staff Code is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">File No</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="fileNo"
+                            placeholder="Enter File No" />
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">First Name<span class="required">*</span></label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="firstName"
+                            placeholder="Enter First Name" />
+                        <div class="error" *ngIf="submitted && f.firstName.errors">
+                            <span *ngIf="submitted && f.firstName.errors && f.firstName.errors.required">
+                                First Name is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Middle Name</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="middleName"
+                            placeholder="Enter Middle Name" />
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Last Name<span class="required">*</span></label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="lastName"
+                            placeholder="Enter Last Name" />
+                        <div class="error" *ngIf="submitted && f.lastName.errors">
+                            <span *ngIf="submitted && f.lastName.errors && f.lastName.errors.required">
+                                Last Name is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Full Name</label>
+                        <input readonly [value]="FullName()" type="text" pInputText [style]="{width:'100%'}"
+                            formControlName="fullName" placeholder="Enter FullName" />
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Family Name</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="familyName"
+                            placeholder="Enter Family Name" />
+                        <div class="error" *ngIf="submitted && f.familyName.errors">
+                            <span *ngIf="submitted && f.familyName.errors && f.familyName.errors.required">
+                                Family Name is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Father Name<span class="required">*</span></label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="fatherName"
+                            placeholder="Enter Father Name" />
+                        <div class="error" *ngIf="submitted && f.fatherName.errors">
+                            <span *ngIf="submitted && f.fatherName.errors && f.fatherName.errors.required">
+                                Father Name is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Marital Status</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Marital Status" filterValue="maritalStatus"
+                            [showClear]="true" dataKey="maritalStatusId" autoWidth="false"
+                            formControlName="maritalStatusId" [style]="{'width':'100%'}"
+                            [options]="masterApi.MaritalStatusArray" optionLabel="maritalStatus"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.maritalStatusId.errors">
+                            <span
+                                *ngIf="submitted && f.maritalStatusId.errors && f.maritalStatusId.errors.required">Marital
+                                Status is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Language</label>
+                        <p-dropdown [filter]="true" filterValue="language" placeholder="Select a Language"
+                            [showClear]="true" dataKey="languageId" autoWidth="false" formControlName="languageId"
+                            [style]="{'width':'100%'}" [options]="masterApi.LanguagerArray"
+                            optionLabel="language"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.languageId.errors">
+                            <span *ngIf="submitted && f.languageId.errors && f.languageId.errors.required">Language is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Date Of Birth<span class="required">*</span></label>
+                        <p-calendar [showIcon]="true" [maxDate]="MaxDOB" formControlName="dob" [style]="{width:'100%'}">
+                        </p-calendar>
+                        <div class="error" *ngIf="submitted && f.dob.errors">
+                            <span *ngIf="submitted && f.dob.errors && f.dob.errors.required"> Date Of Birth is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Enroll No</label>
+                        <input type="number" pInputText [style]="{width:'100%'}" formControlName="enrollNo"
+                            placeholder="Enter Family Name" />
+                        <div class="error" *ngIf="submitted && f.enrollNo.errors">
+                            <span *ngIf="submitted && f.enrollNo.errors && f.enrollNo.errors.required">Enroll No is
+                                Required</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Nationality</label>
+                        <p-dropdown [filter]="true" filterValue="nationality" placeholder="Select a Nationality"
+                            [showClear]="true" dataKey="nationalityId" autoWidth="false" formControlName="nationalityId"
+                            [style]="{'width':'100%'}" [options]="masterApi.NationalityArray"
+                            optionLabel="nationality"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.nationalityId.errors">
+                            <span
+                                *ngIf="submitted && f.nationalityId.errors && f.nationalityId.errors.required">Nationality
+                                is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Designation<span class="required">*</span></label>
+                        <p-dropdown [filter]="true" placeholder="Select a Designation" filterValue="designation"
+                            [showClear]="true" dataKey="designationId" autoWidth="false" formControlName="designationId"
+                            [style]="{'width':'100%'}" [options]="masterApi.designatinMasterArray"
+                            optionLabel="designation"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.designationId.errors">
+                            <span
+                                *ngIf="submitted && f.designationId.errors && f.designationId.errors.required">Designation
+                                is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Visa Designation</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Visa Designation"
+                            filterValue="visaDesignation" [showClear]="true" dataKey="visaDesignationId"
+                            autoWidth="false" formControlName="visaDesignationId" [style]="{'width':'100%'}"
+                            [options]="masterApi.VisadesignatinMasterArray" optionLabel="visaDesignation"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.visaDesignationId.errors">
+                            <span
+                                *ngIf="submitted && f.visaDesignationId.errors && f.visaDesignationId.errors.required">Visa
+                                Designation is Required</span>
+                        </div>
+                    </div>
+
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl"> Department<span class="required">*</span></label>
+                        <p-dropdown [filter]="true" placeholder="Select a Department" filterValue="department"
+                            [showClear]="true" dataKey="departmentId" autoWidth="false" formControlName="departmentId"
+                            [style]="{'width':'100%'}" [options]="masterApi.DepartmentArray"
+                            optionLabel="department"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.departmentId.errors">
+                            <span
+                                *ngIf="submitted && f.departmentId.errors && f.departmentId.errors.required">Department
+                                is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Sub Department</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Sub Departmenty" filterValue="subDepName"
+                            [showClear]="true" dataKey="subDepId" autoWidth="false" formControlName="subDepId"
+                            [style]="{'width':'100%'}" [options]="masterApi.SubDepartmentArray"
+                            optionLabel="subDepName"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.subDepId.errors">
+                            <span *ngIf="submitted && f.subDepId.errors && f.subDepId.errors.required">Sub
+                                Department is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Blood Group</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Blood Group" filterValue="bloodGroup"
+                            [showClear]="true" dataKey="bloodGroupId" autoWidth="false" formControlName="bloodGroupId"
+                            [style]="{'width':'100%'}" [options]="masterApi.BloodGroupArray"
+                            optionLabel="bloodGroup"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.bloodGroupId.errors">
+                            <span *ngIf="submitted && f.bloodGroupId.errors && f.bloodGroupId.errors.required">Blood
+                                Group is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Religion</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Religion" filterValue="religion"
+                            [showClear]="true" dataKey="religionId" autoWidth="false" formControlName="religionId"
+                            [style]="{'width':'100%'}" [options]="masterApi.ReligionArray"
+                            optionLabel="religion"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.religionId.errors">
+                            <span *ngIf="submitted && f.religionId.errors && f.religionId.errors.required">Religion
+                                is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Transfer Type</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Transfer Type" filterValue="name"
+                            [showClear]="true" dataKey="name" autoWidth="false" formControlName="transType"
+                            [style]="{'width':'100%'}" [options]="TransferTypeArray" optionLabel="name"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.transType.errors">
+                            <span *ngIf="submitted && f.transType.errors && f.transType.errors.required">
+                                Transfer Type is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Bank</label>
+                        <p-dropdown [filter]="true" filterValue="bankName" placeholder="Select a Bank"
+                            [showClear]="true" dataKey="bankMasterId" autoWidth="false" formControlName="bankId"
+                            [style]="{'width':'100%'}" [options]="masterApi.BankMasterArray"
+                            optionLabel="bankName"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.bankId.errors">
+                            <span *ngIf="submitted && f.bankId.errors && f.bankId.errors.required">
+                                Bank is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Bank Accno</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="bankAcNo"
+                            placeholder="Enter Bank Accno" />
+                        <div class="error" *ngIf="submitted && f.bankAcNo.errors">
+                            <span *ngIf="submitted && f.bankAcNo.errors && f.bankAcNo.errors.required">
+                                Bank Accno is Required</span>
+                        </div>
+                    </div>
+
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Person Id (WPS)</label>
+                        <input type="number" pInputText [style]="{width:'100%'}" formControlName="wpspersonId"
+                            placeholder="Enter Person Id (WPS)" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">IBAN (WPS)</label>
+                        <input type="number" pInputText [style]="{width:'100%'}" formControlName="wpsIban"
+                            placeholder="Enter Person Id (WPS)" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Active Status<span class="required">*</span></label>
+                        <p-dropdown [filter]="true" placeholder="Select a Active Status" filterValue="activeStatus"
+                            [showClear]="true" dataKey="activeStatusId" autoWidth="false"
+                            formControlName="activeStatusId" [style]="{'width':'100%'}"
+                            [options]="masterApi.ActiveStatusrArray" optionLabel="activeStatus"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.activeStatusId.errors">
+                            <span *ngIf="submitted && f.activeStatusId.errors && f.activeStatusId.errors.required">
+                                Active Status is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Last Working Day</label>
+                        <p-calendar [showIcon]="true" [maxDate]="MaxDOB" formControlName="lastReJoinDate"
+                            [style]="{width:'100%'}">
+                        </p-calendar>
+                        <div class="error" *ngIf="submitted && f.lastReJoinDate.errors">
+                            <span *ngIf="submitted && f.lastReJoinDate.errors && f.lastReJoinDate.errors.required">
+                                Last Working Day is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Date of Joining<span class="required">*</span></label>
+                        <p-calendar [showIcon]="true" formControlName="doj" [style]="{width:'100%'}">
+                        </p-calendar>
+                        <div class="error" *ngIf="submitted && f.doj.errors">
+                            <span *ngIf="submitted && f.doj.errors && f.doj.errors.required">
+                                Date of Joining Day is Require</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Location</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Location" filterValue="locationName"
+                            [showClear]="true" dataKey="locationId" autoWidth="false" formControlName="locationId"
+                            [style]="{'width':'100%'}" [options]="masterApi.LocationMasterArray"
+                            optionLabel="locationName"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.locationId.errors">
+                            <span *ngIf="submitted && f.locationId.errors && f.locationId.errors.required">
+                                Lcation is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Currency</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Currency" filterValue="currencyName"
+                            [showClear]="true" dataKey="currencyId" autoWidth="false" formControlName="currencyId"
+                            [style]="{'width':'100%'}" [options]="masterApi.CurrencyMasterArray"
+                            optionLabel="currencyName"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.currencyId.errors">
+                            <span *ngIf="submitted && f.currencyId.errors && f.currencyId.errors.required">
+                                Currency is Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Gender</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Gender" filterValue="name" [showClear]="true"
+                            dataKey="name" autoWidth="false" formControlName="gender" [style]="{'width':'100%'}"
+                            [options]="genderArray" optionLabel="name"></p-dropdown>
+                        <div class="error" *ngIf="submitted && f.gender.errors">
+                            <span *ngIf="submitted && f.gender.errors && f.gender.errors.required">
+                                Gender is Required</span>
+                        </div>
+                    </div>
+
+                </div>
+            </p-tabPanel>
+            <p-tabPanel [header]="'Details 2'">
+                <div class="p-grid">
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Cadre</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Cadre" filterValue="cadreName"
+                            [showClear]="true" dataKey="cadreId" autoWidth="false" formControlName="cmpId"
+                            [style]="{'width':'100%'}" [options]="masterApi.CadreMasterArray"
+                            optionLabel="cadreName"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Grade/Level</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Grade/Level" filterValue="gradeName"
+                            [showClear]="true" dataKey="gid" autoWidth="false" formControlName="gradeId"
+                            [style]="{'width':'100%'}" [options]="masterApi.GradeMasterArray"
+                            optionLabel="gradeName"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Previous Employeer</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="previousEmployer"
+                            placeholder="Enter Previous Employeer" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Exp In Yrs</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="expInYrs"
+                            placeholder="Enter Exp In Yrs" />
+                    </div>
+
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Qualification 1</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Qualification 1" filterValue="qualification"
+                            [showClear]="true" dataKey="qualificationId" autoWidth="false"
+                            formControlName="qulification1" [style]="{'width':'100%'}"
+                            [options]="masterApi.QualificationMasterArray" optionLabel="qualification"></p-dropdown>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Qualification 2</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Qualification 2" filterValue="qualification"
+                            [showClear]="true" dataKey="qualificationId" autoWidth="false"
+                            formControlName="qulification2" [style]="{'width':'100%'}"
+                            [options]="masterApi.QualificationMasterArray" optionLabel="qualification"></p-dropdown>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Qualification 3</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Qualification 3" filterValue="qualification"
+                            [showClear]="true" dataKey="qualificationId" autoWidth="false"
+                            formControlName="qulification3" [style]="{'width':'100%'}"
+                            [options]="masterApi.QualificationMasterArray" optionLabel="qualification"></p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Ticket Frequency</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Ticket Frequency" filterValue="tfName"
+                            [showClear]="true" dataKey="tfId" autoWidth="false" formControlName="ttid"
+                            [style]="{'width':'100%'}" [options]="masterApi.TicketFrequencyAray"
+                            optionLabel="tfName"></p-dropdown>
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <p-checkbox formControlName="oteligible" [binary]="true" [style]="{width:'100%'}"
+                            inputId="ny"></p-checkbox>
+                        <label for="ny">Eligible For OT</label>
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <div *ngIf="StaffMasterForm.controls.oteligible.value == true">
+                            <label class="formlbl">Normal Hour</label>
+                            <input type="text" pInputText [style]="{width:'100%'}" formControlName="normalHr"
+                                placeholder="Enter Normal Hour" />
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Staff Type</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Staff Type" filterValue="staffType"
+                            [showClear]="true" dataKey="staffTypeId" autoWidth="false" formControlName="staffTypeId"
+                            [style]="{'width':'100%'}" [options]="masterApi.StaffTypeArray"
+                            optionLabel="staffType"></p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Agent</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Agent" filterValue="agentName"
+                            [showClear]="true" dataKey="agentId" autoWidth="false" formControlName="agentId"
+                            [style]="{'width':'100%'}" [options]="masterApi.AgentArray"
+                            optionLabel="agentName"></p-dropdown>
+                    </div>
+                    <!-- <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Supervisor</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Supervisor" filterValue="siteName"
+                            [showClear]="true" dataKey="siteId" autoWidth="false" formControlName="superVisorId"
+                            [style]="{'width':'100%'}" [options]="masterApi.siteMasterArrayDuplicate"
+                            optionLabel="siteName"></p-dropdown>
+                    </div> -->
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Site</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Site" filterValue="siteName"
+                            [showClear]="true" dataKey="siteId" autoWidth="false" formControlName="siteId"
+                            [style]="{'width':'100%'}" [options]="masterApi.siteMasterArrayDuplicate"
+                            optionLabel="siteName"></p-dropdown>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Shift Type</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Shift Type" filterValue="shiftType"
+                            [showClear]="true" dataKey="shiftTypeId" autoWidth="false" formControlName="shiftTypeId"
+                            [style]="{'width':'100%'}" [options]="masterApi.ShiftTypeArray"
+                            optionLabel="shiftType"></p-dropdown>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Shift</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Shift" filterValue="shiftName"
+                            [showClear]="true" dataKey="shiftId" autoWidth="false" formControlName="shiftId"
+                            [style]="{'width':'100%'}" [options]="masterApi.ShiftArray"
+                            optionLabel="shiftName"></p-dropdown>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Vehicle No</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="vehicleNo"
+                            placeholder="Enter Vehicle No" />
+                    </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel [header]="'Details 3'">
+                <div class="p-grid">
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Sponsor</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Sponsor" filterValue="sponser"
+                            [showClear]="true" dataKey="sponserId" autoWidth="false" formControlName="sponserId"
+                            [style]="{'width':'100%'}" [options]="masterApi.SponsorArray"
+                            optionLabel="sponser"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Visa Type</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Visa Type" filterValue="visaType"
+                            [showClear]="true" dataKey="visaTypId" autoWidth="false" formControlName="visaTypeId"
+                            [style]="{'width':'100%'}" [options]="masterApi.VisaTypeArray"
+                            optionLabel="visaType"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Contact Type</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Contact Type" filterValue="contType"
+                            [showClear]="true" dataKey="contTypeId" autoWidth="false" formControlName="contTypeId"
+                            [style]="{'width':'100%'}" [options]="masterApi.ContactTYpeArray"
+                            optionLabel="contType"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Accomodation</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Accomodation" filterValue="name"
+                            [showClear]="true" dataKey="name" autoWidth="false" formControlName="accommodation"
+                            [style]="{'width':'100%'}" [options]="AccomodationArray" optionLabel="name"></p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Employee QID</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="empQid"
+                            placeholder="Enter Employee QID" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Employee Visa ID</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="empvisaId"
+                            placeholder="Enter Employee Visa ID" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Gratuity Amount Policy</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Gratuity Amount Policy"
+                            filterValue="policyName" [showClear]="true" dataKey="polId" autoWidth="false"
+                            formControlName="grtAmtPolicy" [style]="{'width':'100%'}"
+                            [options]="masterApi.HrGratAmtPolicyMaster" optionLabel="policyName"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Gratuity Start Date</label>
+                        <p-calendar [showIcon]="true" formControlName="gratStDate" [style]="{width:'100%'}">
+                        </p-calendar>
+                    </div>
+
+
+
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Leave Salary Amount Policy</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Leave Salary Amount Policy"
+                            filterValue="policyName" [showClear]="true" dataKey="polId" autoWidth="false"
+                            formControlName="leaveSalAmtPolicy" [style]="{'width':'100%'}"
+                            [options]="masterApi.HrLeaveSalAmtPolicyMaster" optionLabel="policyName"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Over Time Amount Policy</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Over Time Amount Policy"
+                            filterValue="ovtPolicyName" [showClear]="true" dataKey="ovtPlocyId" autoWidth="false"
+                            formControlName="overTiPolcyId" [style]="{'width':'100%'}"
+                            [options]="masterApi.OverTimePolicyArray" optionLabel="ovtPolicyName"></p-dropdown>
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Job Cost Amount</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="jobCostAmt"
+                            placeholder="Enter Job Cost Amount" />
+                    </div>
+                    <div class="p-col-1 p-md-1 p-lg-1">
+                        <p-checkbox [binary]="true" [style]="{width:'100%'}" inputId="ny"></p-checkbox>
+                        <label for="ny">Standby</label>
+                    </div>
+                    <div class="p-col-2 p-md-2 p-lg-2">
+                        <label class="formlbl">Standby / Gratuity Amount</label>
+                        <input type="text" pInputText [style]="{width:'100%'}"
+                            placeholder="Enter Standby / Gratuity Amount" />
+                    </div>
+
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Routing Code</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="routingCode"
+                            placeholder="Enter Routing Code" />
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">UID No</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="uidno"
+                            placeholder="Enter UID No" />
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Camp</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Camp" filterValue="camp" [showClear]="true"
+                            dataKey="cmpId" autoWidth="false" formControlName="cmpId" [style]="{'width':'100%'}"
+                            [options]="masterApi.CampMasterArray" optionLabel="camp"></p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-md-12 p-lg-12">
+                        <hr>
+                    </div>
+                    <!-- <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Time Policy</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Time Policy" filterValue="siteName"
+                            [showClear]="true" dataKey="siteId" autoWidth="false" formControlName="timePolcyId"
+                            [style]="{'width':'100%'}" [options]="masterApi.siteMasterArrayDuplicate"
+                            optionLabel="siteName"></p-dropdown>
+                    </div> -->
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Dest From</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Dest From" filterValue="airportLocName"
+                            [showClear]="true" dataKey="airportLocId" autoWidth="false" formControlName="destFrm"
+                            [style]="{'width':'100%'}" [options]="masterApi.AirportLocationAray"
+                            optionLabel="airportLocName"></p-dropdown>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Dest To</label>
+                        <p-dropdown [filter]="true" placeholder="Select a Dest To" filterValue="airportLocName"
+                            [showClear]="true" dataKey="airportLocId" autoWidth="false" formControlName="destTo"
+                            [style]="{'width':'100%'}" [options]="masterApi.AirportLocationAray"
+                            optionLabel="airportLocName"></p-dropdown>
+                    </div>
+
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">OT Rate</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="norOtrate"
+                            placeholder="Enter OT Rate" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Target Hours</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="normalHr"
+                            placeholder="Enter Target Hours" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <label class="formlbl">Probation Period (Days)</label>
+                        <input type="text" pInputText [style]="{width:'100%'}"
+                            placeholder="Enter Probation Period (Days)" />
+                    </div>
+                    <div class="p-col-3 p-md-3 p-lg-3">
+                        <p-checkbox [binary]="true" formControlName="dontProcPayroll" [style]="{width:'100%'}"
+                            inputId="ny"></p-checkbox>
+                        <label for="ny">Dont't Process Payroll</label>
+                    </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel [header]="'Reports'">
+
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</form>
+
+<p-dialog header="Staff" [(visible)]="staffModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <input (input)="onSearch($event.target.value)" type="text" pInputText [style]="{width:'50%'}"
+        style="margin-bottom: 10px;" placeholder="Type to search" />
+    <p-table [value]="this.masterApi.staffMasterArrayDuplicate" styleClass="p-datatable-striped"
+        [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-staff>
+            <tr style="cursor:pointer">
+                <td>{{staff.staffCode}}</td>
+                <td>{{staff.fullName}}</td>
+                <td><button pButton (click)="onClickEdit(staff)" pRipple type="button" icon="pi pi-check"
+                        class="p-button-rounded"></button></td>
+                <td><button (click)="onDelete(staff)" pButton pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-danger"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="staffModal=false" class="p-button-text" label="Close"></p-button>
+    </ng-template>
+</p-dialog>

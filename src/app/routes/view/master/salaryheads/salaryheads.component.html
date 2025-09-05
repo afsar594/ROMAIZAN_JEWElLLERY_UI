@@ -1,0 +1,69 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Monthly Package'| translate">
+            <p-panel>
+                <p-header>
+                    {{'Monthly Package'| translate}}
+                </p-header>
+                <div class="grid">
+                    <hot-table [hotId]="hotid" [licenseKey]="licensekey" [settings]="monthlypakege"></hot-table>
+                </div>
+            </p-panel>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Variable Earnings'| translate">
+            <p-panel>
+                <p-header>
+                    Variable Earnings
+                </p-header>
+                <div class="grid">
+                    <hot-table [hotId]="hotid1" [licenseKey]="licensekey1" [settings]="variablearning"></hot-table>
+                </div>
+            </p-panel>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Variable Deduction'| translate">
+            <p-panel>
+                <p-header>
+                    Variable Deduction
+                </p-header>
+
+                <div class="grid">
+                    <hot-table [hotId]="hotid2" [licenseKey]="licensekey2" [settings]="variabldeduction"></hot-table>
+                </div>
+            </p-panel>
+        </p-tabPanel>
+        <div class="p-grid">
+            <div class="p-col-8 p-md-8 p-lg-8">
+
+            </div>
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label> Total:</label>
+            </div>
+            <div class="p-col-3 p-md-3 p-lg-3">
+                <input type="text" pInputText [style]="{width:'100%'}" placeholder="Total" />
+            </div>
+        </div>
+    </p-tabView>
+</div>
+<div class="p-grid">
+    <div class="p-col-8 p-md-8 p-lg-8">
+
+    </div>
+    <div class="p-col-1 p-md-1 p-lg-1">
+        <label>NET TOTAL:</label>
+    </div>
+    <div class="p-col-3 p-md-3 p-lg-3">
+        <input type="text" pInputText [style]="{width:'100%'}" placeholder="Net Total" />
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Create New Head" class="ui-button-danger"></button>
+        <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"></button>
+        <button pButton type="button" label="Exit" icon="fa fa-close" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>

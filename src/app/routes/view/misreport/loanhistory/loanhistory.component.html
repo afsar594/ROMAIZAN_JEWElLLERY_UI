@@ -1,0 +1,69 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="GenerateReport()" label="Generate Report" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" (click)="onPrint()" label="Print" icon="fa fa-print"
+            class="ui-button-success"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView>
+        <p-tabPanel [header]="'Loan History'">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <div class="p-col-2">
+                        <input type="radio" value="All" [(ngModel)]="Status">
+                        <span>All</span>
+                    </div>
+                    <div class="p-col-2">
+                        <input type="radio" value="Active" [(ngModel)]="Status">
+                        <span>Active</span>
+                    </div>
+                    <div class="p-col-2">
+                        <input type="radio" value="Completed" [(ngModel)]="Status">
+                        <span>Completed</span>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div id="print" #print class="card">
+
+    <body>
+        <div class="abc">
+            <h3>Loan History</h3>
+        </div>
+        <table class="def">
+            <tr>
+                <th>Issue Date</th>
+                <th>Loan Amount</th>
+                <th>No Of Inst</th>
+                <th>Inst Amount</th>
+                <th>Amt Paid</th>
+                <th>Balance</th>
+                <th>Remarks</th>
+            </tr>
+            <div *ngFor="let item of reportService.loanHistoryArray">
+                <tr>
+                    <td class="staff" colspan="6">{{item?.staff?.staffCode}} - {{item?.staff?.fullName}}</td>
+                </tr>
+                <tr>
+                    <td>{{ item.issueDate | date }}</td>
+                    <td>{{ item.loanAmount | number }}</td>
+                    <td>{{ item.noOfInst | number }}</td>
+                    <td>{{ item.instAmount | number }}</td>
+                    <td>{{ item.amtPaid | number }}</td>
+                    <td>{{ item.reason }}</td>
+                    <td>{{ item.remarks }}</td>
+                </tr>
+            </div>
+
+        </table>
+    </body>
+</div>

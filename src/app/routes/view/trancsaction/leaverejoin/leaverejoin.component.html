@@ -1,0 +1,65 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label=" Show" icon="fa fa-floppy-o" class="ui-button-primary"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Leave Rejoining' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[10, 25, 50]"
+                        [value]="_TransactionService.LeaveRejoiningData" styleClass="p-datatable-striped"
+                        [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>Leave From</th>
+                                <th>Leave Until</th>
+                                <th>Actual Last Day Of Leave</th>
+                                <th>Rejoin Type</th>
+                                <th>Save</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.staffCode}}</td>
+                                <td>{{item.fullName}}</td>
+                                <td>
+                                    <input pInputText [(ngModel)]="item.leaveFrom" style="width:100%;"
+                                        placeholder="Enter Leave From" />
+                                </td>
+                                <td>
+                                    <input pInputText [(ngModel)]="item.leaveUntil" style="width:100%;"
+                                        placeholder="Enter Leave Until" />
+                                </td>
+                                <td>
+                                    <input pInputText [(ngModel)]="item.leaveLastDay" style="width:100%;"
+                                        placeholder="Enter Last Day Of Leave" />
+                                </td>
+                                <td>
+                                    <p-dropdown [filter]="true" placeholder="Select a Rejoin Type" filterValue="name"
+                                        [showClear]="true" dataKey="name" autoWidth="false"
+                                        [(ngModel)]="item.rejoinType" [style]="{'width':'100%'}" [options]="rejoinType"
+                                        optionLabel="name">
+                                    </p-dropdown>
+                                </td>
+                                <td>
+                                    <button pButton type="button" label="Save" icon="fa fa-floppy-o"
+                                        class="ui-button-primary"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

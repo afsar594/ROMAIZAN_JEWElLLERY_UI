@@ -1,0 +1,29 @@
+<div class="card card-w-title" style="margin-top:7rem">
+    <div class='matero-page-header'>
+        <div class="matero-page-header-inner">
+            <h2 class="matero-page-title">{{title}}</h2>
+        </div>
+    </div>
+
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="screenType">
+            <div [ngSwitch]="screenType">
+                <ng-template [ngSwitchCase]="'Time Sheet Details'">
+                    <app-timesheetdetails></app-timesheetdetails>
+                </ng-template>
+                <ng-template [ngSwitchCase]="'Time Sheet BreakUp'">
+                    <app-timesheetbreakup></app-timesheetbreakup>
+                </ng-template>
+                <ng-template [ngSwitchCase]="'Time Sheet Multiple Staff'">
+                    <app-timesheetmultiplestaff></app-timesheetmultiplestaff>
+                </ng-template>
+                <ng-template [ngSwitchCase]="'Time Sheet KZ'">
+                    <app-timsheetkz></app-timsheetkz>
+                </ng-template>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Time Sheet Report'">
+            <app-timesheetreport></app-timesheetreport>
+        </p-tabPanel>
+    </p-tabView>
+</div>

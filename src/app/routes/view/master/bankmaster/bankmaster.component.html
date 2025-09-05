@@ -1,0 +1,157 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+       <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+ </div>
+ <p-toolbar>
+    <div class="ui-toolbar-group-left">
+       <button pButton type="button" label="Add" class="ui-button-info" icon="fa fa-floppy-o"></button>
+       <button pButton type="button" label="Update" class="ui-button-success" icon="fa fa-pencil" (click)="updateBankMaster()"></button>
+       <button pButton type="button" label="Cancel" class="ui-button-danger" icon="fa fa-close "></button>
+       <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"(click)="insertBankMaster()"></button>
+       <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-success" (click)="getBankMaster()"></button>
+       <button pButton type="button" label="Delete" icon="fa fa-ban" class="ui-button-danger"></button>
+       <button pButton type="button" label="Exit" icon="fa fa-sign-out" class="ui-button-danger"></button>
+    </div>
+ </p-toolbar>
+ <div class="card card-w-title" [formGroup]="BMForm">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+       <p-tabPanel [header]="'Bank Master' | translate">
+          <div class="p-grid">
+             <div class="p-col-1 p-lg-1 p-md-1">
+                <label>Bank Code</label>
+             </div>
+             <div class="p-col-3 p-md-3 p-lg-3">
+                <input pInputText style="width:100%;" formControlName="BankCode" placeholder="--BankCode--" />
+                <div class="error" *ngIf="f.BankCode.touched && f.BankCode.invalid">
+                   <span>Bank Code is Mandatory Field*</span>
+                </div>
+             </div>
+ 
+             <div class="p-col-1 p-lg-1 p-md-1">
+                <label>Short Name</label>
+             </div>
+             <div class="p-col-3 p-md-3 p-lg-3">
+                <input pInputText style="width:100%;" formControlName="ShortName" placeholder="--ShortName--" />
+                <div class="error" *ngIf="f.ShortName.touched && f.ShortName.invalid">
+                   <span>Short Name is Mandatory Field*</span>
+                </div>
+             </div>
+          </div>
+          <div class="p-grid" style="padding-left: 7%;">
+             <div class="p-col-1 p-lg-1 p-md-1">
+                <label>Bank Name</label>
+             </div>
+             <div class="p-col-7 p-md-7 p-lg-7">
+                <input pInputText style="width:100%;" formControlName="BankName" placeholder="--BankName--" />
+                <div class="error" *ngIf="f.BankName.touched && f.BankName.invalid">
+                   <span>Bank Name is Mandatory Field*</span>
+                </div>
+             </div>
+          </div>
+          <div class="p-grid" style="padding-left: 7%;">
+             <div class="p-col-1 p-lg-1 p-md-1">
+                <label>Agent ID</label>
+             </div>
+             <div class="p-col-7 p-md-7 p-lg-7">
+                <input pInputText style="width:100%;" formControlName="AgentID" placeholder="--AgentID--" />
+                <div class="error" *ngIf="f.AgentID.touched && f.AgentID.invalid">
+                   <span>Agent ID is Mandatory Field*</span>
+                </div>
+             </div>
+          </div>
+          <div class="p-grid" style="padding-left: 7%;">
+             <div class="p-col-1 p-lg-1 p-md-1">
+                <label>IBAN</label>
+             </div>
+             <div class="p-col-7 p-md-7 p-lg-7">
+                <input pInputText style="width:100%;" formControlName="IBAN" placeholder="--IBAN--" />
+                <div class="error" *ngIf="f.IBAN.touched && f.IBAN.invalid">
+                   <span>IBAN is Mandatory Field*</span>
+                </div>
+             </div>
+          </div>
+          <p-panel> 
+          <div class="p-grid" style="width: 100%;">
+             
+                <div class="p-col-1 p-lg-1 p-md-1">
+                   <label>Branch Name</label>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                   <input pInputText style="width:100%;" formControlName="BranchName" placeholder="--BranchName--" />
+                   <div class="error" *ngIf="f.BranchName.touched && f.BranchName.invalid">
+                      <span>Branch Name is Mandatory Field*</span>
+                   </div>
+                </div>
+                <div class="p-col-1 p-lg-1 p-md-1">
+                   <label>Phon No</label>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                   <input pInputText style="width:100%;" formControlName="PhonNo" placeholder="--PhonNo--" />
+                   <div class="error" *ngIf="f.PhonNo.touched && f.PhonNo.invalid">
+                      <span>Phon No is Mandatory Field*</span>
+                   </div>
+                </div>
+                <div class="p-col-1 p-lg-1 p-md-1">
+                   <label>Chq No</label>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                   <input pInputText style="width:100%;" formControlName="ChqNo" placeholder="--ChqNo--" />
+                   <div class="error" *ngIf="f.ChqNo.touched && f.ChqNo.invalid">
+                      <span>Chq No is Mandatory Field*</span>
+                   </div>
+                </div>
+                <div class="p-col-1 p-lg-1 p-md-1">
+                   <label>Email</label>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                   <input pInputText style="width:100%;" formControlName="Email" placeholder="--Email--" />
+                   <div class="error" *ngIf="f.Email.touched && f.Email.invalid">
+                      <span>Email is Mandatory Field*</span>
+                   </div>
+                </div>
+            </div> 
+          </p-panel>
+       </p-tabPanel>
+    </p-tabView>
+ </div>
+ <p-dialog header="Bank List" [(visible)]="displayMaximizeable" [modal]="true"  [style]="{width:'90%'}"
+ [draggable]="false">
+ <p-table [value]="bankMasterList" [columns]="cols" [paginator]="true" [rows]="10">
+     <ng-template pTemplate="header">
+         <tr>
+             <th>BankCode</th>
+             <th>ShortName</th>
+             <th>BankName</th>
+             <th>IBAN</th>
+             <th>PhonNo</th>
+             <th>AgentID</th>
+             <th>BranchName</th>
+             <th>ChqNo</th>
+             <th>Email</th>
+             <th>Action</th>
+         </tr>
+     </ng-template>
+     <ng-template pTemplate="body" let-item>
+         <tr>
+             <th>{{item.bankId}}</th>
+             <th>{{item.shortName}}</th>
+             <th>{{item.bankName}}</th>
+             <th>{{item.iban}}</th>
+             <th>{{item.phone}}</th>
+             <th>{{item.wpsagentId}}</th>
+             <th>{{item.branchName}}</th>
+             <th>{{item.fax}}</th>
+             <th>{{item.rmail}}</th>
+            
+             <td style="text-align: center;">
+                 <button pButton type="button" class="ui-button-info" icon="fa fa-pencil"
+                     (click)="selectForEdit(item)"></button>
+                 <button pButton type="button" class="ui-button-danger" icon="fa fa-trash"
+                     (click)="deleteBankMaster(item)"></button>
+             </td>
+         </tr>
+     </ng-template>
+ </p-table>
+ </p-dialog>
+ <p-toast></p-toast>

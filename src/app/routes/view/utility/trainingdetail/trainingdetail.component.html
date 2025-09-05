@@ -1,0 +1,152 @@
+<div class="card card-w-title" [formGroup]='TDForm' style="margin-top:7rem">
+    <div class="matero-page-header">
+        <div class="matero-page-header-inner">
+            <h2 class="matero-page-title">{{title}}</h2>
+        </div>
+    </div>
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+                class="ui-button-success"></button>
+            <button (click)="onEdit()" [disabled]="isEditBtndisable" pButton type="button" label="Edit"
+                icon="fa fa-pencil" class="ui-button-success"></button>
+            <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+                icon="fa fa-ban"></button>
+        </div>
+    </p-toolbar>
+
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Training Details Properties'|translate">
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Course Name</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="courseName"
+                        placeholder="--CourseName--" />
+                    <div class="error" *ngIf="submitted && f.courseName.errors">
+                        <span *ngIf="submitted && f.courseName.errors && f.courseName.errors.required">Course Name is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Start Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="startDate" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                    <div class="error" *ngIf="submitted && f.startDate.errors">
+                        <span *ngIf="submitted && f.startDate.errors && f.startDate.errors.required">Start Date is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Institution</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="institution"
+                        placeholder="--Institution--" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">End Date:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-calendar [showIcon]="true" formControlName="endDate" [style]="{'width':'96%'}"
+                        [inputStyle]="{'width':'96%'}">
+                    </p-calendar>
+                    <div class="error" *ngIf="submitted && f.endDate.errors">
+                        <span *ngIf="submitted && f.endDate.errors && f.endDate.errors.required">End Date is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Country</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="country"
+                        placeholder="--Country--" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Period:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="period"
+                        placeholder="--Period--" />
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">City</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="city"
+                        placeholder="--City--" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Course Fee:</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="number" pInputText [style]="{width:'100%'}" formControlName="courseFee"
+                        placeholder="--CourseFee--" />
+                    <div class="error" *ngIf="submitted && f.courseFee.errors">
+                        <span *ngIf="submitted && f.courseFee.errors && f.courseFee.errors.required">Course Fee is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Remarks</label>
+                </div>
+                <div class="p-col-9 p-md-9 p-lg-9">
+                    <textarea pInputTextarea [style]="{width:'100%'}" formControlName="remarks"></textarea>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+    <div class="card card-w-title">
+        <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+            <p-tabPanel [header]="'Training Details' | translate">
+                <div class="grid">
+                    <div class="p-col-12">
+                        <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                            [tableStyle]="{ 'min-width': '50rem' }"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.HrTrainingDetailsArray"
+                            styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Course Name</th>
+                                    <th>Course Fee</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr style="cursor:pointer">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.courseName}}</td>
+                                    <td>{{item.courseFee}}</td>
+                                    <td>{{item.startDate | date}}</td>
+                                    <td>{{item.endDate | date}}</td>
+                                    <td><button pButton (click)="onClickEdit(item)" pRipple type="button"
+                                            icon="pi pi-check" class="p-button-rounded"></button></td>
+                                    <td><button (click)="onDelete(item)" pButton pRipple type="button"
+                                            icon="pi pi-times" class="p-button-rounded p-button-danger"></button></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <!-- <button pButton type="button" label="Edit" (click)="onEdit()" class="ui-button-success"
+            icon="fa fa-pencil"></button> -->
+        <button pButton type="button" (click)="dataListModal = true" label="List" icon="fa fa-list"
+            class="ui-button-info"></button>
+        <button pButton type="button" label="Delete" (click)="onDelete()" class=" ui-button-danger"
+            icon="fa fa-trash"></button>
+        <button pButton type="button" label="Cancel" (click)="onCancel()" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Increment Entry' | translate">
+            <div [formGroup]="IncrementForm" class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" (onChange)="onChangeStaff()" placeholder=" Select a Staff"
+                        filterValue="fullName" [showClear]="true" dataKey="staffId" autoWidth="false"
+                        formControlName="staffId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffId.errors">
+                        <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Entry Date</label>
+                    <p-calendar [showIcon]="true" formControlName="entryDate" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Effective Date</label>
+                    <p-calendar [showIcon]="true" formControlName="effectiveDate" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label class="formlbl">Remarks</label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="remarks"
+                        placeholder="Enter Remarks" />
+                </div>
+            </div>
+            <div *ngIf="showSalaryHeadsList">
+                <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionService.SalaryHeadsArray"
+                    styleClass="p-datatable-sm" [tableStyle]="{'min-width': '50rem'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Salary Head</th>
+                            <th>Current Salary</th>
+                            <th>Increment Amount</th>
+                            <th>New Salary</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                        <tr style="cursor:pointer">
+                            <td><input type="text" [(ngModel)]="item.shname" pInputText [style]="{width:'100%'}"
+                                    placeholder="" readonly /></td>
+                            <td><input type="number" [(ngModel)]="item.currSalary" pInputText [style]="{width:'100%'}"
+                                    placeholder="" readonly /></td>
+                            <td> <input type="number" (change)="ChangeIncrement(item , rowIndex)"
+                                    [(ngModel)]="item.incAmount" pInputText [style]="{width:'100%'}"
+                                    placeholder="Enter Increment Amount" /></td>
+                            <td>
+                                <input type="number" [(ngModel)]="item.newsalamount" pInputText [style]="{width:'100%'}"
+                                    placeholder="" />
+                            </td>
+                            <td> <input type="text" [(ngModel)]="item.remarks" pInputText [style]="{width:'100%'}"
+                                    placeholder="Enter Remarks" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div *ngIf="showSalaryHeadsList" class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Currenct Salary</label>
+                    <input type="number" pInputText [value]="getCurrenctSalary()" readonly [style]="{width:'100%'}" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Increment Amount</label>
+                    <input type="number" pInputText [value]="getIncrementAmount()" readonly [style]="{width:'100%'}" />
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">New Salary</label>
+                    <input type="number" pInputText [value]="getNewSalary()" readonly [style]="{width:'100%'}" />
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<p-dialog header="Increments" [(visible)]="dataListModal" [style]="{width:'60%'}" [draggable]="false">
+    <div class="card card-w-title">
+        <div class="grid">
+            <div class="p-col-12">
+                <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionService.IncremtnArray"
+                    styleClass="p-datatable-sm">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Staff Code</th>
+                            <th>Full Name</th>
+                            <th>Entry Date</th>
+                            <th>Effective Date</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr (click)="onClickStaff(item?.staff)" style="cursor:pointer">
+                            <td>{{item?.staff?.staffCode}}</td>
+                            <td>{{item?.staff?.fullName}}</td>
+                            <td>{{item.entryDate | date}}</td>
+                            <td>{{item.effectiveDate | date}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</p-dialog>

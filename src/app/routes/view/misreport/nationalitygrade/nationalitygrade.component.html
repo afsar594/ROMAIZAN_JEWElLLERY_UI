@@ -1,0 +1,286 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<div class="card card-w-title">
+    <p-tabView>
+        <p-tabPanel [header]="'Nationality'">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-table [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                                [value]="reportService.NationalityGradeReport?.nationalityList"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Nationality</th>
+                                        <th>Quantity</th>
+                                        <th>Percentage %</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr style="cursor:pointer">
+                                        <td>{{item.nationality}}</td>
+                                        <td>{{item.qty}}</td>
+                                        <td>{{getNationalityPercentage(item.qty , item.staffCount)}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Company</label>
+                            <p-dropdown (onChange)="ChangeNationalityComany()" [(ngModel)]="NationalityCompanyID"
+                                [filter]="true" placeholder="Select a Company" filterValue="companyName"
+                                [showClear]="true" dataKey="companyId" autoWidth="false" [style]="{'width':'100%'}"
+                                [options]="masterApi.CompanyMasterArray" optionLabel="companyName"></p-dropdown>
+                        </div>
+                    </div>
+
+                </div>
+                <div *ngIf="showNationalityChar" class="p-col-6 p-md-6 p-lg-6">
+                    <canvas baseChart [data]="NationalityData" [labels]="NationalityLabel"
+                        [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Company'">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <p-table [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                        [value]="reportService.NationalityGradeReport?.companyList" styleClass="p-datatable-striped"
+                        [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Company</th>
+                                <th>Total No</th>
+                                <th>Percentage %</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.companyName}}</td>
+                                <td>{{item.qty}}</td>
+                                <td>{{getCompanyPercentage(item.qty , item.staffCount)}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div *ngIf="CompanyChart" class="p-col-6 p-md-6 p-lg-6">
+                    <canvas baseChart [data]="CompanyData" [labels]="companyLabel"
+                        [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Yearly Salary'">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-table [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                                [value]="reportService.NationalityGradeReport?.yearSalaryList"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Month</th>
+                                        <th>Total Salary</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr style="cursor:pointer">
+                                        <td>{{item.payYear}}</td>
+                                        <td>{{item.mthName}}</td>
+                                        <td>{{item.netSal}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Year</label>
+                            <p-dropdown (onChange)="ChangeYearSalary()" [filter]="true" [(ngModel)]="YearlySalaryYear"
+                                placeholder="Select a Year" filterValue="year" [showClear]="true" dataKey="year"
+                                autoWidth="false" [style]="{'width':'100%'}" [options]="yearArray" optionLabel="year">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Month</label>
+                            <p-dropdown (onChange)="ChangeYearSalary()" [filter]="true" [(ngModel)]="YearlySalaryMonth"
+                                placeholder="Select a Month" filterValue="month" [showClear]="true" dataKey="month"
+                                autoWidth="false" [style]="{'width':'100%'}" [options]="monthNames" optionLabel="month">
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                </div>
+                <div *ngIf="YearSalaryChart" class="p-col-6 p-md-6 p-lg-6">
+                    <canvas baseChart [data]="YearSalaryData" [labels]="YearSalaryLabel"
+                        [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Salary (Designation)'">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-table [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                                [value]="reportService.NationalityGradeReport?.designationSalaryList"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Total No</th>
+                                        <th>Percentage %</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr style="cursor:pointer">
+                                        <td>{{item.designationName}}</td>
+                                        <td>{{item.netSal}}</td>
+                                        <td>{{getDesignationPercentage(item.netSal , item.total)}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Designation</label>
+                            <p-dropdown (onChange)="ChangeDesignationSalary()" [filter]="true"
+                                [(ngModel)]="DesignationDesignationID" placeholder="Select a Designation"
+                                filterValue="designation" [showClear]="true" dataKey="designationId" autoWidth="false"
+                                [style]="{'width':'100%'}" [options]="masterApi.designatinMasterArray"
+                                optionLabel="designation"></p-dropdown>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Year</label>
+                            <p-dropdown (onChange)="ChangeDesignationSalary()" [filter]="true"
+                                [(ngModel)]="DesignationYear" placeholder="Select a Year" filterValue="year"
+                                [showClear]="true" dataKey="year" autoWidth="false" [style]="{'width':'100%'}"
+                                [options]="yearArray" optionLabel="year">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Month</label>
+                            <p-dropdown (onChange)="ChangeDesignationSalary()" [filter]="true"
+                                [(ngModel)]="DesignationMonth" placeholder="Select a Month" filterValue="month"
+                                [showClear]="true" dataKey="month" autoWidth="false" [style]="{'width':'100%'}"
+                                [options]="monthNames" optionLabel="month">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="DesignationChart" class="p-col-6 p-md-6 p-lg-6">
+                    <canvas baseChart [data]="DesignationData" [labels]="DesignationLabel"
+                        [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Salary (Department)'">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-table [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                                [value]="reportService.NationalityGradeReport?.departmentSalaryList"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Total No</th>
+                                        <th>Percentage %</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr style="cursor:pointer">
+                                        <td>{{item.departmentName}}</td>
+                                        <td>{{item.netSal}}</td>
+                                        <td>{{getDepartmentPercentage(item.netSal , item.total)}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Department</label>
+                            <p-dropdown (onChange)="ChangeDepartmentSalary()" [filter]="true"
+                                [(ngModel)]="DepartmentDepartmentID" placeholder="Select a Department"
+                                filterValue="department" [showClear]="true" dataKey="departmentId" autoWidth="false"
+                                [style]="{'width':'100%'}" [options]="masterApi.DepartmentArray"
+                                optionLabel="department"></p-dropdown>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Year</label>
+                            <p-dropdown (onChange)="ChangeDepartmentSalary()" [filter]="true"
+                                [(ngModel)]="DepartmentYear" placeholder="Select a Year" filterValue="year"
+                                [showClear]="true" dataKey="year" autoWidth="false" [style]="{'width':'100%'}"
+                                [options]="yearArray" optionLabel="year">
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Month</label>
+                            <p-dropdown (onChange)="ChangeDepartmentSalary()" [filter]="true"
+                                [(ngModel)]="DepartmentMonth" placeholder="Select a Month" filterValue="month"
+                                [showClear]="true" dataKey="month" autoWidth="false" [style]="{'width':'100%'}"
+                                [options]="monthNames" optionLabel="month">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="DepartmentChart" class="p-col-6 p-md-6 p-lg-6">
+                    <canvas baseChart [data]="DepartmentData" [labels]="DepartmentLabel"
+                        [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Employee Status'">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <p-table [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                                [value]="reportService.NationalityGradeReport?.staffStatusList"
+                                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Total No</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item>
+                                    <tr style="cursor:pointer">
+                                        <td>{{item.empStatus}}</td>
+                                        <td>{{item.count}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="p-col-4 p-md-4 p-lg-4">
+                            <label class="formlbl">Year</label>
+                            <p-dropdown (onChange)="ChangeEmpStatusYear()" [filter]="true" [(ngModel)]="EmpStatusYear"
+                                placeholder="Select a Year" filterValue="year" [showClear]="true" dataKey="year"
+                                autoWidth="false" [style]="{'width':'100%'}" [options]="yearArray" optionLabel="year">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="EmpStatusChart" class="p-col-6 p-md-6 p-lg-6">
+                    <canvas baseChart [data]="EmpStatusData" [labels]="EmpStatusLabel"
+                        [chartType]="pieChartType"></canvas>
+                </div>
+            </div>
+        </p-tabPanel>
+
+    </p-tabView>
+</div>

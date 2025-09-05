@@ -1,0 +1,98 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="listModal = true" label="List" icon="fa fa-list"
+            class="ui-button-info"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Calendar' | translate">
+            <div class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">From Date<span class="required">*</span></label>
+                    <p-calendar [(ngModel)]="fromDate" [showIcon]="true" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">To Date<span class="required">*</span></label>
+                    <p-calendar [(ngModel)]="toDate" [showIcon]="true" [inputStyle]="{'width':'90%'}"
+                        [style]="{width:'90%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4 mt-4">
+                    <button pButton type="button" label="Generate Calendar" (click)="generateCalender()"
+                        icon="fa fa-floppy-o" class="ui-button-success"></button>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div class="card card-w-title">
+    <div class="p-grid">
+        <div class="col-lg-12 p-md-12 p-lg-12">
+            <p-table [paginator]="false" [value]="this.transactionApi.GenerateCalendarArray"
+                styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Day Type</th>
+                        <th>Description</th>
+                        <th>Save</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr style="cursor:pointer">
+                        <td>{{item.fullDate | date}}</td>
+                        <td>{{item.dayName}}</td>
+                        <td> <p-dropdown [disabled]="item.dayName == 'Sunday'" [filter]="true"
+                                placeholder="Select Day Type" filterValue="staffType" [showClear]="true"
+                                dataKey="staffTypeId" autoWidth="false" [(ngModel)]="item.dayType"
+                                [style]="{'width':'100%'}" [options]="this.masterApi.StaffTypeArray"
+                                optionLabel="staffType">
+                            </p-dropdown></td>
+                        <td> <input type="text" pInputText [style]="{width:'100%'}"
+                                [disabled]="item.dayName == 'Sunday'" [(ngModel)]="item.description"
+                                placeholder="Enter Description" /></td>
+                        <td><button (click)="onSave(item)" pButton label="Save" pRipple type="button" icon="pi pi-check"
+                                class="p-button-rounded"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Calendar List" [(visible)]="listModal" [style]="{width:'60%'}" [draggable]="false">
+    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionApi.CompanyCalendarArray"
+        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Day Type</th>
+                <th>Description</th>
+                <th>Delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr style="cursor:pointer">
+                <td>{{item.mdate | date}}</td>
+                <td>{{item.mday}}</td>
+                <td>{{getStaffTypeName(item.staffTypeId)}}</td>
+                <td>{{item.mdesc}}</td>
+                <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-danger"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

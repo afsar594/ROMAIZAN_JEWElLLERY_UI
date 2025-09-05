@@ -1,0 +1,17 @@
+export interface TimeSheet2 {
+    tsID: number,
+    tsDate?: string,
+    monthId?: number,
+    tsYear?: number,
+    staffId?: number,
+    totlHrs?: number,
+    holHrs: number,
+    oTHrs?: number,
+    submitTs?: boolean,
+    docType?: string,
+    remarks?: string,
+    createdBy?: number,
+    createdDate: string,
+    modifiedBy?: number,
+    modifiedDate?: string,
+}

@@ -1,0 +1,117 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="!isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" label="Cancel" (click)="onCancel()" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='SPForm'>
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Salary Package'|translate">
+            <p-panel>
+                <div class="p-grid">
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Staff<span class="required">*</span></label>
+                        <p-dropdown [filter]="true" placeholder=" Select a Staff" filterValue="fullName"
+                            [showClear]="true" dataKey="staffId" autoWidth="false" formControlName="staffId"
+                            [style]="{'width':'100%'}" [options]="masterApi.staffMasterArrayDuplicate"
+                            optionLabel="fullName">
+                        </p-dropdown>
+                        <div class="error" *ngIf="submitted && f.staffId.errors">
+                            <span *ngIf="submitted && f.staffId.errors && f.staffId.errors.required">Staff is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Salary Head<span class="required">*</span></label>
+                        <p-dropdown [filter]="true" placeholder=" Select a Salary Head" filterValue="shname"
+                            [showClear]="true" dataKey="shid" autoWidth="false" formControlName="shid"
+                            [style]="{'width':'100%'}" [options]="transactionService.SalaryHeadsArray"
+                            optionLabel="shname">
+                        </p-dropdown>
+                        <div class="error" *ngIf="submitted && f.shid.errors">
+                            <span *ngIf="submitted && f.shid.errors && f.shid.errors.required">Salary
+                                Head is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Amount<span class="required">*</span></label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="amount"
+                            placeholder="Enter Amount" />
+                        <div class="error" *ngIf="submitted && f.amount.errors">
+                            <span *ngIf="submitted && f.amount.errors && f.amount.errors.required">Amount
+                                is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-4 p-md-4 p-lg-4">
+                        <label class="formlbl">Nature<span class="required">*</span></label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="nature"
+                            placeholder="Enter Nature" />
+                        <div class="error" *ngIf="submitted && f.nature.errors">
+                            <span *ngIf="submitted && f.nature.errors && f.nature.errors.required">Salary
+                                Head is
+                                Required</span>
+                        </div>
+                    </div>
+                    <div class="p-col-8 p-md-8 p-lg-8">
+                        <label class="formlbl">Remarks</label>
+                        <input type="text" pInputText [style]="{width:'100%'}" formControlName="remarks"
+                            placeholder="Enter Remarks" />
+                    </div>
+                </div>
+            </p-panel>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Salary Package List' | translate">
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionService.SalaryPckg"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ID</th>
+                                <th>Staff</th>
+                                <th>Salary Head</th>
+                                <th>Amount</th>
+                                <th>Nature</th>
+                                <th>Remarks</th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.spid}}</td>
+                                <td>{{getStaffName(item.staffId)}}</td>
+                                <td>{{getsalaryHeadName(item.shid)}}</td>
+                                <td>{{item.amount | number}}</td>
+                                <td>{{item.nature}}</td>
+                                <td>{{item.remarks}}</td>
+                                <td><button (click)="onCickEdit(item)" pButton pRipple type="button"
+                                        icon="fa fa-pencil" class="p-button-rounded"></button>
+                                    <button (click)="onDelete(item)" pButton pRipple type="button"
+                                        icon="fa fa-trash" class="p-button-rounded"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

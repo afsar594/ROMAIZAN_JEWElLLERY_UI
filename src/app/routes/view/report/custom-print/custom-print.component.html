@@ -1,0 +1,248 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="View" icon="fa fa-print" class="ui-button-info"></button>
+        <button pButton type="button" label="Excel" icon="fa fa-excel-file-o" class="ui-button-success"></button>
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-info"></button>
+        <button pButton type="button" label="Stop" icon="fa fa-close" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Leave Salary'| translate">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <div class="p-grid">
+                        <div class="p-col-2 p-md-2 p-lg-2">
+                            <label>Nationality</label>
+                        </div>
+                        <div class="p-col-10 p-md-10 p-lg-10">
+                            <p-dropdown [filter]="true" placeholder="All" [showClear]="true" autoWidth="false"
+                                [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2 p-md-2 p-lg-2">
+                            <label>Designation</label>
+                        </div>
+                        <div class="p-col-10 p-md-10 p-lg-10">
+                            <p-dropdown [filter]="true" placeholder="All" [showClear]="true" autoWidth="false"
+                                [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2 p-md-2 p-lg-2">
+                            <label>Department</label>
+                        </div>
+                        <div class="p-col-10 p-md-10 p-lg-10">
+                            <p-dropdown [filter]="true" placeholder="All" [showClear]="true" autoWidth="false"
+                                [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2 p-md-2 p-lg-2">
+                            <label>Company</label>
+                        </div>
+                        <div class="p-col-10 p-md-10 p-lg-10">
+                            <p-dropdown [filter]="true" placeholder="All" [showClear]="true" autoWidth="false"
+                                [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2 p-md-2 p-lg-2">
+                            <label>Religion</label>
+                        </div>
+                        <div class="p-col-10 p-md-10 p-lg-10">
+                            <p-dropdown [filter]="true" placeholder="All" [showClear]="true" autoWidth="false"
+                                [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-2 p-md-2 p-lg-2">
+                            <label>Cadre</label>
+                        </div>
+                        <div class="p-col-10 p-md-10 p-lg-10">
+                            <p-dropdown [filter]="true" placeholder="All" [showClear]="true" autoWidth="false"
+                                [style]="{'width':'100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-panel>
+                        <p-header>
+                            Date Of Join
+                        </p-header>
+                        <div class="p-grid">
+                            <div class="p-col-2 p-md-2 p-lg-2">
+                                <label> From:</label>
+                            </div>
+                            <div class="p-col-10 p-md-10 p-lg-10">
+                                <p-calendar [showIcon]="true" [style]="{'width':'95%'}" [inputStyle]="{'width':'96%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-2 p-md-2 p-lg-2">
+                                <label> To:</label>
+                            </div>
+                            <div class="p-col-10 p-md-10 p-lg-10">
+                                <p-calendar [showIcon]="true" [style]="{'width':'95%'}" [inputStyle]="{'width':'96%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-panel>
+                        <p-header>
+                            Last Working Day
+                        </p-header>
+                        <div class="p-grid">
+                            <div class="p-col-2 p-md-2 p-lg-2">
+                                <label> From:</label>
+                            </div>
+                            <div class="p-col-10 p-md-10 p-lg-10">
+                                <p-calendar [showIcon]="true" [style]="{'width':'95%'}" [inputStyle]="{'width':'96%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-2 p-md-2 p-lg-2">
+                                <label> To:</label>
+                            </div>
+                            <div class="p-col-10 p-md-10 p-lg-10">
+                                <p-calendar [showIcon]="true" [style]="{'width':'95%'}" [inputStyle]="{'width':'96%'}">
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <p-panel>
+                        <p-header>
+                           Display Column Selection
+                        </p-header>
+                        <div class="card card-w-title">
+                            <div class="p-grid">
+                                <div class="p-col-12">
+                                    <p-pickList [source]="sourceProducts" [target]="targetProducts"
+                                        sourceHeader="Drag Account to right side container"
+                                        targetHeader="select Account" [dragdrop]="true" [responsive]="true"
+                                        [showSourceControls]="false" [showTargetControls]="false" filterBy="name"
+                                        sourceFilterPlaceholder="Search by title"
+                                        targetFilterPlaceholder="Search by title">
+                                        <ng-template>
+
+                                        </ng-template>
+                                    </p-pickList>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </p-panel>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <p-panel>
+                        <p-header>
+                            Salary Head
+                        </p-header>
+                        <p-table>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 7%;">.</th>
+                                    <th style="width: 40%;">{{'Name'| translate}}</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <td> </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-panel>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <p-panel>
+                        <p-header>
+                            Active Status
+                        </p-header>
+                        <p-table>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 7%;">.</th>
+                                    <th style="width: 40%;">{{'Status'| translate}}</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <td> </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-panel>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <p-panel>
+                        <p-header>
+                            Document Types
+                        </p-header>
+                        <p-table>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 7%;">.</th>
+                                    <th style="width: 40%;">{{'DocName'| translate}}</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <td> </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </p-panel>
+                </div>
+
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-panel>
+                        <p-header>
+                            Details
+                        </p-header>
+                        <div class="card">
+                            <div class="p-grid">
+                                <div class="p-col-12">
+                                    <hot-table [hotId]="hotid" [licenseKey]="licensekey" [settings]="customprint">
+                                    </hot-table>
+                                </div>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+            </div>
+
+        </p-tabPanel>
+    </p-tabView>
+
+</div>

@@ -1,0 +1,191 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <!-- <button pButton type="button" label="New" icon="fa fa-plus" class="ui-button-info"
+            (click)="newEntry()"></button> -->
+        <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"
+            (click)="getAllAddressTypes()"></button>
+        <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"
+            (click)="insertAddressTypes()"></button>
+        <button pButton type="button" label="Update" icon="fa fa-ban" class="ui-button-success"
+            (click)="updateAddressTypes()"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='AddressPForm'>
+    <div class="p-grid">
+        <div class="p-col-1">
+            <label> Address Type : </label>
+        </div>
+        <div class="p-col-6">
+            <input type="text" pInputText [style]="{width:'100%'}" formControlName="addressType"
+                placeholder="Enter Address Type" />
+            <div class="error" *ngIf="submitted && f.addressType.errors">
+                <span *ngIf="submitted && f.addressType.errors && f.addressType.errors.required">Address Type is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="Address Types List" [(visible)]="displayMaximizeable" [modal]="true" [style]="{width:'60%'}"
+    [draggable]="false">
+    <p-table [value]="addressTypeArray" [columns]="cols" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">{{col.header}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.addressTypeId}}</th>
+                <th>{{item.addressType}}</th>
+                <th>
+                    <button pButton type="button" icon="fa fa-pencil" class="ui-button-info"
+                        (click)="selectAddressTypeForEdit(item)"></button>
+                    <button pButton type="button" icon="fa fa-trash" class="ui-button-danger"
+                        (click)="selectAddressTypeForDelete(item)"></button>
+                </th>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+<p-toast></p-toast>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+    </div>
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-primary"></button>
+            <button pButton type="button" label="Delete" icon="fa fa-close" class="ui-button-danger"></button>
+            <button pButton type="button" label="Stop" icon="fa fa-ban" class="ui-button-danger"></button>
+        </div>
+    </p-toolbar>
+    <div class="card card-w-title" [formGroup]='AddressPForm'>
+        <div class="p-grid">
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label> Contact Person:</label>
+            </div>
+            <div class="p-col-9 p-md-9 p-lg-9">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="ContactPerson" placeholder="--ContactPerson--" />
+                <div class="error" *ngIf="f.ContactPerson.touched && f.ContactPerson.invalid">
+                    <span>Contact Person is Mandatory Field*</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Address Type</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <p-dropdown  filter="true" [style]="{width:'100%'}" formControlName="AddressType" placeholder="--AddressType--">
+            </p-dropdown>
+                <div class="error" *ngIf="f.AddressType.touched && f.AddressType.invalid">
+                    <span>Address Type is Mandatory Field*</span>
+                </div>
+            </div>
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Nationality</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <p-dropdown  filter="true" [style]="{width:'100%'}" formControlName="Nationality" placeholder="--Nationality--">
+            </p-dropdown>
+                <div class="error" *ngIf="f.Nationality.touched && f.Nationality.invalid">
+                    <span>Nationality is Mandatory Field*</span>
+                </div>
+            </div>
+        </div> 
+        <div class="p-grid">
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>House Name:</label>
+            </div>
+            <div class="p-col-9 p-md-9 p-lg-9">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="HouseName" placeholder="--HouseName--" />
+                <div class="error" *ngIf="f.HouseName.touched && f.HouseName.invalid">
+                    <span>House Name is Mandatory Field*</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Street Name:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="StreetName" placeholder="--StreetName--" />
+                <div class="error" *ngIf="f.StreetName.touched && f.StreetName.invalid">
+                    <span>Street Name is Mandatory Field*</span>
+                </div>
+            </div>
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Phone:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="Phone" placeholder="--Phone--" />
+                <div class="error" *ngIf="f.Phone.touched && f.Phone.invalid">
+                    <span>Phone is Mandatory Field*</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Email:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="Email" placeholder="--Email--" />
+                <div class="error" *ngIf="f.Email.touched && f.Email.invalid">
+                    <span>Email is Mandatory Field*</span>
+                </div>
+            </div>
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Mobile:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="Mobile" placeholder="--Mobile--" />
+                <div class="error" *ngIf="f.Mobile.touched && f.Mobile.invalid">
+                    <span>Mobile is Mandatory Field*</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>Fax:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="Fax" placeholder="--Fax--" />
+                <div class="error" *ngIf="f.Fax.touched && f.Fax.invalid">
+                    <span>Fax is Mandatory Field*</span>
+                </div>
+            </div>
+            <div class="p-col-1 p-md-1 p-lg-1">
+                <label>PoBox:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="text" pInputText [style]="{width:'100%'}" formControlName="PoBox" placeholder="--PoBox--" />
+                <div class="error" *ngIf="f.PoBox.touched && f.PoBox.invalid">
+                    <span>PoBox is Mandatory Field*</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p-toast></p-toast> -->

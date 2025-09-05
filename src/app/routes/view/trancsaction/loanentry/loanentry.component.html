@@ -1,0 +1,301 @@
+<!-- <app-page-header [title]='title'></app-page-header> -->
+<div class='matero-page-header'>
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton (click)="onSave()" type="button" label="Save" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" (click)="viewListModal = true" label="List" icon="fa fa-list"
+            class="ui-button-info"></button>
+        <button (click)="onCancel()" pButton type="button" class="ui-button-danger" label="Cancel"
+            icon="fa fa-close"></button>
+
+    </div>
+</p-toolbar>
+<br><br>
+
+<div class="card card-w-title">
+    <form [formGroup]='loanentryForm' action="">
+        <p-panel>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Staff:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-dropdown [filter]="true" placeholder="Select a Staff" filterValue="fullName" [showClear]="true"
+                        dataKey="staffId" autoWidth="false" formControlName="staffid" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.staffid.errors">
+                        <span *ngIf="submitted && f.staffid.errors && f.staffid.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Loan Type</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-dropdown [filter]="true" placeholder="Select a Loan Type" filterValue="shname" [showClear]="true"
+                        dataKey="shid" autoWidth="false" formControlName="loanHeadId" [style]="{'width':'100%'}"
+                        [options]="transactionService.LoanSalaryHeadsArray" optionLabel="shname">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.loanHeadId.errors">
+                        <span *ngIf="submitted && f.loanHeadId.errors && f.loanHeadId.errors.required">Loan Type is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label> Loan Amount:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input (change)="ChangeLoanAmount();ChangeNoOfIns()" type="number" pInputText
+                        [style]="{width:'100%'}" formControlName="loanAmount" placeholder="--Loan amount--" />
+                    <div class="error" *ngIf="submitted && f.loanAmount.errors">
+                        <span *ngIf="submitted && f.loanAmount.errors && f.loanAmount.errors.required">Loan amount is
+                            Required</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Issue Date:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-calendar [showIcon]="true" formControlName="issueDate" [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Loan Start Date:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-calendar [showIcon]="true" formControlName="dedFromDate" [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Ref No:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="refNo"
+                        placeholder="--REFNO--" />
+                </div>
+            </div>
+            <div class="p-grid">
+
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>No.Of Inst:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input (change)="ChangeNoOfIns()" type="number" pInputText [style]="{width:'100%'}"
+                        formControlName="noOfInst" placeholder="--NOOFINST--" />
+                    <div class="error" *ngIf="submitted && f.noOfInst.errors">
+                        <span *ngIf="submitted && f.noOfInst.errors && f.noOfInst.errors.required">No.Of Inst is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Inst Amount:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input readonly type="number" pInputText [style]="{width:'100%'}" formControlName="instAmount"
+                        placeholder="--INSTAMOUNT--" />
+                    <div class="error" *ngIf="submitted && f.instAmount.errors">
+                        <span *ngIf="submitted && f.instAmount.errors && f.instAmount.errors.required">Inst Amount is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+        <p-panel>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Paid</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input readonly type="number" pInputText [style]="{width:'100%'}" formControlName="amtPaid"
+                        placeholder="--Paid--" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label> Balance:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input readonly type="number" pInputText [style]="{width:'100%'}" formControlName="balance"
+                        placeholder="--Balance--" />
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Current Month Payroll Ded Amnt</label>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <input readonly type="number" pInputText [style]="{width:'100%'}"
+                        formControlName="curMnthPayrollDedAmt" placeholder="--Current Month Payroll Ded Amnt--" />
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>Remarks</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <textarea pInputTextarea [style]="{width:'100%'}" formControlName="remarks"></textarea>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <p-checkbox style="color: rgb(238, 20, 20);" formControlName="hold" [binary]="true" [binary]="true"
+                        label="HOLD ON"></p-checkbox>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+
+    <p-panel *ngIf="showDeduction">
+        <form [formGroup]="loanentryDetailForm" action="">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <strong>Manual Deduction</strong>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <hr>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Manual Deduction Date:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-calendar [showIcon]="true" formControlName="dedDate" [style]="{width:'100%'}">
+                    </p-calendar>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <label>Deduction Amount:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <input (change)="ChangeDeductionAmount()" type="number" pInputText [style]="{width:'100%'}"
+                        formControlName="dedAmount" placeholder="--Deduction Amount--" />
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <button pButton (click)="onSaveDetails()" type="button" label="Save Manual Deduction"
+                        icon="fa fa-floppy-o" class="ui-button-success"></button>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="deductionArray" styleClass="p-datatable-striped"
+                        [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ID</th>
+                                <th>Ded Date</th>
+                                <th>Ded Amount</th>
+                                <th>Delete</th>
+                                <!-- <th>Ded Type</th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.ldid}}</td>
+                                <td>{{item.dedDate | date}}</td>
+                                <td>{{item.dedAmount | number}}</td>
+                                <td><button (click)="onDeleteDetails(item)" pButton pRipple type="button"
+                                        icon="pi pi-trash" class="ui-button-danger"></button>
+                                </td>
+                                <!-- <td>{{item.dedType}}</td> -->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+
+<!-- <p-dialog header="Manual Deduction" [(visible)]="manualDeductionModal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <form [formGroup]="loanentryDetailForm" action="">
+        <div class="p-grid">
+            <div class="p-col-2 p-md-2 p-lg-2">
+                <label>MANUAL DEDUCTION DATE:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <p-calendar [showIcon]="true" formControlName="dedDate" [style]="{width:'100%'}">
+                </p-calendar>
+            </div>
+            <div class="p-col-2 p-md-2 p-lg-2">
+                <label>DEDUCTION AMOUNT:</label>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <input type="number" pInputText [style]="{width:'100%'}" formControlName="dedAmount"
+                    placeholder="--DEDUCTION AMOUNT--" />
+                <div class="error" *ngIf="submittedDetails && d.dedAmount.errors">
+                    <span *ngIf="submittedDetails && d.dedAmount.errors && d.dedAmount.errors.required">DEDUCTION
+                        AMOUNT is
+                        Required</span>
+                </div>
+            </div>
+            <div class="p-col-4 p-md-4 p-lg-4">
+                <p-button [style]="{width:'100%'}" (click)="onSaveDetails()" class="p-button-text">Save</p-button>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="manualDeductionModal=false" class="p-button-text"
+            label="Close"></p-button>
+    </ng-template>
+</p-dialog> -->
+
+
+<p-dialog header="Loan Entry" [(visible)]="viewListModal" [style]="{width: '90%'}" [baseZIndex]="10000">
+    <div class="p-grid">
+        <div class="p-col-4 p-md-4 p-lg-4">
+            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]" [value]="this.masterApiService.HrLoanentryStaffWise"
+                styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Staff </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr [ngClass]="{'blue': staffId == item.staffid}" (click)="viewDetails(item.staffid , item)"
+                        style="cursor:pointer">
+                        <td>{{item.staffCode}} - {{item.staffName}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="p-col-8 p-md-8 p-lg-8">
+            <p-table [paginator]="false" [rows]="10" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]" [value]="this.detailArray" styleClass="p-datatable-sm"
+                [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Type</th>
+                        <th>Issue Date</th>
+                        <th>Start Date</th>
+                        <th>Loan Amount</th>
+                        <th>Paid</th>
+                        <th>Balance</th>
+                        <th>Delete</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr (click)="SetDedctionDetails(item)" style="cursor:pointer">
+                        <td>{{getTypeName(item.loanHeadId)}}</td>
+                        <td>{{item.issueDate | date}}</td>
+                        <td>{{item.dedFromDate | date}}</td>
+                        <td>{{item.loanAmount | number}}</td>
+                        <td>{{item.amtPaid | number}}</td>
+                        <td>{{item.balance | number}}</td>
+                        <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-trash"
+                                class="ui-button-danger"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</p-dialog>

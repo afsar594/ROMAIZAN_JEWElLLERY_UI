@@ -1,0 +1,88 @@
+<app-page-header [title]='title'></app-page-header>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <!-- <button pButton type="button" label="New" icon="fa fa-plus" class="ui-button-info"></button> -->
+        <button pButton type="button" label="Update" icon="fa fa-floppy-o" class="ui-button-success"
+            (click)="updateDesignation()"></button>
+        <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"
+            (click)="insertDesignstion()"></button>
+        <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"
+            (click)="getAllDesignation()"></button>
+        <!-- <button pButton type="button" label="Cancel" class="ui-button-danger" icon="fa fa-ban"></button>
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+        <button pButton type="button" class="ui-button-danger" label="Delete" icon="fa fa-close"></button> -->
+
+    </div>
+</p-toolbar>
+<br><br>
+
+<div class="card card-w-title" [formGroup]='designationForm'>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-2">
+            <label>Designation Code:</label>
+        </div>
+        <div class="p-col-4">
+            <input type="text" pInputText style="width: 100%;" formControlName="DesignationCode"
+                placeholder="--Designation Code--" />
+            <div class="error" *ngIf="submitted && f.DesignationCode.errors">
+                <span *ngIf="submitted && f.DesignationCode.errors && f.DesignationCode.errors.required">Designation
+                    Code is Required</span>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-2">
+            <label>Designation Name:</label>
+        </div>
+        <div class="p-col-7">
+            <input type="text" pInputText style="width: 100%;" formControlName="DesignationName"
+                placeholder="--Designation Name--" />
+            <div class="error" *ngIf="submitted && f.DesignationName.errors">
+                <span *ngIf="submitted && f.DesignationName.errors && f.DesignationName.errors.required">Visa
+                    DesignationName is Required</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-grid" style="padding-left: 10%;">
+        <div class="p-col-2">
+            <label>Short Name:</label>
+        </div>
+        <div class="p-col-4">
+            <input type="text" pInputText style="width: 100%;" formControlName="ShortName"
+                placeholder="--Short Name--" />
+            <div class="error" *ngIf="submitted && f.ShortName.errors">
+                <span *ngIf="submitted && f.ShortName.errors && f.ShortName.errors.required">Short Name is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Designation Master" [(visible)]="displayMaximizeable" [modal]="true" [style]="{width:'80%'}"
+    [draggable]="false">
+    <p-table [value]="designationList" [columns]="cols" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Designation Id</th>
+                <th>Designation</th>
+                <th>ShortName</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <th>{{item.designationId}}</th>
+                <th>{{item.designation}}</th>
+                <th>{{item.shortName}}</th>
+                <td>
+                    <button pButton type="button" class="ui-button-info" icon="fa fa-pencil"
+                        (click)="selectForEdit(item)"></button>
+                    <button pButton type="button" class="ui-button-danger" icon="fa fa-trash"
+                        (click)="deleteDesignation(item)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+<p-toast></p-toast>

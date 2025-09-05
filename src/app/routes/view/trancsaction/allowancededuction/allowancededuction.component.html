@@ -1,0 +1,213 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="!isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" label="List" (click)="listModal = true" icon="fa fa-list"
+            class="ui-button-info"></button>
+        <button pButton type="button" label="Cancel" (click)="onCancel()" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <p-tabView [activeIndex]=index (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Individual' | translate">
+            <div [formGroup]="IndividualForm" class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Staff<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" (onChange)="onChangeStaff($event)" placeholder=" Select a Staff"
+                        filterValue="fullName" [showClear]="true" dataKey="staffId" autoWidth="false"
+                        formControlName="STAFFId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.staffMasterArrayDuplicate" optionLabel="fullName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.STAFFId.errors">
+                        <span *ngIf="submitted && f.STAFFId.errors && f.STAFFId.errors.required">Staff is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Year<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Year" filterValue="year" [showClear]="true"
+                        dataKey="year" autoWidth="false" formControlName="MSYear" [style]="{'width':'100%'}"
+                        [options]="yearArray" optionLabel="year">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.MSYear.errors">
+                        <span *ngIf="submitted && f.MSYear.errors && f.MSYear.errors.required">Year is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Month<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Month" filterValue="month" [showClear]="true"
+                        dataKey="month" autoWidth="false" formControlName="MSMonthName" [style]="{'width':'100%'}"
+                        [options]="monthNames" optionLabel="month">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.MSMonthName.errors">
+                        <span *ngIf="submitted && f.MSMonthName.errors && f.MSMonthName.errors.required">Month is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Salary Head<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Salary Head" filterValue="fldName"
+                        [showClear]="true" dataKey="shid" autoWidth="false" formControlName="ShID"
+                        [style]="{'width':'100%'}" [options]="this.transactionApi.SalaryHeadsArray"
+                        optionLabel="fldName">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submitted && f.ShID.errors">
+                        <span *ngIf="submitted && f.ShID.errors && f.ShID.errors.required">Salary Head is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Amount / Hr<span class="required">*</span></label>
+                    <input type="number" pInputText [style]="{width:'100%'}" formControlName="MSAmount"
+                        placeholder="Enter Amount / Hr" />
+                    <div class="error" *ngIf="submitted && f.MSAmount.errors">
+                        <span *ngIf="submitted && f.MSAmount.errors && f.MSAmount.errors.required">Amount / Hr is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Remarks<span class="required">*</span></label>
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="Remarks"
+                        placeholder="Enter Remarks" />
+                    <div class="error" *ngIf="submitted && f.Remarks.errors">
+                        <span *ngIf="submitted && f.Remarks.errors && f.Remarks.errors.required">Remarks is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'Multiple' | translate">
+            <div [formGroup]="MultipleForm" class="p-grid">
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Year<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Year" filterValue="year" [showClear]="true"
+                        dataKey="year" autoWidth="false" formControlName="MSYear" [style]="{'width':'100%'}"
+                        [options]="yearArray" optionLabel="year">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submittedMultiple && d.MSYear.errors">
+                        <span *ngIf="submittedMultiple && d.MSYear.errors && d.MSYear.errors.required">Year is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label class="formlbl">Month<span class="required">*</span></label>
+                    <p-dropdown [filter]="true" placeholder="Select a Month" filterValue="month" [showClear]="true"
+                        dataKey="month" autoWidth="false" formControlName="MSMonthName" [style]="{'width':'100%'}"
+                        [options]="monthNames" optionLabel="month">
+                    </p-dropdown>
+                    <div class="error" *ngIf="submittedMultiple && d.MSMonthName.errors">
+                        <span *ngIf="submittedMultiple && d.MSMonthName.errors && d.MSMonthName.errors.required">Month
+                            is
+                            Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.multipleFormArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Staff Code</th>
+                                <th>Staff Name</th>
+                                <th>Salary Head</th>
+                                <th>Amount / Hr</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.StaffCode}}</td>
+                                <td>{{item.FullName}}</td>
+                                <td> <p-dropdown [filter]="true" placeholder="Select a Salary Head"
+                                        filterValue="fldName" [showClear]="true" dataKey="shid" autoWidth="false"
+                                        [(ngModel)]="item.ShID" [style]="{'width':'100%'}"
+                                        [options]="this.transactionApi.SalaryHeadsArray" optionLabel="fldName">
+                                    </p-dropdown>
+                                </td>
+                                <td>
+                                    <input type="number" pInputText [style]="{width:'100%'}" [(ngModel)]="item.MSAmount"
+                                        placeholder="Enter Amount / Hr" />
+                                </td>
+                                <td>
+                                    <input type="text" pInputText [style]="{width:'100%'}" [(ngModel)]="item.Remarks"
+                                        placeholder="Enter Remarks" />
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<p-dialog header="Allowance / Deduction" [(visible)]="listModal" [style]="{width:'60%'}" [draggable]="false">
+    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionApi.HrMotnSalarayArray"
+        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Staff Code</th>
+                <th>Full Name</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr style="cursor:pointer">
+                <td>{{item.staffCode}}</td>
+                <td>{{item.fullName}}</td>
+                <td> <button (click)="viewDetails(item.staffCode)" pButton pRipple type="button"
+                        icon="fa fa-eye" class="p-button-rounded"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-dialog header="Allowance / Deduction" [(visible)]="dtailListModal" [style]="{width:'60%'}" [draggable]="false">
+    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.dataArray"
+        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Staff Code</th>
+                <th>Month</th>
+                <th>Year</th>
+                <th>Salary Head</th>
+                <th>Amount / Hr</th>
+                <th>Remarks</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr style="cursor:pointer">
+                <td>{{item.msId}}</td>
+                <td>{{item.staffCode}}</td>
+                <td>{{item.msMonthName}}</td>
+                <td>{{item.msYear}}</td>
+                <td>{{getSalaryHead(item.shID)}}</td>
+                <td>{{item.msAmount}}</td>
+                <td>{{item.remarks}}</td>
+                <td><button pButton (click)="onClickEdit(item)" pRipple type="button" icon="pi pi-check"
+                        class="p-button-rounded"></button></td>
+                <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-danger"></button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

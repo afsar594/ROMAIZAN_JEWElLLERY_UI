@@ -1,0 +1,109 @@
+<div class='matero-page-header'>
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Save" (click)="onSave()" icon="fa fa-floppy-o"
+            class="ui-button-success"></button>
+        <button pButton type="button" label="Edit" (click)="onEdit()" [disabled]="isEditBtndisable"
+            class="ui-button-success" icon="fa fa-pencil"></button>
+        <button pButton type="button" (click)="onCancel()" label="Cancel" class=" ui-button-danger"
+            icon="fa fa-ban"></button>
+
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]="SHForm">
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Salary Heads' | translate">
+            <div class="p-grid" style="padding-left: 7%;">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Head Name</label>
+                </div>
+                <div class="p-col-7 p-md-7 p-lg-7">
+                    <input pInputText type="text" style="width:100%;" formControlName="fldName"
+                        placeholder="HeadName" />
+                    <div class="error" *ngIf="submitted && f.fldName.errors">
+                        <span *ngIf="submitted && f.fldName.errors && f.fldName.errors.required">Head Name is
+                            Required</span>
+                    </div>
+                </div>
+        
+            </div>
+            <div class="p-grid" style="padding-left: 7%;">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Nature</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input pInputText type="text" style="width:100%;" formControlName="nature" placeholder="Nature" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Short Name </label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input pInputText type="text" style="width:100%" formControlName="shname" placeholder="ShortName" />
+                </div>
+            </div>
+            <div class="p-grid" style="padding-left: 7%;">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Short Order </label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input pInputText type="number" style="width:100%" formControlName="sortNo"
+                        placeholder="ShortOrder" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label class="formlbl">Object</label>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input pInputText type="text" style="width:100%;" formControlName="salObject"
+                        placeholder="Object" />
+                </div>
+            </div>
+            <div class="p-grid" style="padding-left: 7%;">
+                <div class="p-col-6 p-md-6 p-lg-6" style="padding-left: 15%; color: blueviolet;">
+                    <p-checkbox [binary]="true" label="Fixed" formControlName="fixed"></p-checkbox>
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6" style="padding-left: 7%; color:blueviolet ;">
+                    <p-checkbox [binary]="true" label="Don't Show in WPS" formControlName="dontShowWps"></p-checkbox>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="p-col-12">
+                    <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]" [value]="this.transactionApi.SalaryHeadsArray"
+                        styleClass="p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>ID</th>
+                                <th>Head Name</th>
+                                <th>Short Name</th>
+                                <th>Nature</th>
+                                <th>Object</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr style="cursor:pointer">
+                                <td>{{item.shid}}</td>
+                                <td>{{item.fldName}}</td>
+                                <td>{{item.shname}}</td>
+                                <td>{{item.nature}}</td>
+                                <td>{{item.salObject}}</td>
+                                <td><button pButton (click)="onClickEdit(item)" pRipple type="button" icon="pi pi-check"
+                                        class="p-button-rounded"></button></td>
+                                <td><button (click)="onDelete(item)" pButton pRipple type="button" icon="pi pi-times"
+                                        class="p-button-rounded p-button-danger"></button></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

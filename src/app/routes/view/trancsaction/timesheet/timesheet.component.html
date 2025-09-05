@@ -1,0 +1,91 @@
+<div class='matero-page-header'>
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="New" icon="fa fa-plus" class="ui-button-info"></button>
+        <button pButton type="button" label="Edit" icon="fa fa-pencil" class="ui-button-success"></button>
+        <button pButton type="button" label="Save" icon="fa fa-floppy-o" class="ui-button-success"></button>
+        <button pButton type="button" label="List" icon="fa fa-list" class="ui-button-info"></button>
+        <button pButton type="button" label="Cancel" class="ui-button-danger" icon="fa fa-ban"></button>
+        <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+        <button pButton type="button" class="ui-button-danger" label="Delete" icon="fa fa-close"></button>
+
+    </div>
+</p-toolbar>
+<div class="card card-w-title" [formGroup]='TSForm'>
+    <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+        <p-tabPanel [header]="'Time Sheet Multiple Staff'| translate">
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>SITE</label>
+                </div>
+                <div class="p-col-5 p-md-5 p-lg-5">
+                    <p-dropdown formControlName="SITE" [style]="{width:'100%'}" filter="true">
+                    </p-dropdown>
+                    <div class="error" *ngIf="f.SITE.touched && f.SITE.invalid">
+                        SITE is Invalid Entry
+                    </div>
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>TS Date:</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <p-calendar [showIcon]="true" formControlName="TSDate" class="w-100;">
+                    </p-calendar>
+                    <div class="error" *ngIf="f.TSDate.touched && f.TSDate.invalid">
+                        <span> TS Date is Mandatory Field*</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-grid">
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>TS ID</label>
+                </div>
+                <div class="p-col-2 p-md-2 p-lg-2">
+                    <input type="text" pInputText [style]="{width:'100%'}" formControlName="TSID"
+                        placeholder="--TSID--" />
+
+                    <div class="error" *ngIf="f.TSID.touched && f.TSID.invalid">
+                        <span>TS ID is Mandatory Field*</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <input type="text" pInputText [style]="{width:'100%'}" />
+                </div>
+                <div class="p-col-1 p-md-1 p-lg-1">
+                    <label>REMARKS</label>
+                </div>
+                <div class="p-col-3 p-md-3 p-lg-3">
+                    <textarea pInputTextarea [style]="{width:'100%'}" formControlName="REMARKS"></textarea>
+                    <div class="error" *ngIf="f.REMARKS.touched && f.REMARKS.invalid">
+                        <span>REMARKS is Mandatory Field*</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card card-w-title">
+                <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+                    <p-tabPanel [header]="'TimeSheet Detail' | translate">
+                        <div class="grid">
+                            <div class="p-col-12">
+                                <hot-table [hotId]="hotid" [licenseKey]="licensekey" [settings]="timesheet">
+                                </hot-table>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel [header]="'TimeSheet Report'| translate">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <label>Report Here.....</label>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

@@ -1,0 +1,70 @@
+<div class="matero-page-header">
+    <div class="matero-page-header-inner">
+        <h2 class="matero-page-title">{{title}}</h2>
+    </div>
+</div>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+            class="ui-button-primary"></button>
+    </div>
+</p-toolbar>
+<div class="card card-w-title">
+    <div class="p-grid">
+        <div class="p-col-5 p-md-5 p-lg-5">
+            <label> Leave Type</label>
+            <p-dropdown (onChange)="onChangeLeave()" [filter]="true" placeholder=" Select a Leave Type"
+                filterValue="leaveType" [showClear]="true" dataKey="leaveTypeId" autoWidth="false" [(ngModel)]="leaveID"
+                [style]="{'width':'100%'}" [options]="masterApi.HrLeaveTypeAray" optionLabel="leaveType">
+            </p-dropdown>
+            <div class="error" *ngIf="submitted">
+                <span>Leave Type is
+                    Required</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-w-title">
+        <p-tabView [activeIndex]="index" (onChange)="handleChange($event)">
+            <p-tabPanel [header]="'Leave Openings' | translate">
+                <div class="grid">
+                    <div class="p-col-12">
+                        <p-table [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                            [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[10, 25, 50]"
+                            [value]="this._TransactionService.HrALOpeningStaffArray" styleClass="p-datatable-striped"
+                            [tableStyle]="{'min-width': '50rem'}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Staff Code</th>
+                                    <th>Staff Name</th>
+                                    <th>Leave Opening</th>
+                                    <th>Opening Date</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr style="cursor:pointer">
+                                    <td>{{item.staffCode}}</td>
+                                    <td>{{item.fullName}}</td>
+                                    <td>
+                                        <input pInputText [(ngModel)]="item.al" style="width:100%;"
+                                            placeholder="Enter Leave Opening" />
+                                    </td>
+                                    <td>
+                                        <p-calendar [showIcon]="true" [(ngModel)]="item.uptodate"
+                                            [style]="{width:'100%'}">
+                                        </p-calendar>
+                                    </td>
+                                    <td>
+                                        <input pInputText style="width:100%;" [(ngModel)]="item.remarks"
+                                            placeholder="Enter Remarks" />
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

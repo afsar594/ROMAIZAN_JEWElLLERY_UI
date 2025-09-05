@@ -1,0 +1,113 @@
+<form action="" [formGroup]='TSMultipleStaffForm'>
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <!-- <button pButton type="button" (click)="onClickNew()" label="New" icon="fa fa-plus"
+                class="ui-button-info"></button> -->
+            <button pButton type="button" label="Edit" icon="fa fa-pencil" class="ui-button-success"></button>
+            <button pButton type="button" (click)="onSave()" label="Save" icon="fa fa-floppy-o"
+                class="ui-button-success"></button>
+            <button pButton type="button" label="Cancel" (click)="initForm()" class="ui-button-danger"
+                icon="fa fa-ban"></button>
+            <button pButton type="button" label="Print" icon="fa fa-print" class="ui-button-success"></button>
+            <button pButton type="button" class="ui-button-danger" label="Delete" icon="fa fa-close"></button>
+        </div>
+    </p-toolbar>
+    <div class="p-grid">
+        <div class="p-col-9 p-md-9 p-lg-9">
+            <div class="p-grid">
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label>ID</label>
+                    <input readonly type="text" pInputText [style]="{width:'100%'}" formControlName="TsID"
+                        placeholder="ID" />
+                </div>
+                <div class="p-col-6 p-md-6 p-lg-6">
+                    <label>Site<span class="required">*</span></label>
+                    <p-dropdown dataKey="siteId" autoWidth="false" fromControlName="SiteId" [style]="{'width':'100%'}"
+                        [options]="masterApiService.siteMasterArrayDuplicate" optionLabel="siteName"></p-dropdown>
+                    <div class="error" *ngIf="submitted && f.SiteId.errors">
+                        <span *ngIf="submitted && f.SiteId.errors && f.SiteId.errors.required">Site is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label>Month<span class="required">*</span></label>
+                    <p-dropdown autoWidth="false" fromControlName="MonthId" [style]="{'width':'100%'}" [options]="Month"
+                        optionLabel="Month"></p-dropdown>
+                    <div class="error" *ngIf="submitted && f.MonthId.errors">
+                        <span *ngIf="submitted && f.MonthId.errors && f.MonthId.errors.required">Month is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label>Year<span class="required">*</span></label>
+                    <p-dropdown autoWidth="false" fromControlName="TsYear" [style]="{'width':'100%'}" [options]="Year"
+                        optionLabel="Year"></p-dropdown>
+                    <div class="error" *ngIf="submitted && f.TsYear.errors">
+                        <span *ngIf="submitted && f.TsYear.errors && f.TsYear.errors.required"> Year is Required</span>
+                    </div>
+                </div>
+                <div class="p-col-4 p-md-4 p-lg-4">
+                    <label>TS Date<span class="required">*</span>:</label><br>
+                    <p-calendar [showIcon]="true" [style]="{'width':'100%'}" formControlName="TsDate">
+                    </p-calendar>
+                    <div class="error" *ngIf="submitted && f.TsDate.errors">
+                        <span *ngIf="submitted && f.TsDate.errors && f.TsDate.errors.required"> TS Date is
+                            Required</span>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <label>Remarks</label>
+                    <textarea placeholder="Enter Remarks" pInputTextarea [style]="{width:'100%'}"
+                        formControlName="Remarks"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-3 p-md-3 p-lg-3">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-12 p-lg-12" style="margin-top: 20px;">
+                    <p-checkbox formControlName="OTCheckBox" [binary]="true"value="New York" inputId="ny"></p-checkbox>
+                    <label for="ny">Dont Import OT Already Exists In The Grid</label>
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12">
+                    <button pButton type="button" class="ui-button-danger" label="Import OT From Attendance"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card card-w-title">
+    <div class="grid">
+        <div class="p-col-12">
+            <div class="card">
+                <p-table [value]="tableData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:25%">Code</th>
+                            <th style="width:25%">Name</th>
+                            <th style="width:25%">Designation</th>
+                            <th style="width:25%">Site</th>
+                            <th style="width:25%">TotalHour</th>
+                            <th style="width:25%">OT</th>
+                            <th style="width:25%">Remarks</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>{{ item.Code }}</td>
+                            <td>{{ item.Name }}</td>
+                            <td>{{ item.Designation }}</td>
+                            <td>{{ item.Site }}</td>
+                            <td>{{ item.TotalHour }}</td>
+                            <td>{{ item.OT }}</td>
+                            <td>{{ item.Remarks }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
